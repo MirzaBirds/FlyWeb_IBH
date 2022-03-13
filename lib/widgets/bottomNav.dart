@@ -2,7 +2,9 @@ import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/home.dart';
 import 'package:doctor_dreams/screens/ecommerce/experienceCenter.dart';
 import 'package:doctor_dreams/screens/ecommerce/productCategory.dart';
+import 'package:doctor_dreams/screens/hardware/sleepingScreen.dart';
 import 'package:doctor_dreams/screens/hardware/sleeptracker.dart';
+import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -57,7 +59,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute<void>(
-            builder: (BuildContext context) => const SleepTracker(),
+            // builder: (BuildContext context) => const SleepTracker(),
+            builder: (BuildContext context) => const WakeUpScreen(),
           ),
         );
       }
