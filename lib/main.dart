@@ -26,8 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: Home(),
-      home: TuyaAuthScreen(),
+      home: Home(),
       routes: {
         AuthScreen.id: (context) => AuthScreen(),
         Login.id: (context) => Login(),
