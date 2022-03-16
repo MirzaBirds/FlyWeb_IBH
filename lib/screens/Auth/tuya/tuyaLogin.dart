@@ -4,10 +4,13 @@ import 'package:doctor_dreams/config/graphql.dart';
 import 'package:doctor_dreams/home.dart';
 import 'package:doctor_dreams/screens/Auth/forgotPassword.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuya_otp.dart';
+import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class TuyaLoginScreen extends StatefulWidget {
   static const String id = 'tuya_login_screen';
@@ -239,6 +242,19 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
       // customer login with email and password
       // Create login payload and call login api/function
 
+        String? message=await TuyaUiBizbundle.login("+91", "0", password, email);
+        if(message!=null){
+        if(message.startsWith("success")){
+          Navigator.of(context).pop(true);
+        }else{
+          createAlertDialog(context, message.replaceRange(0, 5, ""));
+        }
+      }else{
+          createAlertDialog(context, "Error loging in");
+        }
+
+
+
     } else {
       print("Validate failed");
     }
@@ -305,5 +321,23 @@ class BlueCirclePainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate != this;
+  }
+  // alert
+  createAlertDialog(BuildContext context, msg) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(msg),
+            actions: <Widget>[
+              MaterialButton(
+                  elevation: 5.0,
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+            ],
+          );
+        });
   }
 }

@@ -5,6 +5,8 @@ import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+import 'dart:io' show Platform;
 
 class Home extends StatefulWidget {
   static const String id = 'home_screen';
@@ -16,6 +18,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(Platform.isAndroid) {
+      TuyaUiBizbundle.init("uxssy9xcsxv7ft599e75", "jjpvyc9td7f7v9u43hks99dsq3d3eqgy");
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

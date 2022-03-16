@@ -67,7 +67,11 @@ class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
         print("button press");
 
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => TuyaLoginScreen()));
+            MaterialPageRoute(builder: (context) => TuyaLoginScreen())).then((value){
+              if(value){
+                Navigator.of(context).pop();
+              }
+        });
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -94,7 +98,11 @@ class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => TuyaSingupScreen()));
+            MaterialPageRoute(builder: (context) => TuyaSingupScreen())).then((value){
+          if(value){
+            Navigator.of(context).pop();
+          }
+        });
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

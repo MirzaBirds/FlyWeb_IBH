@@ -1,12 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.doctor_dreams">
+    package="com.example.doctor_dreams"  xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />  
 	  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />  
 	  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  
    <application
         android:label="doctor_dreams"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       android:supportsRtl="true"
+       tools:replace="android:label,android:supportsRtl">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

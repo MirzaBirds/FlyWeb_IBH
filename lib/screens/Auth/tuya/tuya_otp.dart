@@ -1,21 +1,27 @@
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class TuyaOtpScreen extends StatefulWidget {
   static const String id = 'tuya_otp_screen';
 
-  const TuyaOtpScreen({Key? key}) : super(key: key);
-
+  TuyaOtpScreen({Key? key,required this.email,required this.password}) : super(key: key);
+  String email;
+  String password;
   @override
-  _TuyaOtpScreenState createState() => _TuyaOtpScreenState();
+  _TuyaOtpScreenState createState() => _TuyaOtpScreenState(this.email, this.password);
 }
 
 class _TuyaOtpScreenState extends State<TuyaOtpScreen> {
   String otp = '';
+  String email;
+  String password;
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+  _TuyaOtpScreenState(this.email,this.password);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,10 +170,48 @@ class _TuyaOtpScreenState extends State<TuyaOtpScreen> {
       // TODO:
       print("form is validated");
       print('Call OTP');
+      String? message=await TuyaUiBizbundle.reg("+91", "0", password, email, otp);
+      if(message!=null){
+        if(message.startsWith("success")) {
+          String? message2 = await TuyaUiBizbundle.login("+91", "0", password, email);
+          if(message2!=null) {
+            if (message2.startsWith("success")) {
+              Navigator.of(context).pop(true);
+            } else {
+              createAlertDialog(context, message2.replaceRange(0, 5, ""));
+            }
+          }else{
+            createAlertDialog(context, "Error validating otp");
+          }
+        }else{
+          createAlertDialog(context, message.replaceRange(0, 5, ""));
+        }
+      }else{
+        createAlertDialog(context, "Error validating otp");
+      }
     } else {
       print("Validate failed");
     }
   }
+}
+
+// alert
+createAlertDialog(BuildContext context, msg) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            MaterialButton(
+                elevation: 5.0,
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
+          ],
+        );
+      });
 }
 
 // class BlueCirclePainter extends CustomPainter {

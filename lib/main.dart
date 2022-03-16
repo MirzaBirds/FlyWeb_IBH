@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         TuyaAuthScreen.id: (context) => TuyaAuthScreen(),
         TuyaLoginScreen.id: (context) => TuyaLoginScreen(),
         TuyaSingupScreen.id: (context) => TuyaSingupScreen(),
-        TuyaOtpScreen.id: (context) => TuyaOtpScreen(),
+        //TuyaOtpScreen.id: (context) => TuyaOtpScreen(),
       },
     );
   }
