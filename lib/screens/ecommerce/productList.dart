@@ -4,6 +4,7 @@ import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
 import 'package:doctor_dreams/model/productsList.dart';
 import 'package:doctor_dreams/screens/ecommerce/ProductDetail.dart';
+import 'package:doctor_dreams/screens/ecommerce/ProductDetailWebView.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
 import 'package:doctor_dreams/services/shopify/products.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
@@ -82,7 +83,7 @@ class _ProductListState extends State<ProductList> {
     }
 
     if (productList.data != null) {
-      print((productList.data?['products']['edges'][0]['node']).runtimeType);
+      print((productList.data?['products']['edges'][0]['node']));
 
       // setState(() {
       //   productListData = productList.data!['products']['edges'];
@@ -93,6 +94,7 @@ class _ProductListState extends State<ProductList> {
           productListModels.addToList(ProductListModel(
               id: x['node']['id'],
               title: x['node']['title'],
+              handle: x['node']['handle'],
               minPrice: x['node']['priceRange']['minVariantPrice']['amount'],
               maxPrice: x['node']['priceRange']['maxVariantPrice']['amount'],
               image: x['node']['images']['edges'][0]['node']
@@ -101,6 +103,7 @@ class _ProductListState extends State<ProductList> {
       });
       print("product list model");
       print(productListModels.list[0].title);
+      print(productListModels.list[0].handle);
 
       // print("Products++++++++++++++");
       // print(productListData.runtimeType);
@@ -197,19 +200,12 @@ class _ProductListState extends State<ProductList> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ProductDetail(
-                                                            image:
-                                                                productListModels
-                                                                    .list[i]
-                                                                    .image,
-                                                            title:
-                                                                productListModels
-                                                                    .list[i]
-                                                                    .title,
-                                                            minPrice:
-                                                                productListModels
-                                                                    .list[i]
-                                                                    .maxPrice)));
+                                                        ProductDetailWebView(
+                                                          handle:
+                                                              productListModels
+                                                                  .list[i]
+                                                                  .handle,
+                                                        )));
                                           },
                                         ),
                                       ),

@@ -24,61 +24,62 @@ class PairDevice extends StatefulWidget {
 }
 
 class _PairDeviceState extends State<PairDevice> {
-  bool isLoggedIn=false;
-  List<Device> devices=[];
+  bool isLoggedIn = false;
+  List<Device> devices = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     checkTuyaDetails();
   }
-  void checkTuyaDetails() async{
+
+  void checkTuyaDetails() async {
     print("checkTuya 1");
-    if(await TuyaUiBizbundle.isLoggedin()){
+    if (await TuyaUiBizbundle.isLoggedin()) {
       setState(() {
-        this.isLoggedIn=true;
+        this.isLoggedIn = true;
       });
       print("checkTuya 2");
 
       print("checkTuya 4");
-      bool bluetoothStatus=await Permission.bluetooth.isGranted;
+      /*bool bluetoothStatus=await Permission.bluetooth.isGranted;
       print("blueTooth permission");
       print(bluetoothStatus);
       if(!bluetoothStatus){
         await Permission.bluetooth.request();
-      }
-      bool locationStatus=await Permission.location.isGranted;
+      }*/
+      bool locationStatus = await Permission.location.isGranted;
       print("location Status");
       print(locationStatus);
-      if(!locationStatus){
+      if (!locationStatus) {
         await Permission.location.request();
       }
-      bool blueToothIsOn=await FlutterBlue.instance.isOn;
+      /*bool blueToothIsOn=await FlutterBlue.instance.isOn;
       print("blueToothisOn");
       print(blueToothIsOn);
       if(!blueToothIsOn) {
         AppSettings.openBluetoothSettings();
-      }
-      String? message=await TuyaUiBizbundle.getDeviceList();
+      }*/
+      String? message = await TuyaUiBizbundle.getDeviceList();
       print("checkTuya 3");
-      if(message!=null){
-        if(message.startsWith("success")){
-          String jsonString=message.replaceRange(0, 7, "");
-          List jsonArray=jsonDecode(jsonString);
-          List<Device> tmpDevices=[];
-          for(int i=0;i<jsonArray.length;i++){
+      if (message != null) {
+        if (message.startsWith("success")) {
+          String jsonString = message.replaceRange(0, 7, "");
+          List jsonArray = jsonDecode(jsonString);
+          List<Device> tmpDevices = [];
+          for (int i = 0; i < jsonArray.length; i++) {
             tmpDevices.add(Device(jsonArray[i]['id'], jsonArray[i]['name']));
           }
           setState(() {
-            devices=tmpDevices;
+            devices = tmpDevices;
           });
-        }else{
+        } else {
           print(message);
         }
       }
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,13 +87,14 @@ class _PairDeviceState extends State<PairDevice> {
       drawer: AppDrawer(),
       body: Container(
           decoration: new BoxDecoration(color: AppColors.primary),
-          child: myLayoutWidget(context,isLoggedIn,devices)),
+          child: myLayoutWidget(context, isLoggedIn, devices)),
       bottomNavigationBar: BottomNavBar(),
     );
   }
 }
 
-Widget myLayoutWidget(BuildContext context,bool isLoggedIn,List<Device> devices) {
+Widget myLayoutWidget(
+    BuildContext context, bool isLoggedIn, List<Device> devices) {
   return Column(
     children: [
       Align(
@@ -142,59 +144,95 @@ Widget myLayoutWidget(BuildContext context,bool isLoggedIn,List<Device> devices)
                   ),
                 ),
               ),
-              isLoggedIn?Container():GestureDetector(
-                onTap: () {
-                  print("button press");
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => TuyaAuthScreen()),
-                  );
-                },
-                child: Container(
-                  width: 150,
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
+              isLoggedIn
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        // print("button press");
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  TuyaAuthScreen()),
+                        );
+                      },
+                      child: Container(
+                        width: 150,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                              topLeft: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                            ),
+                            color: AppColors.secondary),
+                        child: Text(
+                          'Login/Register with Tuya',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                       ),
-                      color: AppColors.secondary),
-                  child: Text(
-                    'Login/Register with Tuya',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                ),
-              ),
-              isLoggedIn?GestureDetector(
-                onTap: () {
-                  print("button press");
-                  TuyaUiBizbundle.devicePair();
-                },
-                child: Container(
-                  width: 150,
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
+                    ),
+              isLoggedIn
+                  ? GestureDetector(
+                      onTap: () {
+                        // print("button press");
+                        TuyaUiBizbundle.devicePair();
+                      },
+                      child: Container(
+                        width: 150,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                              topLeft: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                            ),
+                            color: AppColors.secondary),
+                        child: Text(
+                          'Pair Tuya Device',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                       ),
-                      color: AppColors.secondary),
-                  child: Text(
-                    'Pair Tuya Device',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
+                    )
+                  : Container(),
+              isLoggedIn
+                  ? GestureDetector(
+                      onTap: () {
+                        // print("button press");
+                        TuyaUiBizbundle.openVoicePage();
+                      },
+                      child: Container(
+                        width: 150,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
+                              topLeft: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                            ),
+                            color: AppColors.secondary),
+                        child: Text(
+                          'Open Voice Page',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Row(
+                  children: [
+                    for (int i = 0; i < devices.length; i++)
+                      DeviceButton(
+                          context, devices[i].deviceId, devices[i].deviceName)
+                  ],
                 ),
-              ):Container(),
-              SingleChildScrollView(scrollDirection: Axis.vertical,
-              child: Row(children: [
-                for(int i=0;i<devices.length;i++) DeviceButton(context, devices[i].deviceId, devices[i].deviceName)
-              ],),)
+              )
             ],
           ),
         ),
@@ -203,11 +241,11 @@ Widget myLayoutWidget(BuildContext context,bool isLoggedIn,List<Device> devices)
   );
 }
 
-Widget DeviceButton(BuildContext context,String id, String name){
+Widget DeviceButton(BuildContext context, String id, String name) {
   return GestureDetector(
-    onTap: () {
+    onTap: () async {
       print("button press");
-
+      String? message = await TuyaUiBizbundle.openDevicePanel(id);
     },
     child: Container(
       width: 150,
@@ -229,8 +267,8 @@ Widget DeviceButton(BuildContext context,String id, String name){
   );
 }
 
-class Device{
+class Device {
   String deviceName;
   String deviceId;
-  Device(this.deviceId,this.deviceName);
+  Device(this.deviceId, this.deviceName);
 }

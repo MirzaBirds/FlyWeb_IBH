@@ -242,19 +242,17 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
       // customer login with email and password
       // Create login payload and call login api/function
 
-        String? message=await TuyaUiBizbundle.login("+91", "0", password, email);
-        if(message!=null){
-        if(message.startsWith("success")){
+      String? message =
+          await TuyaUiBizbundle.login("+91", "0", password, email);
+      if (message != null) {
+        if (message.startsWith("success")) {
           Navigator.of(context).pop(true);
-        }else{
+        } else {
           createAlertDialog(context, message.replaceRange(0, 5, ""));
         }
-      }else{
-          createAlertDialog(context, "Error loging in");
-        }
-
-
-
+      } else {
+        createAlertDialog(context, "Error loging in");
+      }
     } else {
       print("Validate failed");
     }
@@ -322,6 +320,7 @@ class BlueCirclePainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate != this;
   }
+
   // alert
   createAlertDialog(BuildContext context, msg) {
     return showDialog(

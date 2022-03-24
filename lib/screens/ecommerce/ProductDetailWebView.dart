@@ -1,20 +1,23 @@
 import 'dart:async';
 
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/screens/hardware/productList.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
-import 'package:doctor_dreams/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class Checkout extends StatefulWidget {
-  const Checkout({Key? key}) : super(key: key);
+class ProductDetailWebView extends StatefulWidget {
+  final String handle;
+  // final String maxPrice;
+  const ProductDetailWebView({Key? key, @required this.handle = ''})
+      : super(key: key);
 
   @override
-  _CheckoutState createState() => _CheckoutState();
+  _ProductDetailWebViewState createState() => _ProductDetailWebViewState();
 }
 
-class _CheckoutState extends State<Checkout> {
+class _ProductDetailWebViewState extends State<ProductDetailWebView> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
@@ -22,13 +25,13 @@ class _CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppPrimaryBar(),
-        // drawer: AppDrawer(),
+        appBar: AppPrimaryBar(),
+        // extendBodyBehindAppBar: true,
         body: Builder(builder: (BuildContext context) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 0.0),
             child: WebView(
-              initialUrl: "https://doctordreams.com/cart",
+              initialUrl: "https://doctordreams.com/products/${widget.handle}",
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _webViewController = webViewController;
@@ -56,7 +59,7 @@ class _CheckoutState extends State<Checkout> {
 
                 _webViewController
                     .evaluateJavascript("javascript:(function() { " +
-                        "var head = document.getElementsByClassName('header-mb-left')[0];" +
+                        "var head = document.getElementsByTagName('header')[0];" +
                         "head.parentNode.removeChild(head);" +
                         "var footer = document.getElementsByTagName('footer')[0];" +
                         "footer.parentNode.removeChild(footer);" +
@@ -72,25 +75,3 @@ class _CheckoutState extends State<Checkout> {
         bottomNavigationBar: BottomNavBar());
   }
 }
-
-
-// Widget myLayoutWidget(BuildContext context) {
-//   return Column(
-//     children: [
-//       Align(
-//         alignment: Alignment.topLeft,
-//         child: Padding(
-//           padding:
-//               const EdgeInsets.only(left: 30, top: 130, right: 0, bottom: 0),
-//           child: Text(
-//             "Checkout",
-//             style: TextStyle(
-//                 fontSize: 40,
-//                 color: AppColors.white,
-//                 fontWeight: FontWeight.w400),
-//           ),
-//         ),
-//       ),
-//     ],
-//   );
-

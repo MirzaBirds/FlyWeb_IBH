@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ProductListModel {
   String id;
   String title;
+  String handle;
   String minPrice;
   String maxPrice;
   String image;
@@ -10,6 +11,7 @@ class ProductListModel {
   ProductListModel({
     required this.id,
     required this.title,
+    required this.handle,
     required this.minPrice,
     required this.maxPrice,
     required this.image,
@@ -35,7 +37,7 @@ class ProductListModels {
   void printListDetails() {
     _list.forEach((element) {
       print(
-          'id: ${element.id}, title: ${element.title}, minPrice: ${element.minPrice} and maxPrice: ${element.maxPrice}');
+          'id: ${element.id}, title: ${element.title},  handle: ${element.handle}, minPrice: ${element.minPrice} and maxPrice: ${element.maxPrice}');
     });
   }
 }

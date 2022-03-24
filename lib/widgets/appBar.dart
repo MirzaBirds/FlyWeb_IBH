@@ -20,34 +20,34 @@ class _AppPrimaryBarState extends State<AppPrimaryBar> {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(color: AppColors.primary),
-      title: Image.asset('assets/logo.png', height: 30.00),
+      title: Image.asset('assets/logo.png', height: 17.00),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          color: AppColors.primary,
-          tooltip: 'Search',
-          onPressed: () {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute<void>(
-            //     builder: (BuildContext context) => const Wishlist(),
-            //   ),
-            // );
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.favorite_outline_outlined),
-          color: AppColors.primary,
-          tooltip: 'Comment Icon',
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => const Wishlist(),
-              ),
-            );
-          },
-        ), //IconButton
+        // IconButton(
+        //   icon: Icon(Icons.search),
+        //   color: AppColors.primary,
+        //   tooltip: 'Search',
+        //   onPressed: () {
+        //     Navigator.pushReplacement(
+        //       context,
+        //       MaterialPageRoute<void>(
+        //         builder: (BuildContext context) => const Wishlist(),
+        //       ),
+        //     );
+        //   },
+        // ),
+        // IconButton(
+        //   icon: Icon(Icons.favorite_outline_outlined),
+        //   color: AppColors.primary,
+        //   tooltip: 'Comment Icon',
+        //   onPressed: () {
+        //     Navigator.pushReplacement(
+        //       context,
+        //       MaterialPageRoute<void>(
+        //         builder: (BuildContext context) => const Wishlist(),
+        //       ),
+        //     );
+        //   },
+        // ), //IconButton
         IconButton(
           icon: Icon(Icons.shopping_cart_outlined),
           color: AppColors.primary,

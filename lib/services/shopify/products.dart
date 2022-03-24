@@ -10,6 +10,7 @@ class Products {
           title
           vendor
           description
+          handle
           availableForSale
           images (first:1) {
             edges {
@@ -49,6 +50,7 @@ class Products {
           title
           vendor
           description
+          handle
           availableForSale
           images (first:1) {
             edges {
@@ -88,6 +90,7 @@ class Products {
           title
           vendor
           description
+          handle
           availableForSale
           images (first:1) {
             edges {
@@ -127,6 +130,7 @@ class Products {
           title
           vendor
           description
+          handle
           availableForSale
           images (first:1) {
             edges {
@@ -166,6 +170,7 @@ class Products {
           title
           vendor
           description
+          handle
           availableForSale
           images (first:1) {
             edges {
@@ -205,6 +210,7 @@ class Products {
           title
           vendor
           description
+          handle
           availableForSale
           images (first:1) {
             edges {

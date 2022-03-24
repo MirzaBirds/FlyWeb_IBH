@@ -32,7 +32,7 @@ class _ProductCategoryState extends State<ProductCategory> {
                         child: Column(
                           children: [
                             Text(
-                              "Matters",
+                              "Mattress",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.primary,
@@ -102,7 +102,7 @@ class _ProductCategoryState extends State<ProductCategory> {
                         child: Column(
                           children: [
                             Text(
-                              "Beds",
+                              "Bed",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.primary,

@@ -315,120 +315,120 @@ class DeviceScreen extends StatelessWidget {
   }
 }
 
-class findDevice extends StatelessWidget {
-  const findDevice({
-    Key? key,
-  }) : super(key: key);
+// class findDevice extends StatelessWidget {
+//   const findDevice({
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-          padding: EdgeInsets.only(left: 25, right: 25, top: 25),
-          child: Column(children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => LoginScreen()));
-                print("Find New Devices ");
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                padding: EdgeInsets.symmetric(vertical: 13),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: AppColors.primary,
-                ),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Fine New Devices',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                      Icon(Icons.repeat, color: AppColors.white),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              height: 150,
-              child: Card(
-                color: AppColors.secondary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                // elevation: 10,
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 10, top: 25, right: 0, bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          children: [
-                            Text(
-                              "Sleep Belt",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 28,
-                                  color: AppColors.white),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                print("button press");
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          productList()),
-                                );
-                              },
-                              child: Container(
-                                width: 100,
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: AppColors.white),
-                                child: Text(
-                                  'Pair Device',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.black),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            child: Image.asset(
-                              'assets/wa1.png',
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ])),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       child: Container(
+//           padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+//           child: Column(children: <Widget>[
+//             GestureDetector(
+//               onTap: () {
+//                 // Navigator.push(context,
+//                 //     MaterialPageRoute(builder: (context) => LoginScreen()));
+//                 print("Find New Devices ");
+//               },
+//               child: Container(
+//                 width: MediaQuery.of(context).size.width / 1.5,
+//                 padding: EdgeInsets.symmetric(vertical: 13),
+//                 alignment: Alignment.center,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(15.0),
+//                   color: AppColors.primary,
+//                 ),
+//                 child: Container(
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       Text(
+//                         'Fine New Devices',
+//                         style: TextStyle(fontSize: 18, color: Colors.white),
+//                       ),
+//                       Icon(Icons.repeat, color: AppColors.white),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(
+//               height: 20,
+//             ),
+//             Container(
+//               height: 150,
+//               child: Card(
+//                 color: AppColors.secondary,
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(15.0),
+//                 ),
+//                 // elevation: 10,
+//                 child: Padding(
+//                   padding:
+//                       EdgeInsets.only(left: 10, top: 25, right: 0, bottom: 20),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                     children: <Widget>[
+//                       Align(
+//                         alignment: Alignment.centerLeft,
+//                         child: Column(
+//                           children: [
+//                             Text(
+//                               "Sleep Belt",
+//                               style: TextStyle(
+//                                   fontWeight: FontWeight.w300,
+//                                   fontSize: 28,
+//                                   color: AppColors.white),
+//                             ),
+//                             SizedBox(
+//                               height: 20,
+//                             ),
+//                             GestureDetector(
+//                               onTap: () {
+//                                 print("button press");
+//                                 Navigator.of(context).push(
+//                                   MaterialPageRoute(
+//                                       builder: (BuildContext context) =>
+//                                           productList()),
+//                                 );
+//                               },
+//                               child: Container(
+//                                 width: 100,
+//                                 padding: EdgeInsets.symmetric(vertical: 5),
+//                                 alignment: Alignment.center,
+//                                 decoration: BoxDecoration(
+//                                     borderRadius: BorderRadius.circular(5.0),
+//                                     color: AppColors.white),
+//                                 child: Text(
+//                                   'Pair Device',
+//                                   style: TextStyle(
+//                                       fontSize: 15, color: Colors.black),
+//                                 ),
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                       Padding(
+//                         padding: EdgeInsets.all(0.0),
+//                         child: GestureDetector(
+//                           onTap: () {},
+//                           child: Container(
+//                             child: Image.asset(
+//                               'assets/wa1.png',
+//                               height: 150,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ])),
+//     );
+//   }
+// }

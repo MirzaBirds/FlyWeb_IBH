@@ -367,7 +367,7 @@ class _TuyaSingupScreenState extends State<TuyaSingupScreen> {
     // for testing only
 
     //Navigator.push(
-     //   context, MaterialPageRoute(builder: (context) => TuyaOtpScreen()));
+    //   context, MaterialPageRoute(builder: (context) => TuyaOtpScreen()));
 
     if (key.currentState!.validate()) {
       print("form is validated");
@@ -379,25 +379,26 @@ class _TuyaSingupScreenState extends State<TuyaSingupScreen> {
         //TODO: Create a payload all singup function
 
         //TODO: trigger OTP screen
-        String? message=await TuyaUiBizbundle.getOtp("+91", "0", email);
-        if(message!=null) {
+        String? message = await TuyaUiBizbundle.getOtp("+91", "0", email);
+        if (message != null) {
           if (message.startsWith("success")) {
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context)
+                .pushReplacement(
               MaterialPageRoute(
-                  builder: (BuildContext context) => TuyaOtpScreen(email: email, password: password)),
-            ).then((value){
-              if(value){
+                  builder: (BuildContext context) =>
+                      TuyaOtpScreen(email: email, password: password)),
+            )
+                .then((value) {
+              if (value) {
                 Navigator.of(context).pop(true);
               }
             });
           } else {
             createAlertDialog(context, message.replaceRange(0, 5, ""));
           }
-        }else{
+        } else {
           createAlertDialog(context, "Error Signing up");
         }
-
-
       } else {
         print("password and confirm password must be same");
         createAlertDialog(

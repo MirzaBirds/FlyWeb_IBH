@@ -41,6 +41,7 @@ dependencies:
     path: ../tuya_ui_bizbundle
   permission_handler: ^9.2.0
   app_settings: ^4.1.1
+  webview_flutter: ^3.0.1
 
 dev_dependencies:
   flutter_test:
