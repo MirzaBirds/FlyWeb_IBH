@@ -168,7 +168,7 @@ Widget myLayoutWidget(
                             ),
                             color: AppColors.secondary),
                         child: Text(
-                          'Login/Register with Tuya',
+                          'Device Connection',
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
@@ -192,7 +192,8 @@ Widget myLayoutWidget(
                             ),
                             color: AppColors.secondary),
                         child: Text(
-                          'Pair Tuya Device',
+                          // 'Pair Tuya Device',
+                          'Pair Device',
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),

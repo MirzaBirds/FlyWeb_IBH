@@ -67,10 +67,11 @@ class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
         print("button press");
 
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => TuyaLoginScreen())).then((value){
-              if(value){
-                Navigator.of(context).pop();
-              }
+                MaterialPageRoute(builder: (context) => TuyaLoginScreen()))
+            .then((value) {
+          if (value) {
+            Navigator.of(context).pop();
+          }
         });
       },
       child: Container(
@@ -98,8 +99,9 @@ class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => TuyaSingupScreen())).then((value){
-          if(value){
+                MaterialPageRoute(builder: (context) => TuyaSingupScreen()))
+            .then((value) {
+          if (value) {
             Navigator.of(context).pop();
           }
         });
@@ -187,7 +189,7 @@ class BlueCirclePainter extends CustomPainter {
     final textStyle1 = TextStyle(
         color: Colors.white, fontSize: 35, fontWeight: FontWeight.w800);
     final textSpan1 = TextSpan(
-      text: 'Tuya authentication',
+      text: 'Device \nAuthentication',
       style: textStyle,
     );
     final textPainter1 = TextPainter(

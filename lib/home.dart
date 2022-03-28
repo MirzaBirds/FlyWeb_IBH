@@ -26,8 +26,12 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     if (Platform.isAndroid) {
+      // old one
+      // TuyaUiBizbundle.init(
+      //     "uxssy9xcsxv7ft599e75", "jjpvyc9td7f7v9u43hks99dsq3d3eqgy");
+      // new with new package name
       TuyaUiBizbundle.init(
-          "uxssy9xcsxv7ft599e75", "jjpvyc9td7f7v9u43hks99dsq3d3eqgy");
+          "5tvf57kk45j8gkm5cjwu", "kjy7v84ffgvsxwfnsxhrwqwamw49y7fd");
     }
   }
 

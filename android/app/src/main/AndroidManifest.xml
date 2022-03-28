@@ -9,11 +9,12 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
        android:supportsRtl="true"
-       tools:replace="android:label,android:supportsRtl">
+       android:theme="@style/Theme.AppCompat"
+       tools:replace="android:label,android:supportsRtl,android:theme">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
+            android:theme="@style/Theme.AppCompat"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">

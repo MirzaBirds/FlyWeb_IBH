@@ -419,7 +419,7 @@ class BlueCirclePainter extends CustomPainter {
     final textStyle = TextStyle(
         color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
     final textSpan = TextSpan(
-      text: 'Tuya Create\nAccount',
+      text: 'Device \nRegistration',
       style: textStyle,
     );
     final textPainter = TextPainter(
