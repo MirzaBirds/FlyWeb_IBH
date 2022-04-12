@@ -26,6 +26,7 @@ class PairDevice extends StatefulWidget {
 class _PairDeviceState extends State<PairDevice> {
   bool isLoggedIn = false;
   List<Device> devices = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +53,8 @@ class _PairDeviceState extends State<PairDevice> {
       print("location Status");
       print(locationStatus);
       if (!locationStatus) {
-        await Permission.location.request();
+        createAlertDialog1(context, "test");
+        // await Permission.location.request();
       }
       /*bool blueToothIsOn=await FlutterBlue.instance.isOn;
       print("blueToothisOn");
@@ -70,6 +72,7 @@ class _PairDeviceState extends State<PairDevice> {
           for (int i = 0; i < jsonArray.length; i++) {
             tmpDevices.add(Device(jsonArray[i]['id'], jsonArray[i]['name']));
           }
+
           setState(() {
             devices = tmpDevices;
           });
@@ -118,6 +121,7 @@ Widget myLayoutWidget(
               const EdgeInsets.only(left: 30, top: 20, right: 0, bottom: 0),
           child: Column(
             children: [
+              SizedBox(height: 5),
               GestureDetector(
                 onTap: () {
                   print("button press");
@@ -131,12 +135,12 @@ Widget myLayoutWidget(
                   padding: EdgeInsets.symmetric(vertical: 15),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
-                      ),
+                      // borderRadius: BorderRadius.only(
+                      //   topRight: Radius.circular(15),
+                      //   bottomRight: Radius.circular(15),
+                      //   topLeft: Radius.circular(15),
+                      //   bottomLeft: Radius.circular(15),
+                      // ),
                       color: AppColors.secondary),
                   child: Text(
                     'Tap to Pair',
@@ -146,91 +150,111 @@ Widget myLayoutWidget(
               ),
               isLoggedIn
                   ? Container()
-                  : GestureDetector(
-                      onTap: () {
-                        // print("button press");
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  TuyaAuthScreen()),
-                        );
-                      },
-                      child: Container(
-                        width: 150,
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                              topLeft: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
+                  : Column(
+                      children: [
+                        SizedBox(height: 5),
+                        Container(
+                          width: 150,
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              // borderRadius: BorderRadius.only(
+                              //   topRight: Radius.circular(15),
+                              //   bottomRight: Radius.circular(15),
+                              //   topLeft: Radius.circular(15),
+                              //   bottomLeft: Radius.circular(15),
+                              // ),
+                              color: AppColors.secondary),
+                          child: GestureDetector(
+                            onTap: () {
+                              // print("button press");
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        TuyaAuthScreen()),
+                              );
+                            },
+                            child: Text(
+                              'Connect a Device',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
-                            color: AppColors.secondary),
-                        child: Text(
-                          'Device Connection',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
               isLoggedIn
-                  ? GestureDetector(
-                      onTap: () {
-                        // print("button press");
-                        TuyaUiBizbundle.devicePair();
-                      },
-                      child: Container(
-                        width: 150,
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                              topLeft: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
+                  ? Column(
+                      children: [
+                        SizedBox(height: 5),
+                        GestureDetector(
+                          onTap: () {
+                            // print("button press");
+                            TuyaUiBizbundle.devicePair();
+                          },
+                          child: Container(
+                            width: 150,
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.only(
+                                //   topRight: Radius.circular(15),
+                                //   bottomRight: Radius.circular(15),
+                                //   topLeft: Radius.circular(15),
+                                //   bottomLeft: Radius.circular(15),
+                                // ),
+                                color: AppColors.secondary),
+                            child: Text(
+                              // 'Pair Tuya Device',
+                              'Pair Device',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
-                            color: AppColors.secondary),
-                        child: Text(
-                          // 'Pair Tuya Device',
-                          'Pair Device',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
                         ),
-                      ),
+                      ],
                     )
                   : Container(),
               isLoggedIn
-                  ? GestureDetector(
-                      onTap: () {
-                        // print("button press");
-                        TuyaUiBizbundle.openVoicePage();
-                      },
-                      child: Container(
-                        width: 150,
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                              topLeft: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
+                  ? Column(
+                      children: [
+                        SizedBox(height: 5),
+                        GestureDetector(
+                          onTap: () {
+                            // print("button press");
+                            TuyaUiBizbundle.openVoicePage();
+                          },
+                          child: Container(
+                            width: 150,
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.only(
+                                //   topRight: Radius.circular(15),
+                                //   bottomRight: Radius.circular(15),
+                                //   topLeft: Radius.circular(15),
+                                //   bottomLeft: Radius.circular(15),
+                                // ),
+                                color: AppColors.secondary),
+                            child: Text(
+                              'Open Voice Page',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
-                            color: AppColors.secondary),
-                        child: Text(
-                          'Open Voice Page',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
                         ),
-                      ),
+                        // SizedBox(height: 5),
+                      ],
                     )
                   : Container(),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Row(
+                child: Column(
                   children: [
                     for (int i = 0; i < devices.length; i++)
                       DeviceButton(
-                          context, devices[i].deviceId, devices[i].deviceName)
+                          context, devices[i].deviceId, devices[i].deviceName),
+                    SizedBox(height: 5),
                   ],
                 ),
               )
@@ -243,28 +267,62 @@ Widget myLayoutWidget(
 }
 
 Widget DeviceButton(BuildContext context, String id, String name) {
-  return GestureDetector(
-    onTap: () async {
-      print("button press");
-      String? message = await TuyaUiBizbundle.openDevicePanel(id);
-    },
-    child: Container(
-      width: 150,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(15),
-            bottomRight: Radius.circular(15),
-            topLeft: Radius.circular(15),
-            bottomLeft: Radius.circular(15),
+  // return Column(
+  //   children: [
+
+  //     GestureDetector(
+  //       onTap: () async {
+  //         print("button press");
+  //         String? message = await TuyaUiBizbundle.openDevicePanel(id);
+  //       },
+  //       child: Container(
+  //         width: 150,
+  //         padding: EdgeInsets.symmetric(vertical: 15),
+  //         alignment: Alignment.center,
+  //         decoration: BoxDecoration(
+  //             // borderRadius: BorderRadius.only(
+  //             //   topRight: Radius.circular(15),
+  //             //   bottomRight: Radius.circular(15),
+  //             //   topLeft: Radius.circular(15),
+  //             //   bottomLeft: Radius.circular(15),
+  //             // ),
+  //             color: AppColors.secondary),
+  //         child: Text(
+  //           name,
+  //           style: TextStyle(fontSize: 18, color: Colors.white),
+  //         ),
+  //       ),
+  //     ),
+  //   ],
+  // );
+  return Column(
+    children: [
+      SizedBox(height: 5),
+      GestureDetector(
+        onTap: () async {
+          // print("button press");
+          String? message = await TuyaUiBizbundle.openDevicePanel(id);
+        },
+        child: Container(
+          width: 150,
+          padding: EdgeInsets.symmetric(vertical: 15),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              // borderRadius: BorderRadius.only(
+              //   topRight: Radius.circular(15),
+              //   bottomRight: Radius.circular(15),
+              //   topLeft: Radius.circular(15),
+              //   bottomLeft: Radius.circular(15),
+              // ),
+              color: AppColors.secondary),
+          child: Text(
+            name,
+            style: TextStyle(fontSize: 18, color: Colors.white),
           ),
-          color: AppColors.secondary),
-      child: Text(
-        name,
-        style: TextStyle(fontSize: 18, color: Colors.white),
+        ),
       ),
-    ),
+      // SizedBox(height: 5),
+    ],
   );
 }
 
@@ -272,4 +330,24 @@ class Device {
   String deviceName;
   String deviceId;
   Device(this.deviceId, this.deviceName);
+}
+
+createAlertDialog1(BuildContext context, msg) {
+  print("in popup !! ");
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Prominent disclosure"),
+          actions: <Widget>[
+            MaterialButton(
+                elevation: 5.0,
+                child: Text('Okay'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await Permission.location.request();
+                })
+          ],
+        );
+      });
 }

@@ -11,6 +11,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TuyaLoginScreen extends StatefulWidget {
   static const String id = 'tuya_login_screen';
@@ -149,33 +150,34 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
               SizedBox(
                 height: 15.00,
               ),
-              // Column(
-              //   children: <Widget>[
-              //     TextButton(
-              //       style: TextButton.styleFrom(
-              //         primary: Colors.blue.shade400,
-              //         // alignment:
-              //       ),
-              //       child: SizedBox(
-              //         width: double.infinity,
-              //         child: Container(
-              //           padding: EdgeInsets.only(
-              //               left: 40, right: 35, top: 8, bottom: 16),
-              //           child: Text(
-              //             "Forgot Password ?",
-              //             textAlign: TextAlign.right,
-              //           ),
-              //         ),
-              //       ),
-              //       onPressed: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (context) => ForgotPassword()));
-              //       },
-              //     ),
-              //   ],
-              // ),
+              Column(
+                children: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.blue.shade400,
+                      // alignment:
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 40, right: 35, top: 8, bottom: 16),
+                        child: Text(
+                          "Forgot Password ?",
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                    ),
+                    onPressed: () async {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => ForgotPassword()));
+                      await launch('https://auth.tuya.com/findpwd');
+                    },
+                  ),
+                ],
+              ),
               Container(
                   padding: EdgeInsets.symmetric(horizontal: 100),
                   child: logIn(context)),
