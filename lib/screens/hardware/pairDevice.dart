@@ -338,7 +338,7 @@ createAlertDialog1(BuildContext context, msg) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Prominent disclosure"),
+          title: Text("Doctor Dreams app collects and process your location information to enable these functions, such as pairing with your Smart Devices and non-precise geo-location when you use certain Smart Devices or the Services, such as robot cleaner and weather service"),
           actions: <Widget>[
             MaterialButton(
                 elevation: 5.0,
