@@ -142,7 +142,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavBar());
+        // bottomNavigationBar: BottomNavBar()
+        );
   }
 
 // Top Section Custom shapes
