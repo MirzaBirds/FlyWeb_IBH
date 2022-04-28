@@ -168,8 +168,8 @@ class _ProductCategoryState extends State<ProductCategory> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ProductList(
-                                                categoryType:
-                                                    ProductCollection.beds)));
+                                                categoryType: ProductCollection
+                                                    .pillows)));
                                   },
                                 ),
                               ),

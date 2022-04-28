@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/home.dart';
 import 'package:doctor_dreams/screens/Auth/forgotPassword.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuya_otp.dart';
@@ -226,7 +227,7 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 30.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );
@@ -274,7 +275,7 @@ class BlueCirclePainter extends CustomPainter {
     final textStyle = TextStyle(
         color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
     final textSpan = TextSpan(
-      text: 'Device Log In',
+      text: 'Diffuser Log In',
       style: textStyle,
     );
     final textPainter = TextPainter(

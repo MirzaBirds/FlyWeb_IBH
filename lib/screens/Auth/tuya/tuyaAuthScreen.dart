@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuyaLogin.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuyaSignup.dart';
 
@@ -134,7 +135,7 @@ class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 30.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );
@@ -189,7 +190,7 @@ class BlueCirclePainter extends CustomPainter {
     final textStyle1 = TextStyle(
         color: Colors.white, fontSize: 35, fontWeight: FontWeight.w800);
     final textSpan1 = TextSpan(
-      text: 'Device \nAuthentication',
+      text: 'Diffuser \nAuthentication',
       style: textStyle,
     );
     final textPainter1 = TextPainter(

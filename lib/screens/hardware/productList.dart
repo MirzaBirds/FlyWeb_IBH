@@ -1,4 +1,5 @@
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/screens/ecommerce/ProductDetailWebView.dart';
 import 'package:doctor_dreams/screens/hardware/findDevice.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
@@ -15,7 +16,6 @@ class productList extends StatefulWidget {
 }
 
 class _productListState extends State<productList> {
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -59,16 +59,23 @@ class _productListState extends State<productList> {
                                       fontSize: 27,
                                       color: AppColors.white),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Tap to Pair",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 14,
-                                        color: AppColors.white),
-                                  ),
+                                Text(
+                                  "Tap to Pair",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 15,
+                                      color: AppColors.white),
                                 ),
+                                // Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Text(
+                                //     "Tap to Pair",
+                                //     style: TextStyle(
+                                //         fontWeight: FontWeight.w400,
+                                //         fontSize: 15,
+                                //         color: AppColors.white),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -88,98 +95,6 @@ class _productListState extends State<productList> {
                   ),
                 ),
               ),
-              // Card(
-              //   color: AppColors.secondary,
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(15.0),
-              //   ),
-              //   elevation: 10,
-              //   child: Padding(
-              //     padding: EdgeInsets.only(left: 4, right: 4, top: 8),
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //       children: <Widget>[
-              //         Text(
-              //           "Aromic \nDiffuser",
-              //           style: TextStyle(
-              //               fontWeight: FontWeight.bold,
-              //               fontSize: 28,
-              //               color: AppColors.white),
-              //         ),
-              //         Padding(
-              //           padding: EdgeInsets.all(10.0),
-              //           child: GestureDetector(
-              //             onTap: () {},
-              //             child: Container(
-              //               child: Image.asset('assets/difuuser.png',
-              //                   height: 130.00, fit: BoxFit.fill),
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-// Products
-
-              // GridView(
-              //   scrollDirection: Axis.vertical,
-              //   shrinkWrap: true,
-              //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 2,
-              //   ),
-              //   children: [
-              //     Container(
-              //       height: 250.0,
-              //       child: Card(
-              //         color: AppColors.secondary,
-              //         child: Column(
-              //             mainAxisAlignment: MainAxisAlignment.start,
-              //             children: <Widget>[
-              //               Text(
-              //                 "Sleep Belt",
-              //                 style: TextStyle(
-              //                     color: Colors.white,
-              //                     fontSize: 16,
-              //                     fontWeight: FontWeight.w100),
-              //               ),
-              //               Image.asset(
-              //                 'assets/wa1.png',
-              //                 height: 130.00,
-              //               ),
-              //               Text(
-              //                 "Rs. 3000 | rating",
-              //                 style: TextStyle(
-              //                     color: Colors.white,
-              //                     fontSize: 16,
-              //                     fontWeight: FontWeight.w100),
-              //               ),
-              //             ]),
-              //       ),
-              //     ),
-              //     Card(
-              //       color: Colors.green,
-              //       child: Text(
-              //         "2",
-              //         style: TextStyle(color: Colors.white, fontSize: 30),
-              //       ),
-              //     ),
-              //     Card(
-              //       color: Colors.green,
-              //       child: Text(
-              //         "3",
-              //         style: TextStyle(color: Colors.white, fontSize: 30),
-              //       ),
-              //     ),
-              //     Card(
-              //       color: Colors.green,
-              //       child: Text(
-              //         "4",
-              //         style: TextStyle(color: Colors.white, fontSize: 30),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Column(
                 children: <Widget>[
                   SizedBox(
@@ -199,7 +114,6 @@ class _productListState extends State<productList> {
                   ),
                 ],
               ),
-
               CustomScrollView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -229,19 +143,19 @@ class _productListState extends State<productList> {
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w100),
+                                          fontWeight: FontWeight.w300),
                                     ),
                                     Image.asset(
                                       'assets/wa1.png',
                                       height: 130.00,
                                     ),
-                                    Text(
-                                      "Rs. 3000 | rating",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
+                                    // Text(
+                                    //   "Rs. 3000 | rating",
+                                    //   style: TextStyle(
+                                    //       color: Colors.white,
+                                    //       fontSize: 16,
+                                    //       fontWeight: FontWeight.w100),
+                                    // ),
                                     Padding(
                                       padding: EdgeInsets.only(
                                           left: 10, right: 10, top: 0),
@@ -249,8 +163,8 @@ class _productListState extends State<productList> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: <Widget>[
-                                          Icon(Icons.favorite_outline_outlined,
-                                              color: AppColors.white),
+                                          // Icon(Icons.favorite_outline_outlined,
+                                          //     color: AppColors.white),
                                           Align(
                                             alignment: Alignment.bottomRight,
                                             child: Padding(
@@ -266,11 +180,13 @@ class _productListState extends State<productList> {
                                                     MaterialPageRoute(
                                                         builder: (BuildContext
                                                                 context) =>
-                                                            productList()),
+                                                            ProductDetailWebView(
+                                                                handle:
+                                                                    'doctor-dreams-by-nilkamal-bluetooth-enabled-aroma-diffuser-with-humidifier-mdodrarhudfrwht')),
                                                   );
                                                 },
                                                 child: Container(
-                                                  width: 80,
+                                                  width: 100,
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: 5,
                                                       horizontal: 6),
@@ -297,255 +213,255 @@ class _productListState extends State<productList> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 300,
-                          child: Card(
-                            color: AppColors.secondary,
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 4, right: 4, top: 8),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Sleep Belt",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    Image.asset(
-                                      'assets/wa1.png',
-                                      height: 130.00,
-                                    ),
-                                    Text(
-                                      "Rs. 3000 | rating",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 10, right: 10, top: 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Icon(Icons.favorite_outline_outlined,
-                                              color: AppColors.white),
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10,
-                                                  top: 10,
-                                                  right: 0,
-                                                  bottom: 0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print("button press");
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            productList()),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 80,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 6),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5.0),
-                                                      color: AppColors.primary),
-                                                  child: Text(
-                                                    'Buy',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 300,
-                          child: Card(
-                            color: AppColors.secondary,
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 4, right: 4, top: 8),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Sleep Belt",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    Image.asset(
-                                      'assets/wa1.png',
-                                      height: 130.00,
-                                    ),
-                                    Text(
-                                      "Rs. 3000 | rating",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 10, right: 10, top: 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Icon(Icons.favorite_outline_outlined,
-                                              color: AppColors.white),
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10,
-                                                  top: 10,
-                                                  right: 0,
-                                                  bottom: 0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print("button press");
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            productList()),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 80,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 6),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5.0),
-                                                      color: AppColors.primary),
-                                                  child: Text(
-                                                    'Buy',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 300,
-                          child: Card(
-                            color: AppColors.secondary,
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 4, right: 4, top: 8),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Sleep Belt",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    Image.asset(
-                                      'assets/wa1.png',
-                                      height: 130.00,
-                                    ),
-                                    Text(
-                                      "Rs. 3000 | rating",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 10, right: 10, top: 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Icon(Icons.favorite_outline_outlined,
-                                              color: AppColors.white),
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10,
-                                                  top: 10,
-                                                  right: 0,
-                                                  bottom: 0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print("button press");
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            productList()),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 80,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 6),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5.0),
-                                                      color: AppColors.primary),
-                                                  child: Text(
-                                                    'Buy',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   height: 300,
+                        //   child: Card(
+                        //     color: AppColors.secondary,
+                        //     child: Padding(
+                        //       padding:
+                        //           EdgeInsets.only(left: 4, right: 4, top: 8),
+                        //       child: Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Text(
+                        //               "Sleep Belt",
+                        //               style: TextStyle(
+                        //                   color: Colors.white,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w100),
+                        //             ),
+                        //             Image.asset(
+                        //               'assets/wa1.png',
+                        //               height: 130.00,
+                        //             ),
+                        //             Text(
+                        //               "Rs. 3000 | rating",
+                        //               style: TextStyle(
+                        //                   color: Colors.white,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w100),
+                        //             ),
+                        //             Padding(
+                        //               padding: EdgeInsets.only(
+                        //                   left: 10, right: 10, top: 0),
+                        //               child: Row(
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.end,
+                        //                 children: <Widget>[
+                        //                   Icon(Icons.favorite_outline_outlined,
+                        //                       color: AppColors.white),
+                        //                   Align(
+                        //                     alignment: Alignment.bottomRight,
+                        //                     child: Padding(
+                        //                       padding: const EdgeInsets.only(
+                        //                           left: 10,
+                        //                           top: 10,
+                        //                           right: 0,
+                        //                           bottom: 0),
+                        //                       child: GestureDetector(
+                        //                         onTap: () {
+                        //                           print("button press");
+                        //                           Navigator.of(context).push(
+                        //                             MaterialPageRoute(
+                        //                                 builder: (BuildContext
+                        //                                         context) =>
+                        //                                     productList()),
+                        //                           );
+                        //                         },
+                        //                         child: Container(
+                        //                           width: 80,
+                        //                           padding: EdgeInsets.symmetric(
+                        //                               vertical: 5,
+                        //                               horizontal: 6),
+                        //                           alignment: Alignment.center,
+                        //                           decoration: BoxDecoration(
+                        //                               borderRadius:
+                        //                                   BorderRadius.circular(
+                        //                                       5.0),
+                        //                               color: AppColors.primary),
+                        //                           child: Text(
+                        //                             'Buy',
+                        //                             style: TextStyle(
+                        //                                 fontSize: 14,
+                        //                                 color: Colors.white),
+                        //                           ),
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ]),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Container(
+                        //   height: 300,
+                        //   child: Card(
+                        //     color: AppColors.secondary,
+                        //     child: Padding(
+                        //       padding:
+                        //           EdgeInsets.only(left: 4, right: 4, top: 8),
+                        //       child: Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Text(
+                        //               "Sleep Belt",
+                        //               style: TextStyle(
+                        //                   color: Colors.white,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w100),
+                        //             ),
+                        //             Image.asset(
+                        //               'assets/wa1.png',
+                        //               height: 130.00,
+                        //             ),
+                        //             Text(
+                        //               "Rs. 3000 | rating",
+                        //               style: TextStyle(
+                        //                   color: Colors.white,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w100),
+                        //             ),
+                        //             Padding(
+                        //               padding: EdgeInsets.only(
+                        //                   left: 10, right: 10, top: 0),
+                        //               child: Row(
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.end,
+                        //                 children: <Widget>[
+                        //                   Icon(Icons.favorite_outline_outlined,
+                        //                       color: AppColors.white),
+                        //                   Align(
+                        //                     alignment: Alignment.bottomRight,
+                        //                     child: Padding(
+                        //                       padding: const EdgeInsets.only(
+                        //                           left: 10,
+                        //                           top: 10,
+                        //                           right: 0,
+                        //                           bottom: 0),
+                        //                       child: GestureDetector(
+                        //                         onTap: () {
+                        //                           print("button press");
+                        //                           Navigator.of(context).push(
+                        //                             MaterialPageRoute(
+                        //                                 builder: (BuildContext
+                        //                                         context) =>
+                        //                                     productList()),
+                        //                           );
+                        //                         },
+                        //                         child: Container(
+                        //                           width: 80,
+                        //                           padding: EdgeInsets.symmetric(
+                        //                               vertical: 5,
+                        //                               horizontal: 6),
+                        //                           alignment: Alignment.center,
+                        //                           decoration: BoxDecoration(
+                        //                               borderRadius:
+                        //                                   BorderRadius.circular(
+                        //                                       5.0),
+                        //                               color: AppColors.primary),
+                        //                           child: Text(
+                        //                             'Buy',
+                        //                             style: TextStyle(
+                        //                                 fontSize: 14,
+                        //                                 color: Colors.white),
+                        //                           ),
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ]),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Container(
+                        //   height: 300,
+                        //   child: Card(
+                        //     color: AppColors.secondary,
+                        //     child: Padding(
+                        //       padding:
+                        //           EdgeInsets.only(left: 4, right: 4, top: 8),
+                        //       child: Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Text(
+                        //               "Sleep Belt",
+                        //               style: TextStyle(
+                        //                   color: Colors.white,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w100),
+                        //             ),
+                        //             Image.asset(
+                        //               'assets/wa1.png',
+                        //               height: 130.00,
+                        //             ),
+                        //             Text(
+                        //               "Rs. 3000 | rating",
+                        //               style: TextStyle(
+                        //                   color: Colors.white,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w100),
+                        //             ),
+                        //             Padding(
+                        //               padding: EdgeInsets.only(
+                        //                   left: 10, right: 10, top: 0),
+                        //               child: Row(
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.end,
+                        //                 children: <Widget>[
+                        //                   Icon(Icons.favorite_outline_outlined,
+                        //                       color: AppColors.white),
+                        //                   Align(
+                        //                     alignment: Alignment.bottomRight,
+                        //                     child: Padding(
+                        //                       padding: const EdgeInsets.only(
+                        //                           left: 10,
+                        //                           top: 10,
+                        //                           right: 0,
+                        //                           bottom: 0),
+                        //                       child: GestureDetector(
+                        //                         onTap: () {
+                        //                           print("button press");
+                        //                           Navigator.of(context).push(
+                        //                             MaterialPageRoute(
+                        //                                 builder: (BuildContext
+                        //                                         context) =>
+                        //                                     productList()),
+                        //                           );
+                        //                         },
+                        //                         child: Container(
+                        //                           width: 80,
+                        //                           padding: EdgeInsets.symmetric(
+                        //                               vertical: 5,
+                        //                               horizontal: 6),
+                        //                           alignment: Alignment.center,
+                        //                           decoration: BoxDecoration(
+                        //                               borderRadius:
+                        //                                   BorderRadius.circular(
+                        //                                       5.0),
+                        //                               color: AppColors.primary),
+                        //                           child: Text(
+                        //                             'Buy',
+                        //                             style: TextStyle(
+                        //                                 fontSize: 14,
+                        //                                 color: Colors.white),
+                        //                           ),
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ]),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

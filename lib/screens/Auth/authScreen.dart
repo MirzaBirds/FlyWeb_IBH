@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/screens/Auth/login.dart';
 import 'package:doctor_dreams/screens/Auth/signup.dart';
 
@@ -124,7 +125,7 @@ class _AuthScreenState extends State<AuthScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 50.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );

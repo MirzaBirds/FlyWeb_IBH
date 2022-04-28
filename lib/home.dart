@@ -1,7 +1,9 @@
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/screens/Auth/tuya/tuyaAuthScreen.dart';
 import 'package:doctor_dreams/screens/ecommerce/ProductDetail.dart';
 import 'package:doctor_dreams/screens/ecommerce/experienceCenter.dart';
 import 'package:doctor_dreams/screens/ecommerce/productCategory.dart';
+import 'package:doctor_dreams/screens/hardware/findDevice.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
@@ -113,7 +115,7 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PairDevice()));
+                              builder: (context) => TuyaAuthScreen()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -129,6 +131,42 @@ class _HomeState extends State<Home> {
                         ]),
                         Column(children: [
                           Image.asset('assets/difuuser.png',
+                              height: 130.00, fit: BoxFit.fill),
+                        ])
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                color: AppColors.secondary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 10,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FindDevice()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Column(children: [
+                          Text(
+                            "Sleep Belt",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                color: AppColors.white),
+                          ),
+                        ]),
+                        Column(children: [
+                          Image.asset('assets/wa1.png',
                               height: 130.00, fit: BoxFit.fill),
                         ])
                       ],
@@ -167,46 +205,46 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                        children: [
-                          Text(
-                            "Comfortable \nMattress",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: AppColors.white),
-                          ),
-                          Text(
-                            "perfect for peaceful sleep",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 12,
-                                color: AppColors.white),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: ButtonTheme(
-                              height: 30.0,
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  side: BorderSide(
-                                      color: Colors.white, width: 0.5),
-                                ),
-                                child: Text('Explore',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w300)),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductCategory()));
-                                },
-                              ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          children: [
+                            Text(
+                              "Comfortable \nMattress",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: AppColors.white),
                             ),
-                          ),
-                        ],
+                            Text(
+                              "perfect for peaceful sleep",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 12,
+                                  color: AppColors.white),
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        AppColors.primary),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        ProductCategory(),
+                                  ),
+                                );
+                              },
+                              child: Text('Explore'),
+                            ),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(10.0),
@@ -261,29 +299,37 @@ class _HomeState extends State<Home> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            Text(
-                              "UPTO 60% OFF",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                  color: AppColors.white),
-                            ),
-                            Text(
-                              "On Pillows",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                  fontSize: 12,
-                                  color: AppColors.white),
-                            ),
-                          ],
-                        ),
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductCategory()));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Column(
+                            children: [
+                              Text(
+                                "Offers",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    color: AppColors.white),
+                              ),
+                              // Text(
+                              //   "On Pillows",
+                              //   style: TextStyle(
+                              //       fontWeight: FontWeight.w100,
+                              //       fontSize: 12,
+                              //       color: AppColors.white),
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -339,7 +385,7 @@ class _HomeState extends State<Home> {
                               Column(
                                 children: [
                                   Text(
-                                    "SNOOZE \nZONE",
+                                    "Experience\nCenter",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28,
@@ -351,7 +397,7 @@ class _HomeState extends State<Home> {
                                 children: [
                                   Container(
                                     child: Image.asset('assets/clock.png',
-                                        height: 200.00, fit: BoxFit.fill),
+                                        height: 180.00, fit: BoxFit.fill),
                                   ),
                                 ],
                               ),

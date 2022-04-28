@@ -1,5 +1,6 @@
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
@@ -270,7 +271,6 @@ class _AddAddressState extends State<AddAddress> {
                   Padding(
                     padding: EdgeInsets.only(left: 35, right: 35, top: 16),
                     child: TextFormField(
-                      obscureText: true,
                       initialValue: conformPassword,
                       onSaved: (val) => conformPassword = val.toString(),
                       validator: (val) =>
@@ -380,7 +380,7 @@ class _AddAddressState extends State<AddAddress> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 50.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );

@@ -110,11 +110,6 @@ Widget myLayoutWidget(BuildContext context, myProfile) {
       //   launch("tel://7020699909");
       // },
     ),
-    // const Divider(
-    //   height: 10,
-    //   thickness: 1,
-    //   color: AppColors.white,
-    // ),
     SizedBox(height: 50),
     GestureDetector(
       child: Card(

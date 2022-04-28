@@ -22,7 +22,14 @@ class _CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppPrimaryBar(),
+        appBar: new AppBar(
+          backgroundColor: Colors.white,
+          elevation: 50.0,
+          brightness: Brightness.dark,
+          iconTheme: IconThemeData(color: AppColors.white),
+          title: Image.asset('assets/logo.png', height: 17.00),
+          actions: <Widget>[], //<Widget>[]
+        ),
         // drawer: AppDrawer(),
         body: Builder(builder: (BuildContext context) {
           return Padding(
@@ -73,7 +80,6 @@ class _CheckoutState extends State<Checkout> {
   }
 }
 
-
 // Widget myLayoutWidget(BuildContext context) {
 //   return Column(
 //     children: [
@@ -93,4 +99,3 @@ class _CheckoutState extends State<Checkout> {
 //       ),
 //     ],
 //   );
-

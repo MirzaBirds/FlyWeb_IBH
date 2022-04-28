@@ -163,7 +163,7 @@ class Products {
 
   static String getEssentials = '''
   query{
-  products(first: 4, query: "sleep-essentials") {
+  products(first: 5, query: "sleep-essentials") {
    edges {
         node {
           id

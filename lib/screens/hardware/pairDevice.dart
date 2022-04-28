@@ -104,11 +104,11 @@ Widget myLayoutWidget(
         alignment: Alignment.topLeft,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 30, top: 130, right: 0, bottom: 0),
+              const EdgeInsets.only(left: 30, top: 60, right: 0, bottom: 30),
           child: Text(
-            "Pair A \nDevice",
+            "Pair a Device",
             style: TextStyle(
-                fontSize: 75,
+                fontSize: 40,
                 color: AppColors.white,
                 fontWeight: FontWeight.w400),
           ),
@@ -118,7 +118,7 @@ Widget myLayoutWidget(
         alignment: Alignment.centerLeft,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 30, top: 20, right: 0, bottom: 0),
+              const EdgeInsets.only(left: 00, top: 20, right: 0, bottom: 0),
           child: Column(
             children: [
               SizedBox(height: 5),
@@ -143,7 +143,8 @@ Widget myLayoutWidget(
                       // ),
                       color: AppColors.secondary),
                   child: Text(
-                    'Tap to Pair',
+                    // 'Tap to Pair',
+                    'Sleep Belt',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
@@ -175,7 +176,7 @@ Widget myLayoutWidget(
                               );
                             },
                             child: Text(
-                              'Connect a Device',
+                              'Diffuser',
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
@@ -338,7 +339,8 @@ createAlertDialog1(BuildContext context, msg) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Doctor Dreams app collects and process your location information to enable these functions, such as pairing with your Smart Devices and non-precise geo-location when you use certain Smart Devices or the Services, such as robot cleaner and weather service"),
+          title: Text(
+              "Doctor Dreams app collects and process your location information to enable these functions, such as pairing with your Smart Devices and non-precise geo-location when you use certain Smart Devices or the Services, such as robot cleaner and weather service"),
           actions: <Widget>[
             MaterialButton(
                 elevation: 5.0,

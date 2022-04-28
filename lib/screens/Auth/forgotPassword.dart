@@ -1,5 +1,6 @@
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
@@ -26,124 +27,124 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppPrimaryBar(),
-        drawer: AppDrawer(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 6, bottom: 0, top: 100),
-                // color: Colors.red,
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(
-                    shadows: [
-                      Shadow(color: AppColors.primary, offset: Offset(0, -5))
-                    ],
-                    fontSize: 22.00,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.transparent,
-                    decoration: TextDecoration.underline,
-                    decorationColor: Colors.blue,
-                    decorationThickness: 3,
-                  ),
+      appBar: AppPrimaryBar(),
+      drawer: AppDrawer(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 6, bottom: 0, top: 100),
+              // color: Colors.red,
+              child: Text(
+                "Forgot Password",
+                style: TextStyle(
+                  shadows: [
+                    Shadow(color: AppColors.primary, offset: Offset(0, -5))
+                  ],
+                  fontSize: 22.00,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.transparent,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.blue,
+                  decorationThickness: 3,
                 ),
               ),
-              Container(
-                // padding: EdgeInsets.only(
-                //   bottom: 10.00,
-                // ),
-                height: MediaQuery.of(context).size.height * 0.40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
-                child: Form(
-                  key: key,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      // Container(
-                      //   width: double.infinity,
-                      //   height: 250.0,
-                      //   child: CustomPaint(
-                      //     painter: BlueCirclePainter(),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      // Mobile Number
-                      Column(
-                        children: <Widget>[
-                          SizedBox(
-                            width: double.infinity,
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: 40, right: 35, top: 10, bottom: 0),
-                              // color: Colors.red,
-                              child: Text(
-                                "Email",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 35, right: 35, top: 16),
-                        child: TextFormField(
-                          obscureText: true,
-                          initialValue: email,
-                          onSaved: (val) => email = val.toString(),
-                          validator: (val) => val.toString().length > 0
-                              ? null
-                              : 'Email not be empty',
-                          decoration: InputDecoration(
-                            // labelText: 'Password',
-                            hintText: 'Email',
-                            // icon: Icon(Icons.password),
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 15.0, horizontal: 20.0),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(32.0)),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.lightBlueAccent, width: 1.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(32.0)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.lightBlueAccent, width: 2.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(32.0)),
+            ),
+            Container(
+              // padding: EdgeInsets.only(
+              //   bottom: 10.00,
+              // ),
+              height: MediaQuery.of(context).size.height * 0.40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Form(
+                key: key,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    // Container(
+                    //   width: double.infinity,
+                    //   height: 250.0,
+                    //   child: CustomPaint(
+                    //     painter: BlueCirclePainter(),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // Mobile Number
+                    Column(
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                left: 40, right: 35, top: 10, bottom: 0),
+                            // color: Colors.red,
+                            child: Text(
+                              "Email",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 35, right: 35, top: 16),
+                      child: TextFormField(
+                        // obscureText: true,
+                        initialValue: email,
+                        onSaved: (val) => email = val.toString(),
+                        validator: (val) => val.toString().length > 0
+                            ? null
+                            : 'Email not be empty',
+                        decoration: InputDecoration(
+                          // labelText: 'Password',
+                          hintText: 'Email',
+                          // icon: Icon(Icons.password),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 15.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.lightBlueAccent, width: 1.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.lightBlueAccent, width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                        ),
                       ),
+                    ),
 
-                      SizedBox(
-                        height: 20.00,
-                      ),
-                      Container(
-                          padding: EdgeInsets.symmetric(horizontal: 100),
-                          child: signUp(context)),
+                    SizedBox(
+                      height: 20.00,
+                    ),
+                    Container(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: signUp(context)),
 
-                      // bottom_logo(),
-                    ],
-                  ),
+                    // bottom_logo(),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        // bottomNavigationBar: BottomNavBar()
-        );
+      ),
+      // bottomNavigationBar: BottomNavBar()
+    );
   }
 
 // Top Section Custom shapes
@@ -183,7 +184,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 50.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );
@@ -196,52 +197,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       // Check password
       print('in reset password method');
       // if (password == conformPassword) {
-      //   print("password is correct !!");
-      //   final MutationOptions options = MutationOptions(
-      //     document: gql(CustomerAuth.customerSignUp),
-      //     variables: <String, dynamic>{
-      //       "email": email,
-      //       "password": password,
-      //       "firstName": firstName,
-      //       "lastName": lastName
-      //     },
-      //   );
+      print("password is correct !!");
+      final MutationOptions options = MutationOptions(
+        document: gql(CustomerAuth.forgotPassword),
+        variables: <String, dynamic>{"email": email},
+      );
 
-      //   final QueryResult result = await _client.mutate(options);
-      //   print(result.exception);
-      //   if (result.hasException) {
-      //     print(result.exception.toString());
-      //     return;
-      //   }
+      final QueryResult result = await _client.mutate(options);
+      print(result.data);
 
-      //   if (result.data?['customerCreate']['customer'] != null) {
-      //     print("account created successfully !! . Please check your email");
-      //     // Add dialogue box : message
-      //     // reset form key
-      //     key.currentState?.reset();
-      //   } else if (result.data?['customerCreate']['customerUserErrors'][0]
-      //           ['code'] ==
-      //       "TAKEN") {
-      //     // Add dialogue box : message
-      //     print(result.data?['customerCreate']['customerUserErrors'][0]
-      //         ['message']);
-      //   } else if (result.data?['customerCreate']['customerUserErrors'][0]
-      //           ['code'] ==
-      //       "INVALID") {
-      //     // Add dialogue box : message
-      //     print(result.data?['customerCreate']['customerUserErrors'][0]
-      //         ['message']);
-      //   } else if (result.data?['customerCreate']['customerUserErrors'][0]
-      //           ['code'] ==
-      //       "PASSWORD_STARTS_OR_ENDS_WITH_WHITESPACE") {
-      //     // Add dialogue box : message
-      //     print(result.data?['customerCreate']['customerUserErrors'][0]
-      //         ['message']);
-      //   }
-      // } else {
-      //   print("password and confirm password must be same");
-      //   // Create alert box and show error
-      // }
+      if (result.hasException) {
+        print(result.exception.toString());
+        return;
+      }
+      if (result.data?['customerRecover']['customerUserErrors'].isEmpty) {
+        // print("password link share successfully over email");
+
+        createAlertDialogForgotPassword(
+            context, "Check your email to reset password");
+
+        Navigator.pop(context);
+      } else if (result.data?['customerRecover']['customerUserErrors'][0]
+              ['code'] ==
+          "UNIDENTIFIED_CUSTOMER") {
+        createAlertDialogForgotPassword(context,
+            result.data?['customerCreate']['customerUserErrors'][0]['message']);
+      } else if (result.data?['customerRecover'] == null) {
+        createAlertDialogForgotPassword(context,
+            "Resetting password limit exceeded. Please try again later.");
+      }
     } else {
       print("Validate failed");
     }
@@ -309,4 +293,22 @@ class BlueCirclePainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate != this;
   }
+}
+
+createAlertDialogForgotPassword(BuildContext context, msg) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            MaterialButton(
+                elevation: 5.0,
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
+          ],
+        );
+      });
 }

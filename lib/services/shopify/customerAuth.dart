@@ -57,10 +57,10 @@ class CustomerAuth {
     final getUserData = await SharedPreferences.getInstance();
     String userData = getUserData.getString('customerData').toString();
 
-    print("++++++++++++print Body++++++++++++++++");
-    print(userData);
+    // print("++++++++++++print Body++++++++++++++++");
+    // print(userData);
 
-    print("++++++++++++json encode++++++++++++++++");
+    // print("++++++++++++json encode++++++++++++++++");
     return userData;
   }
 
@@ -68,10 +68,17 @@ class CustomerAuth {
     final getUserData = await SharedPreferences.getInstance();
     // String userData = getUserData.getString('customerData').toString();
     String userAccessToken = getUserData.getString('accessToken').toString();
-    print("++++++++++++print Token++++++++++++++++");
-    print(userAccessToken);
-    print("++++++++++++json Token++++++++++++++++");
+    // print("++++++++++++print Token++++++++++++++++");
+    // print(userAccessToken);
+    // print("++++++++++++json Token++++++++++++++++");
     return userAccessToken;
+  }
+
+  Future<bool> removeUserAccessTokenAndData() async {
+    final getUserData = await SharedPreferences.getInstance();
+    await getUserData.remove('customerData');
+    await getUserData.remove('accessToken');
+    return true;
   }
 
   // Customer Sign-up
@@ -97,5 +104,21 @@ mutation RegisterAccount(
         }
     }
 }
+''';
+
+// forgot password
+  static String forgotPassword = '''
+mutation SendPasswordResetEmail(\$email: String!) {
+  customerRecover(email: \$email) {
+    customerUserErrors {
+      code
+      message
+    }
+    userErrors {
+      message
+    }
+  }
+}
+
 ''';
 }

@@ -1,5 +1,6 @@
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -382,7 +383,7 @@ class _SignupState extends State<Signup> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 50.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );
@@ -408,7 +409,7 @@ class _SignupState extends State<Signup> {
         );
 
         final QueryResult result = await _client.mutate(options);
-        print(result.exception);
+        print(result);
         if (result.hasException) {
           print(result.exception.toString());
           return;
@@ -424,6 +425,7 @@ class _SignupState extends State<Signup> {
         } else if (result.data?['customerCreate']['customerUserErrors'][0]
                 ['code'] ==
             "TAKEN") {
+          print("in taken");
           // Add dialogue box : message
           print(result.data?['customerCreate']['customerUserErrors'][0]
               ['message']);
@@ -452,6 +454,18 @@ class _SignupState extends State<Signup> {
               context,
               result.data?['customerCreate']['customerUserErrors'][0]
                   ['message']);
+        } else if (result.data?['customerCreate']['customerUserErrors'][0]
+                ['code'] ==
+            "TOO_SHORT") {
+          // Add dialogue box : message
+          print(result.data?['customerCreate']['customerUserErrors'][0]
+              ['message']);
+          createAlertDialog(
+              context,
+              result.data?['customerCreate']['customerUserErrors'][0]
+                  ['message']);
+        } else if (result.data?['customerCreate'] == null) {
+          print("Creating Customer Limit exceeded. Please try again later");
         }
       } else {
         print("password and confirm password must be same");

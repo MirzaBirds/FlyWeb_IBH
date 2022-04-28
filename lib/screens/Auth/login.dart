@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/home.dart';
 import 'package:doctor_dreams/screens/Auth/forgotPassword.dart';
 import 'package:flutter/material.dart';
@@ -286,7 +287,7 @@ class _LoginState extends State<Login> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 50.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );
@@ -308,14 +309,15 @@ class _LoginState extends State<Login> {
       );
 
       final QueryResult result = await _client.mutate(options);
-      print(result.exception);
+      print("+++++++++++++++Data Result ++++++++++++++++");
       print(result.data);
       if (result.hasException) {
         print(result.exception.toString());
         return;
       }
 
-      if (result.data?['customerAccessTokenCreate'] != null) {
+      if (result.data?['customerAccessTokenCreate']['customerAccessToken'] !=
+          null) {
         String customerAccessToken = result.data?['customerAccessTokenCreate']
             ['customerAccessToken']['accessToken'];
         // get user information
@@ -332,27 +334,72 @@ class _LoginState extends State<Login> {
         }
 
         if (customerInfo.data != null) {
-          print(jsonEncode(customerInfo.data).runtimeType);
-          //Store into shared preferences
-          await prefs.setString('accessToken', jsonEncode(customerAccessToken));
-          await prefs.setString(
-              'customerData', jsonEncode(customerInfo.data?['customer']));
+          if (result.data?['customerAccessTokenCreate']['customerAccessToken']
+                  ['accessToken'] !=
+              null) {
+            // reset form key
+            key.currentState?.reset();
+            print(jsonEncode(customerInfo.data).runtimeType);
+            //Store into shared preferences
+            await prefs.setString(
+                'accessToken', jsonEncode(customerAccessToken));
+            await prefs.setString(
+                'customerData', jsonEncode(customerInfo.data?['customer']));
 
-          // Navigate to home page
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Home()));
-          //TODO:TESTING --> get Shared preferences of user info
-          String getUserInfo = await CustomerAuth().getUserData();
-          String getUserAccessToken = await CustomerAuth().getUserAccessToken();
-          print("+++++++++user info based on shared preferences ++++++++");
-          print(json.decode(getUserInfo));
-          print(json.decode(getUserAccessToken));
+            // Navigate to home page
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Home()));
+            //TODO:TESTING --> get Shared preferences of user info
+            String getUserInfo = await CustomerAuth().getUserData();
+            String getUserAccessToken =
+                await CustomerAuth().getUserAccessToken();
+            print("+++++++++user info based on shared preferences ++++++++");
+            print(json.decode(getUserInfo));
+            print(json.decode(getUserAccessToken));
+          }
+          // } else if (result.data?['customerAccessTokenCreate']
+          //         ['customerUserErrors'][0]['code'] ==
+          //     "UNIDENTIFIED_CUSTOMER") {
+          //   print("Unidentified customer");
+          // } else if (result.data?['customerAccessTokenCreate'] == null) {
+          //   print("Login attempt limit exceeded. Please try again later.");
+          // }
         }
+      } else if (result.data?['customerAccessTokenCreate']['customerUserErrors']
+              [0]['code'] ==
+          "UNIDENTIFIED_CUSTOMER") {
+        createAlertDialog(context, "Email or Password in Invalid");
+      } else if (result.data?['customerAccessTokenCreate'] == null) {
+        createAlertDialog(
+            context, 'Login attempt limit exceeded. Please try again later.');
       }
+      // } else {
+      //   print("Validate failed");
+      // }
     } else {
       print("Validate failed");
     }
   }
+}
+
+// Create
+
+createAlertDialog(BuildContext context, msg) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            MaterialButton(
+                elevation: 5.0,
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
+          ],
+        );
+      });
 }
 
 class BlueCirclePainter extends CustomPainter {

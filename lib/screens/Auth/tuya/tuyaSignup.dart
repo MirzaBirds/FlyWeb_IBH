@@ -1,5 +1,6 @@
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/graphql.dart';
+import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuya_otp.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:flutter/foundation.dart';
@@ -355,7 +356,7 @@ class _TuyaSingupScreenState extends State<TuyaSingupScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(00),
-          child: Image.asset('assets/logo.png', height: 30.00),
+          child: Image.asset('assets/logo.png', height: LogoSize.height),
         ),
       ),
     );
@@ -419,7 +420,7 @@ class BlueCirclePainter extends CustomPainter {
     final textStyle = TextStyle(
         color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
     final textSpan = TextSpan(
-      text: 'Device \nRegistration',
+      text: 'Diffuser \nRegistration',
       style: textStyle,
     );
     final textPainter = TextPainter(
