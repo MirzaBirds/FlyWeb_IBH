@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
+import 'package:convert/convert.dart';
 
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
@@ -19,6 +21,35 @@ class FindDevice extends StatefulWidget {
 }
 
 class _FindDeviceState extends State<FindDevice> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Uint8List list = new Uint8List(17);
+    list[0] = 0x01;
+    list[1] = 0x12;
+    list[2] = 0x00;
+    list[3] = 0x00;
+    list[4] = 0x00;
+    list[5] = 0x00;
+    list[6] = 0x00;
+    list[7] = 0x00;
+    list[8] = 0x00;
+    list[9] = 0x00;
+    list[10] = 0x00;
+    list[11] = 0x00;
+    list[12] = 0x00;
+    list[13] = 0x00;
+    list[14] = 0x00;
+    list[15] = 0x00;
+    list[16] = 0x00;
+    print("+++++++++++++++++++++++LIST++++++++++++++++++");
+    print(list);
+
+    // final buffer = Uint16List.fromList(list).buffer;
+    // final byteDataCreator = ByteDataCreator.view(buffer);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -163,16 +194,104 @@ class FindDevicesScreen extends StatelessWidget {
 class DeviceScreen extends StatelessWidget {
   const DeviceScreen({Key? key, required this.device}) : super(key: key);
 
-  final BluetoothDevice device;
+  final BluetoothDevice? device;
+
+  static List<int> generateValue(int size) {
+    final List<int> value = List<int>.generate(size, (int index) {
+      return 0;
+    });
+    return value;
+  }
+
+  static List<int> setWeather() {
+    final List<int> value = generateValue(17);
+    value[0] = 0x01;
+    value[1] = 0x12;
+    value[2] = 0x00;
+    value[3] = 0x00;
+    value[4] = 0x00;
+    value[5] = 0x00;
+    value[6] = 0x00;
+    value[7] = 0x00;
+    value[8] = 0x00;
+    value[9] = 0x00;
+    value[10] = 0x00;
+    value[11] = 0x00;
+    value[12] = 0x00;
+    value[13] = 0x00;
+    value[14] = 0x00;
+    value[15] = 0x00;
+    value[15] = 0x00;
+    return value;
+
+    // return hex.encode(value);
+  }
 
   List<int> _getRandomBytes() {
-    final math = Random();
+    // final math = Random();
+    // Uint8List list = new Uint8List(13);
+    // list[0] = 0x01;
+    // list[1] = 0x12;
+    // list[2] = 0x00;
+    // list[3] = 0x00;
+    // list[4] = 0x00;
+    // list[5] = 0x00;
+    // list[6] = 0x00;
+    // list[7] = 0x00;
+    // list[8] = 0x00;
+    // list[9] = 0x00;
+    // list[10] = 0x00;
+    // list[11] = 0x00;
+    // list[12] = 0x00;
+    // list[13] = 0x00;
+    // list[14] = 0x00;
+    // list[16] = 0x00;
+    // list[17] = 0x00;
+    // print("+++++++++++++++++++++++LIST++++++++++++++++++");
+    print([
+      0x01,
+      0x12,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00
+    ]);
     return [
-      math.nextInt(255),
-      math.nextInt(255),
-      math.nextInt(255),
-      math.nextInt(255)
+      0x01,
+      0x12,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00
     ];
+    // return list;
+
+    // return [
+    //   math.nextInt(255),
+    //   math.nextInt(255),
+    //   math.nextInt(255),
+    //   math.nextInt(255)
+    // ];
   }
 
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
@@ -186,7 +305,7 @@ class DeviceScreen extends StatelessWidget {
                     characteristic: c,
                     onReadPressed: () => c.read(),
                     onWritePressed: () async {
-                      await c.write(_getRandomBytes(), withoutResponse: true);
+                      await c.write((setWeather()), withoutResponse: true);
                       await c.read();
                     },
                     onNotificationPressed: () async {
@@ -198,7 +317,8 @@ class DeviceScreen extends StatelessWidget {
                           (d) => DescriptorTile(
                             descriptor: d,
                             onReadPressed: () => d.read(),
-                            onWritePressed: () => d.write(_getRandomBytes()),
+                            onWritePressed: () =>
+                                d.write(Uint8List.fromList(setWeather())),
                           ),
                         )
                         .toList(),
@@ -214,21 +334,21 @@ class DeviceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(device.name),
+        title: Text(device!.name),
         actions: <Widget>[
           StreamBuilder<BluetoothDeviceState>(
-            stream: device.state,
+            stream: device!.state,
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) {
               VoidCallback? onPressed;
               String text;
               switch (snapshot.data) {
                 case BluetoothDeviceState.connected:
-                  onPressed = () => device.disconnect();
+                  onPressed = () => device!.disconnect();
                   text = 'DISCONNECT';
                   break;
                 case BluetoothDeviceState.disconnected:
-                  onPressed = () => device.connect();
+                  onPressed = () => device!.connect();
                   text = 'CONNECT';
                   break;
                 default:
@@ -253,7 +373,7 @@ class DeviceScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             StreamBuilder<BluetoothDeviceState>(
-              stream: device.state,
+              stream: device!.state,
               initialData: BluetoothDeviceState.connecting,
               builder: (c, snapshot) => ListTile(
                 leading: (snapshot.data == BluetoothDeviceState.connected)
@@ -261,16 +381,16 @@ class DeviceScreen extends StatelessWidget {
                     : Icon(Icons.bluetooth_disabled),
                 title: Text(
                     'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                subtitle: Text('${device.id}'),
+                subtitle: Text('${device!.id}'),
                 trailing: StreamBuilder<bool>(
-                  stream: device.isDiscoveringServices,
+                  stream: device!.isDiscoveringServices,
                   initialData: false,
                   builder: (c, snapshot) => IndexedStack(
                     index: snapshot.data! ? 1 : 0,
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Icons.refresh),
-                        onPressed: () => device.discoverServices(),
+                        onPressed: () => device!.discoverServices(),
                       ),
                       IconButton(
                         icon: SizedBox(
@@ -288,19 +408,19 @@ class DeviceScreen extends StatelessWidget {
               ),
             ),
             StreamBuilder<int>(
-              stream: device.mtu,
+              stream: device!.mtu,
               initialData: 0,
               builder: (c, snapshot) => ListTile(
                 title: Text('MTU Size'),
                 subtitle: Text('${snapshot.data} bytes'),
                 trailing: IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () => device.requestMtu(223),
+                  onPressed: () => device!.requestMtu(223),
                 ),
               ),
             ),
             StreamBuilder<List<BluetoothService>>(
-              stream: device.services,
+              stream: device!.services,
               initialData: [],
               builder: (c, snapshot) {
                 return Column(

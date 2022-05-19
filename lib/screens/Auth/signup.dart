@@ -22,6 +22,8 @@ class _SignupState extends State<Signup> {
   String password = '';
   String conformPassword = '';
   bool isMobileValid = true;
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
   final GraphQLClient _client = getGraphQLClient();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   @override
@@ -207,7 +209,7 @@ class _SignupState extends State<Signup> {
                 Padding(
                   padding: EdgeInsets.only(left: 35, right: 35, top: 16),
                   child: TextFormField(
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     initialValue: password,
                     onSaved: (val) => password = val.toString(),
                     validator: (val) => val.toString().length > 0
@@ -216,6 +218,21 @@ class _SignupState extends State<Signup> {
                     decoration: InputDecoration(
                       // labelText: 'Password',
                       hintText: 'Enter Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
                       // icon: Icon(Icons.password),
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
@@ -256,7 +273,7 @@ class _SignupState extends State<Signup> {
                 Padding(
                   padding: EdgeInsets.only(left: 35, right: 35, top: 16),
                   child: TextFormField(
-                    obscureText: true,
+                    obscureText: !_confirmPasswordVisible,
                     initialValue: conformPassword,
                     onSaved: (val) => conformPassword = val.toString(),
                     validator: (val) => val.toString().length > 0
@@ -266,6 +283,21 @@ class _SignupState extends State<Signup> {
                       // labelText: 'Password',
                       hintText: 'Enter Password',
                       // icon: Icon(Icons.password),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          _confirmPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            _confirmPasswordVisible = !_confirmPasswordVisible;
+                          });
+                        },
+                      ),
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 15.0, horizontal: 20.0),

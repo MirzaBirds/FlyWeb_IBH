@@ -91,44 +91,44 @@ Widget myLayoutWidget(BuildContext context, myProfile) {
       //   launch("tel://7020699909");
       // },
     ),
-    GestureDetector(
-      child: Card(
-          margin: EdgeInsets.symmetric(vertical: 10.00, horizontal: 25.00),
-          child: ListTile(
-            leading: Icon(Icons.pin_drop, color: Colors.teal),
-            title: Text(
-              myProfile['defaultAddress'] != null
-                  ? "${myProfile['defaultAddress']}"
-                  : "Address not found",
-              style: TextStyle(
-                  fontSize: 20.00,
-                  fontFamily: 'Source Sans Pro',
-                  color: Colors.teal.shade900),
-            ),
-          )),
-      // onTap: () {
-      //   launch("tel://7020699909");
-      // },
-    ),
-    SizedBox(height: 50),
-    GestureDetector(
-      child: Card(
-          margin: EdgeInsets.symmetric(vertical: 10.00, horizontal: 25.00),
-          child: ListTile(
-            leading: Icon(Icons.add, color: Colors.teal),
-            title: Text(
-              "Add new address",
-              style: TextStyle(
-                  fontSize: 20.00,
-                  fontFamily: 'Source Sans Pro',
-                  color: Colors.teal.shade900),
-            ),
-          )),
-      onTap: () {
-        print("Add new address");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddAddress()));
-      },
-    ),
+    // GestureDetector(
+    //   child: Card(
+    //       margin: EdgeInsets.symmetric(vertical: 10.00, horizontal: 25.00),
+    //       child: ListTile(
+    //         leading: Icon(Icons.pin_drop, color: Colors.teal),
+    //         title: Text(
+    //           myProfile['defaultAddress'] != null
+    //               ? "${myProfile['defaultAddress']}"
+    //               : "Address not found",
+    //           style: TextStyle(
+    //               fontSize: 20.00,
+    //               fontFamily: 'Source Sans Pro',
+    //               color: Colors.teal.shade900),
+    //         ),
+    //       )),
+    //   // onTap: () {
+    //   //   launch("tel://7020699909");
+    //   // },
+    // ),
+    // SizedBox(height: 50),
+    // GestureDetector(
+    //   child: Card(
+    //       margin: EdgeInsets.symmetric(vertical: 10.00, horizontal: 25.00),
+    //       child: ListTile(
+    //         leading: Icon(Icons.add, color: Colors.teal),
+    //         title: Text(
+    //           "Add new address",
+    //           style: TextStyle(
+    //               fontSize: 20.00,
+    //               fontFamily: 'Source Sans Pro',
+    //               color: Colors.teal.shade900),
+    //         ),
+    //       )),
+    //   onTap: () {
+    //     print("Add new address");
+    //     Navigator.push(
+    //         context, MaterialPageRoute(builder: (context) => AddAddress()));
+    //   },
+    // ),
   ]);
 }

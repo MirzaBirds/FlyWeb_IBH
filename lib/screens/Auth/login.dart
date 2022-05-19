@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
   bool isMobileValid = true;
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   final GraphQLClient _client = getGraphQLClient();
+  bool _passwordVisible = false;
 
   String login = '''
   mutation SignInWithEmailAndPassword(
@@ -147,7 +148,7 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: EdgeInsets.only(left: 35, right: 35, top: 16),
                 child: TextFormField(
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                   initialValue: password,
                   onSaved: (val) => password = val.toString(),
                   validator: (val) => val.toString().length > 0
@@ -157,6 +158,21 @@ class _LoginState extends State<Login> {
                     // labelText: 'Password',
                     hintText: 'Enter Password',
                     // icon: Icon(Icons.password),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // Update the state i.e. toogle the state of passwordVisible variable
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                     isDense: true,
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
@@ -347,8 +363,9 @@ class _LoginState extends State<Login> {
                 'customerData', jsonEncode(customerInfo.data?['customer']));
 
             // Navigate to home page
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home()));
+
+            createAlertDialogForLogin(context, "Logged In Successfully !!");
+
             //TODO:TESTING --> get Shared preferences of user info
             String getUserInfo = await CustomerAuth().getUserData();
             String getUserAccessToken =
@@ -368,7 +385,7 @@ class _LoginState extends State<Login> {
       } else if (result.data?['customerAccessTokenCreate']['customerUserErrors']
               [0]['code'] ==
           "UNIDENTIFIED_CUSTOMER") {
-        createAlertDialog(context, "Email or Password in Invalid");
+        createAlertDialog(context, "Email or Password is Invalid");
       } else if (result.data?['customerAccessTokenCreate'] == null) {
         createAlertDialog(
             context, 'Login attempt limit exceeded. Please try again later.');
@@ -396,6 +413,26 @@ createAlertDialog(BuildContext context, msg) {
                 child: Text('Close'),
                 onPressed: () {
                   Navigator.of(context).pop();
+                })
+          ],
+        );
+      });
+}
+
+createAlertDialogForLogin(BuildContext context, msg) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            MaterialButton(
+                elevation: 5.0,
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Home()));
                 })
           ],
         );

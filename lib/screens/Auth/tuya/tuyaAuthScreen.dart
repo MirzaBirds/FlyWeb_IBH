@@ -4,9 +4,11 @@ import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/config/logoSize.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuyaLogin.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuyaSignup.dart';
+import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class TuyaAuthScreen extends StatefulWidget {
   static const String id = 'tuya_auth_screen';
@@ -17,6 +19,28 @@ class TuyaAuthScreen extends StatefulWidget {
 }
 
 class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkTuyaDetails();
+  }
+
+  checkTuyaDetails() async {
+    if (await TuyaUiBizbundle.isLoggedin()) {
+      setState(() {
+        this.isLoggedIn = true;
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const PairDevice1(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

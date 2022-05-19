@@ -197,7 +197,7 @@ class _AppDrawerState extends State<AppDrawer> {
             color: AppColors.white,
           ),
           title: const Text(
-            'Doctor Dream Account Management',
+            'Doctor Dreams Account',
             style: TextStyle(fontSize: 16.00, color: AppColors.white),
           ),
           onTap: () {
@@ -290,8 +290,7 @@ class _AppDrawerState extends State<AppDrawer> {
             //     builder: (BuildContext context) => const Home(),
             //   ),
             // );
-            await launch(
-                'https://doctordreams.com/pages/doctordreams-by-nilkamal-about-us');
+            await launch('https://doctordreams.com/pages/privacy-policy');
           },
         ),
         const Divider(
@@ -430,8 +429,7 @@ class _AppDrawerState extends State<AppDrawer> {
             style: TextStyle(fontSize: 16.00, color: AppColors.white),
           ),
           onTap: () async {
-            await launch(
-                'https://doctordreams.com/pages/doctordreams-by-nilkamal-about-us');
+            await launch('https://doctordreams.com/pages/privacy-policy');
           },
         ),
       ],

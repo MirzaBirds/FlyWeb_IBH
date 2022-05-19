@@ -27,6 +27,8 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
   String email = '';
   String password = '';
   bool isMobileValid = true;
+  bool _passwordVisible = false;
+
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   final GraphQLClient _client = getGraphQLClient();
 
@@ -121,7 +123,7 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 35, right: 35, top: 16),
                 child: TextFormField(
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                   initialValue: password,
                   onSaved: (val) => password = val.toString(),
                   validator: (val) => val.toString().length > 0
@@ -129,6 +131,21 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
                       : 'Password can not be empty',
                   decoration: InputDecoration(
                     hintText: 'Enter Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // Update the state i.e. toogle the state of passwordVisible variable
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                     isDense: true,
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
@@ -249,7 +266,9 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
           await TuyaUiBizbundle.login("+91", "0", password, email);
       if (message != null) {
         if (message.startsWith("success")) {
-          Navigator.of(context).pop(true);
+          createAlertDialogForLogin(context, "Logged In Successfully !!");
+
+          // Navigator.of(context).pop(true);
         } else {
           createAlertDialog(context, message.replaceRange(0, 5, ""));
         }
@@ -342,4 +361,24 @@ class BlueCirclePainter extends CustomPainter {
           );
         });
   }
+}
+
+createAlertDialogForLogin(BuildContext context, msg) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            MaterialButton(
+                elevation: 5.0,
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PairDevice()));
+                })
+          ],
+        );
+      });
 }

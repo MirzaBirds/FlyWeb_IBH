@@ -93,8 +93,8 @@ class _ProductCategoryState extends State<ProductCategory> {
                               child: Image.asset(
                                 "assets/bed.png",
                                 fit: BoxFit.fill,
-                                width: 120,
-                                height: 120,
+                                width: 160,
+                                height: 160,
                               ),
                             )),
                       ),
@@ -184,9 +184,9 @@ class _ProductCategoryState extends State<ProductCategory> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: Image.asset(
-                                "assets/mettress.png",
+                                "assets/pillows.png",
                                 fit: BoxFit.fill,
-                                width: 120,
+                                width: 150,
                                 height: 120,
                               ),
                             )),

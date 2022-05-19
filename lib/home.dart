@@ -109,7 +109,8 @@ class _HomeState extends State<Home> {
                 ),
                 elevation: 10,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -131,7 +132,7 @@ class _HomeState extends State<Home> {
                         ]),
                         Column(children: [
                           Image.asset('assets/difuuser.png',
-                              height: 130.00, fit: BoxFit.fill),
+                              height: 140.00, fit: BoxFit.fill),
                         ])
                       ],
                     ),
@@ -145,7 +146,8 @@ class _HomeState extends State<Home> {
                 ),
                 elevation: 10,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -167,7 +169,7 @@ class _HomeState extends State<Home> {
                         ]),
                         Column(children: [
                           Image.asset('assets/wa1.png',
-                              height: 130.00, fit: BoxFit.fill),
+                              height: 110.00, fit: BoxFit.fill),
                         ])
                       ],
                     ),
@@ -193,70 +195,80 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              Card(
-                color: AppColors.secondary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                elevation: 10,
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 10, top: 8, right: 0, bottom: 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [
-                            Text(
-                              "Comfortable \nMattress",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: AppColors.white),
-                            ),
-                            Text(
-                              "perfect for peaceful sleep",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                  fontSize: 12,
-                                  color: AppColors.white),
-                            ),
-                            TextButton(
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        AppColors.primary),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => ProductCategory(),
+                    ),
+                  );
+                },
+                child: Card(
+                  color: AppColors.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 10,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.only(left: 10, top: 8, right: 0, bottom: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Comfortable \nMattress",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22,
+                                    color: AppColors.white),
                               ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        ProductCategory(),
-                                  ),
-                                );
-                              },
-                              child: Text('Explore'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            child: Image.asset('assets/bed.png',
-                                height: 130.00, fit: BoxFit.fill),
+                              Text(
+                                "perfect for peaceful sleep",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 12,
+                                    color: AppColors.white),
+                              ),
+                              // TextButton(
+                              //   style: ButtonStyle(
+                              //     foregroundColor:
+                              //         MaterialStateProperty.all<Color>(
+                              //             Colors.white),
+                              //     backgroundColor:
+                              //         MaterialStateProperty.all<Color>(
+                              //             AppColors.primary),
+                              //   ),
+                              //   onPressed: () {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute<void>(
+                              //         builder: (BuildContext context) =>
+                              //             ProductCategory(),
+                              //       ),
+                              //     );
+                              //   },
+                              //   child: Text('Explore'),
+                              // ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              child: Image.asset('assets/bed.png',
+                                  height: 130.00, fit: BoxFit.fill),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

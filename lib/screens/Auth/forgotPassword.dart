@@ -204,27 +204,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       );
 
       final QueryResult result = await _client.mutate(options);
-      print(result.data);
+      print("++++++++++++++++++++208+++++++++++++++++++++++++++");
+      print(result.data?['customerRecover']);
 
-      if (result.hasException) {
-        print(result.exception.toString());
-        return;
-      }
-      if (result.data?['customerRecover']['customerUserErrors'].isEmpty) {
-        // print("password link share successfully over email");
+      // if (result.hasException) {
+      //   print(result.exception.toString());
+      //   return;
+      // }
+      if (result.data?['customerRecover'] == null) {
+        print("++++++++++++++226+++++++++++++++");
+        createAlertDialogForgotPassword(context,
+            "Resetting password limit exceeded. Please try again after some time.");
+      } else if (result
+          .data?['customerRecover']['customerUserErrors'].isEmpty) {
+        print("password link share successfully over email");
 
         createAlertDialogForgotPassword(
             context, "Check your email to reset password");
 
-        Navigator.pop(context);
+        // Navigator.pop(context);
       } else if (result.data?['customerRecover']['customerUserErrors'][0]
               ['code'] ==
           "UNIDENTIFIED_CUSTOMER") {
-        createAlertDialogForgotPassword(context,
-            result.data?['customerCreate']['customerUserErrors'][0]['message']);
-      } else if (result.data?['customerRecover'] == null) {
-        createAlertDialogForgotPassword(context,
-            "Resetting password limit exceeded. Please try again later.");
+        print("In please check email");
+        createAlertDialogForgotPassword(
+            context, "Please check the email address");
       }
     } else {
       print("Validate failed");

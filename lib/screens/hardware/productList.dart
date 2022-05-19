@@ -139,14 +139,14 @@ class _productListState extends State<productList> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "Sleep Belt",
+                                      "Diffuser",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w300),
                                     ),
                                     Image.asset(
-                                      'assets/wa1.png',
+                                      'assets/difuuser.png',
                                       height: 130.00,
                                     ),
                                     // Text(

@@ -127,7 +127,7 @@ Widget myLayoutWidget(
         alignment: Alignment.centerLeft,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 30, top: 20, right: 0, bottom: 0),
+              const EdgeInsets.only(left: 00, top: 20, right: 0, bottom: 0),
           child: Column(
             children: [
               // SizedBox(height: 5),
@@ -257,11 +257,14 @@ Widget myLayoutWidget(
               //       )
               //     : Container(),
               (devices.length == 0)
-                  ? Text("You don't have any devices",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w400))
+                  ? Padding(
+                      padding: EdgeInsets.only(left: 32, right: 16, top: 8),
+                      child: Text("You don't have any devices",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w400)),
+                    )
                   : SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(
@@ -312,31 +315,68 @@ Widget DeviceButton(BuildContext context, String id, String name) {
   // );
   return Column(
     children: [
-      SizedBox(height: 5),
-      GestureDetector(
-        onTap: () async {
-          // print("button press");
-          String? message = await TuyaUiBizbundle.openDevicePanel(id);
-        },
-        child: Container(
-          width: 150,
-          padding: EdgeInsets.symmetric(vertical: 15),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              // borderRadius: BorderRadius.only(
-              //   topRight: Radius.circular(15),
-              //   bottomRight: Radius.circular(15),
-              //   topLeft: Radius.circular(15),
-              //   bottomLeft: Radius.circular(15),
-              // ),
-              color: AppColors.secondary),
-          child: Text(
-            name,
-            style: TextStyle(fontSize: 18, color: Colors.white),
+      // SizedBox(height: 5),
+      // GestureDetector(
+      //   onTap: () async {
+      //     // print("button press");
+      //     String? message = await TuyaUiBizbundle.openDevicePanel(id);
+      //   },
+      //   child: Container(
+      //     width: 150,
+      //     padding: EdgeInsets.symmetric(vertical: 15),
+      //     alignment: Alignment.center,
+      //     decoration: BoxDecoration(
+      //         // borderRadius: BorderRadius.only(
+      //         //   topRight: Radius.circular(15),
+      //         //   bottomRight: Radius.circular(15),
+      //         //   topLeft: Radius.circular(15),
+      //         //   bottomLeft: Radius.circular(15),
+      //         // ),
+      //         color: AppColors.secondary),
+      //     child: Text(
+      //       name,
+      //       style: TextStyle(fontSize: 18, color: Colors.white),
+      //     ),
+      //   ),
+      // ),
+      // SizedBox(height: 5),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: AppColors.secondary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          elevation: 10,
+          child: Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+            child: GestureDetector(
+              onTap: () async {
+                // print("button press");
+                String? message = await TuyaUiBizbundle.openDevicePanel(id);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                          color: AppColors.white),
+                    ),
+                  ]),
+                  Column(children: [
+                    Image.asset('assets/difuuser.png',
+                        height: 130.00, fit: BoxFit.fill),
+                  ])
+                ],
+              ),
+            ),
           ),
         ),
       ),
-      // SizedBox(height: 5),
     ],
   );
 }
@@ -354,7 +394,8 @@ createAlertDialog1(BuildContext context, msg) {
       builder: (context) {
         return AlertDialog(
           title: Text(
-              "Doctor Dreams app collects and process your location information to enable these functions, such as pairing with your Smart Devices and non-precise geo-location when you use certain Smart Devices or the Services, such as robot cleaner and weather service even when the app is closed or not in use."),
+              """1. Doctor Dreams has function in the requires you to always allow the device to access your location. 
+The data is used in when location changes in Doctor Dreams, which can still run even if the application is not in use.\n2. The access will only be used in this service and the data will not be collected and stored."""),
           actions: <Widget>[
             MaterialButton(
                 elevation: 5.0,
