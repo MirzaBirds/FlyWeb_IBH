@@ -5,6 +5,7 @@ import 'package:convert/convert.dart';
 
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
+import 'package:doctor_dreams/screens/hardware/sensor_page.dart';
 import 'package:doctor_dreams/screens/hardware/widget.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
@@ -21,6 +22,8 @@ class FindDevice extends StatefulWidget {
 }
 
 class _FindDeviceState extends State<FindDevice> {
+  bool comming_soon = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -57,16 +60,28 @@ class _FindDeviceState extends State<FindDevice> {
     return Scaffold(
       appBar: AppPrimaryBar(),
       drawer: AppDrawer(),
-      body: StreamBuilder<BluetoothState>(
-          stream: FlutterBlue.instance.state,
-          initialData: BluetoothState.unknown,
-          builder: (c, snapshot) {
-            final state = snapshot.data;
-            if (state == BluetoothState.on) {
-              return FindDevicesScreen();
-            }
-            return BluetoothOffScreen(state: state);
-          }),
+      body: comming_soon
+          ? Padding(
+              padding:
+                  const EdgeInsets.only(left: 30, top: 60, right: 0, bottom: 0),
+              child: Text(
+                "Comming Soon",
+                style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400),
+              ),
+            )
+          : StreamBuilder<BluetoothState>(
+              stream: FlutterBlue.instance.state,
+              initialData: BluetoothState.unknown,
+              builder: (c, snapshot) {
+                final state = snapshot.data;
+                if (state == BluetoothState.on) {
+                  return FindDevicesScreen();
+                }
+                return BluetoothOffScreen(state: state);
+              }),
       bottomNavigationBar: BottomNavBar(),
     );
   }
@@ -117,6 +132,7 @@ class FindDevicesScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              // Connected Devices
               StreamBuilder<List<BluetoothDevice>>(
                 stream: Stream.periodic(Duration(seconds: 2))
                     .asyncMap((_) => FlutterBlue.instance.connectedDevices),
@@ -147,6 +163,7 @@ class FindDevicesScreen extends StatelessWidget {
                       .toList(),
                 ),
               ),
+              // Scan Device
               StreamBuilder<List<ScanResult>>(
                 stream: FlutterBlue.instance.scanResults,
                 initialData: [],
@@ -159,6 +176,7 @@ class FindDevicesScreen extends StatelessWidget {
                               .push(MaterialPageRoute(builder: (context) {
                             r.device.connect();
                             return DeviceScreen(device: r.device);
+                            // return SensorPage(device: r.device);
                           })),
                         ),
                       )
@@ -193,8 +211,23 @@ class FindDevicesScreen extends StatelessWidget {
 
 class DeviceScreen extends StatelessWidget {
   const DeviceScreen({Key? key, required this.device}) : super(key: key);
-
   final BluetoothDevice? device;
+
+  /// Decimal to BCD（23 -> 0x23）
+  static int _getBcdValue(int value) {
+    String data = value.toString();
+    if (data.length > 2) data = data.substring(2);
+    return int.parse(data, radix: 16);
+  }
+
+  /// crc validation
+  static void crcValue(List<int> list) {
+    int crcValue = 0;
+    for (final int value in list) {
+      crcValue += value;
+    }
+    list[15] = crcValue & 0xff;
+  }
 
   static List<int> generateValue(int size) {
     final List<int> value = List<int>.generate(size, (int index) {
@@ -203,8 +236,60 @@ class DeviceScreen extends StatelessWidget {
     return value;
   }
 
-  static List<int> setWeather() {
-    final List<int> value = generateValue(17);
+// Initialize the data to be sent, 16 bytes, the position that is not set defaults to 0
+  static List<int> _generateInitValue() {
+    return generateValue(16);
+  }
+
+//delivery method
+
+  static List<int> setDeviceTime() {
+    final List<int> value = _generateInitValue(); //16
+    final int year = 2022;
+    final int month = 5;
+    final int day = 20;
+    final int hour = 00;
+    final int minute = 00;
+    final int second = 00;
+    value[0] = 0x01;
+    value[1] = _getBcdValue(year);
+    value[2] = _getBcdValue(month);
+    value[3] = _getBcdValue(day);
+    value[4] = _getBcdValue(hour);
+    value[5] = _getBcdValue(minute);
+    value[6] = _getBcdValue(second);
+    crcValue(value);
+    return value;
+  }
+
+  static List<int> getDeviceTime() {
+    final List<int> value = _generateInitValue(); //16
+    final int year = 2022;
+    final int month = 5;
+    final int day = 20;
+    final int hour = 00;
+    final int minute = 00;
+    final int second = 00;
+    value[0] = 0x3E;
+    // value[1] = _getBcdValue(year);
+    // value[2] = _getBcdValue(month);
+    // value[3] = _getBcdValue(day);
+    // value[4] = _getBcdValue(hour);
+    // value[5] = _getBcdValue(minute);
+    // value[6] = _getBcdValue(second);
+    crcValue(value);
+    return value;
+  }
+
+  // static List<int> generateValue(int size) {
+  //   final List<int> value = List<int>.generate(size, (int index) {
+  //     return 0;
+  //   });
+  //   return value;
+  // }
+
+  static List<int> setTime() {
+    final List<int> value = generateValue(16);
     value[0] = 0x01;
     value[1] = 0x12;
     value[2] = 0x00;
@@ -220,52 +305,11 @@ class DeviceScreen extends StatelessWidget {
     value[12] = 0x00;
     value[13] = 0x00;
     value[14] = 0x00;
-    value[15] = 0x00;
-    value[15] = 0x00;
+    value[15] = 0x19;
     return value;
-
-    // return hex.encode(value);
   }
 
   List<int> _getRandomBytes() {
-    // final math = Random();
-    // Uint8List list = new Uint8List(13);
-    // list[0] = 0x01;
-    // list[1] = 0x12;
-    // list[2] = 0x00;
-    // list[3] = 0x00;
-    // list[4] = 0x00;
-    // list[5] = 0x00;
-    // list[6] = 0x00;
-    // list[7] = 0x00;
-    // list[8] = 0x00;
-    // list[9] = 0x00;
-    // list[10] = 0x00;
-    // list[11] = 0x00;
-    // list[12] = 0x00;
-    // list[13] = 0x00;
-    // list[14] = 0x00;
-    // list[16] = 0x00;
-    // list[17] = 0x00;
-    // print("+++++++++++++++++++++++LIST++++++++++++++++++");
-    print([
-      0x01,
-      0x12,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00,
-      0x00
-    ]);
     return [
       0x01,
       0x12,
@@ -282,16 +326,8 @@ class DeviceScreen extends StatelessWidget {
       0x00,
       0x00,
       0x00,
-      0x00
+      0x19
     ];
-    // return list;
-
-    // return [
-    //   math.nextInt(255),
-    //   math.nextInt(255),
-    //   math.nextInt(255),
-    //   math.nextInt(255)
-    // ];
   }
 
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
@@ -303,22 +339,41 @@ class DeviceScreen extends StatelessWidget {
                 .map(
                   (c) => CharacteristicTile(
                     characteristic: c,
-                    onReadPressed: () => c.read(),
+                    onReadPressed: () async {
+                      var read = await c.read();
+                      print("Reading Data ......Line 307");
+                      print(read);
+                      print("Reading Data in hex...... Line 310");
+                      print(hex.encode(read));
+                    },
                     onWritePressed: () async {
-                      await c.write((setWeather()), withoutResponse: true);
-                      await c.read();
+                      await c.write(getDeviceTime(), withoutResponse: false);
+                      var read = await c.read();
+                      print("Reading Data ......Line 314");
+                      print(read);
+                      print("Reading Data in hex...... Line 312");
+                      print(hex.encode(read));
                     },
                     onNotificationPressed: () async {
                       await c.setNotifyValue(!c.isNotifying);
-                      await c.read();
+                      var read = await c.read();
+                      print("Reading Data ...... Line 318");
+                      print(read);
+                      print("Reading Data in hex......");
+                      print(hex.encode(read));
                     },
                     descriptorTiles: c.descriptors
                         .map(
                           (d) => DescriptorTile(
                             descriptor: d,
-                            onReadPressed: () => d.read(),
-                            onWritePressed: () =>
-                                d.write(Uint8List.fromList(setWeather())),
+                            onReadPressed: () async {
+                              var read = await c.read();
+                              print("Reading Data ......Line 329");
+                              print(read);
+                              print("Reading Data in hex......");
+                              print(hex.encode(read));
+                            },
+                            onWritePressed: () => d.write(getDeviceTime()),
                           ),
                         )
                         .toList(),
