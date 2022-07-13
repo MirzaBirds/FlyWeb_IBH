@@ -107,28 +107,30 @@ class _WakeUpScreen extends State<WakeUpScreen> {
     Location location = Location();
 
     bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
+    // PermissionStatus permissionGranted;
+    // LocationData locationData;
     double? lat;
     double? lon;
 
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
+    // serviceEnabled = await location.serviceEnabled();
+    // if (!serviceEnabled) {
+    //   createAlertDialog1(context, "test");
 
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
+    //   serviceEnabled = await location.requestService();
+    //   if (!serviceEnabled) {
+    //     return;
+    //   }
+    // }
 
-    locationData = await location.getLocation();
+    // permissionGranted = await location.hasPermission();
+    // if (permissionGranted == PermissionStatus.denied) {
+    //   permissionGranted = await location.requestPermission();
+    //   if (permissionGranted != PermissionStatus.granted) {
+    //     return;
+    //   }
+    // }
+
+    // locationData = await location.getLocation();
 
     // lat = locationData.latitude;
     // lon = LocationData.ling;
@@ -330,3 +332,25 @@ class _WakeUpScreen extends State<WakeUpScreen> {
         bottomNavigationBar: BottomNavBar());
   }
 }
+
+// createAlertDialog1(BuildContext context, msg) {
+//   print("in popup !! ");
+//   return showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           title: Text(
+//               """1. Doctor Dreams has function in the requires you to always allow the device to access your location. 
+// The data is used in when location changes in Doctor Dreams, which can still run even if the application is not in use.\n2. The access will only be used in this service and the data will not be collected and stored."""),
+//           actions: <Widget>[
+//             MaterialButton(
+//                 elevation: 5.0,
+//                 child: Text('Okay'),
+//                 onPressed: () async {
+//                   Navigator.of(context).pop();
+//                   await permission.location.request();
+//                 })
+//           ],
+//         );
+//       });
+// }
