@@ -598,7 +598,7 @@ packages:
   tuya_ui_bizbundle:
     dependency: "direct main"
     description:
-      path: "../tuyauibizbundle-main"
+      path: "../tuya_ui_bizbundle"
       relative: true
     source: path
     version: "0.0.1"
