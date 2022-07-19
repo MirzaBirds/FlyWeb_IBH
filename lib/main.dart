@@ -8,6 +8,7 @@ import 'package:doctor_dreams/screens/Auth/tuya/tuyaSignup.dart';
 import 'package:doctor_dreams/screens/Auth/tuya/tuya_otp.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/reportDevice.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 

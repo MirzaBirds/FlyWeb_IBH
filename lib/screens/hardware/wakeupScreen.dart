@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:doctor_dreams/screens/hardware/sleep_belt/accountManagement.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/reportDevice.dart';
 import 'package:doctor_dreams/utils.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
@@ -11,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+
+import '../../config/appColors.dart';
 
 /*
   The screen after user wakes up.
@@ -270,7 +275,9 @@ class _WakeUpScreen extends State<WakeUpScreen> {
                 ),
         ));
 
-    return Scaffold(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
 //         appBar: AppBar(
 //           leading: IconButton(
 //             icon: Icon(Icons.clear),
@@ -302,34 +309,46 @@ class _WakeUpScreen extends State<WakeUpScreen> {
 //             style: TextStyle(color: Theme.of(context).primaryColor),
 //           ),
 //         ),
-        appBar: AppPrimaryBar(),
-        drawer: AppDrawer(),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
+          appBar: AppPrimaryBar(),
+          drawer: AppDrawer(),
+          body: Column(
+            children:[
               SizedBox(
                 height: 5,
               ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Text(
-                  TimeUtils.dayFormat(DateTime.now()),
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 30),
+              TabBar(
+                indicatorColor:  AppColors.primary,
+                labelColor:  AppColors.primary,
+                unselectedLabelColor: Colors.grey,
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    text: "Report",
+
+                  ),
+                  Tab(
+                    text: "Monitor",
+                  ),
+                  Tab(
+                    text: "Account",
+                  ),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    ReportDeviceScreen(),
+                    MonitorDeviceScreen(),
+                    AccountManagementScreen(),
+                  ],
                 ),
               ),
-              weatherWidget,
-              SizedBox(
-                height: 10,
-              ),
-              WakeupList(_sleepDuration, _averageSleep, _sleepGoToBed,
-                  _averageGoToBed, _sleepWakeup, _averageWakeup),
+             /* WakeupList(_sleepDuration, _averageSleep, _sleepGoToBed,
+                  _averageGoToBed, _sleepWakeup, _averageWakeup),*/
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavBar());
+          bottomNavigationBar: BottomNavBar()),
+    );
   }
 }
 
