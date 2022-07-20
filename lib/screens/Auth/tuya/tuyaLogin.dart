@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TuyaLoginScreen extends StatefulWidget {
@@ -256,28 +256,24 @@ class _TuyaLoginScreenState extends State<TuyaLoginScreen> {
 
     // Just for the testing purpose
 
-    if (key.currentState!.validate()) {
-      //TODO:
-      // initialize the shared preferences
-      // customer login with email and password
-      // Create login payload and call login api/function
+    // if (key.currentState!.validate()) {
 
-      String? message =
-          await TuyaUiBizbundle.login("+91", "0", password, email);
-      if (message != null) {
-        if (message.startsWith("success")) {
-          createAlertDialogForLogin(context, "Logged In Successfully !!");
+    //   String? message =
+    //       await TuyaUiBizbundle.login("+91", "0", password, email);
+    //   if (message != null) {
+    //     if (message.startsWith("success")) {
+    //       createAlertDialogForLogin(context, "Logged In Successfully !!");
 
-          // Navigator.of(context).pop(true);
-        } else {
-          createAlertDialog(context, message.replaceRange(0, 5, ""));
-        }
-      } else {
-        createAlertDialog(context, "Error loging in");
-      }
-    } else {
-      print("Validate failed");
-    }
+    //       // Navigator.of(context).pop(true);
+    //     } else {
+    //       createAlertDialog(context, message.replaceRange(0, 5, ""));
+    //     }
+    //   } else {
+    //     createAlertDialog(context, "Error loging in");
+    //   }
+    // } else {
+    //   print("Validate failed");
+    // }
   }
 }
 

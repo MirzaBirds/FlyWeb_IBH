@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class PairDevice extends StatefulWidget {
   static const String id = 'pair_device';
@@ -39,51 +39,51 @@ class _PairDeviceState extends State<PairDevice> {
 
   void checkTuyaDetails() async {
     print("checkTuya 1");
-    if (await TuyaUiBizbundle.isLoggedin()) {
-      setState(() {
-        this.isLoggedIn = true;
-      });
-      print("checkTuya 2");
+    // if (await TuyaUiBizbundle.isLoggedin()) {
+    //   setState(() {
+    //     this.isLoggedIn = true;
+    //   });
+    //   print("checkTuya 2");
 
-      print("checkTuya 4");
-      /*bool bluetoothStatus=await Permission.bluetooth.isGranted;
-      print("blueTooth permission");
-      print(bluetoothStatus);
-      if(!bluetoothStatus){
-        await Permission.bluetooth.request();
-      }*/
-      bool locationStatus = await Permission.location.isGranted;
-      print("location Status");
-      print(locationStatus);
-      if (!locationStatus) {
-        createAlertDialog1(context, "test");
-        // await Permission.location.request();
-      }
-      /*bool blueToothIsOn=await FlutterBlue.instance.isOn;
-      print("blueToothisOn");
-      print(blueToothIsOn);
-      if(!blueToothIsOn) {
-        AppSettings.openBluetoothSettings();
-      }*/
-      String? message = await TuyaUiBizbundle.getDeviceList();
-      print("checkTuya 3");
-      if (message != null) {
-        if (message.startsWith("success")) {
-          String jsonString = message.replaceRange(0, 7, "");
-          List jsonArray = jsonDecode(jsonString);
-          List<Device> tmpDevices = [];
-          for (int i = 0; i < jsonArray.length; i++) {
-            tmpDevices.add(Device(jsonArray[i]['id'], jsonArray[i]['name']));
-          }
+    //   print("checkTuya 4");
+    //   /*bool bluetoothStatus=await Permission.bluetooth.isGranted;
+    //   print("blueTooth permission");
+    //   print(bluetoothStatus);
+    //   if(!bluetoothStatus){
+    //     await Permission.bluetooth.request();
+    //   }*/
+    //   bool locationStatus = await Permission.location.isGranted;
+    //   print("location Status");
+    //   print(locationStatus);
+    //   if (!locationStatus) {
+    //     createAlertDialog1(context, "test");
+    //     // await Permission.location.request();
+    //   }
+    //   /*bool blueToothIsOn=await FlutterBlue.instance.isOn;
+    //   print("blueToothisOn");
+    //   print(blueToothIsOn);
+    //   if(!blueToothIsOn) {
+    //     AppSettings.openBluetoothSettings();
+    //   }*/
+    //   String? message = await TuyaUiBizbundle.getDeviceList();
+    //   print("checkTuya 3");
+    //   if (message != null) {
+    //     if (message.startsWith("success")) {
+    //       String jsonString = message.replaceRange(0, 7, "");
+    //       List jsonArray = jsonDecode(jsonString);
+    //       List<Device> tmpDevices = [];
+    //       for (int i = 0; i < jsonArray.length; i++) {
+    //         tmpDevices.add(Device(jsonArray[i]['id'], jsonArray[i]['name']));
+    //       }
 
-          setState(() {
-            devices = tmpDevices;
-          });
-        } else {
-          print(message);
-        }
-      }
-    }
+    //       setState(() {
+    //         devices = tmpDevices;
+    //       });
+    //     } else {
+    //       print(message);
+    //     }
+    //   }
+    // }
   }
 
   @override
@@ -457,7 +457,7 @@ Widget DeviceButton(BuildContext context, String id, String name) {
           child: GestureDetector(
             onTap: () async {
               // print("button press");
-              String? message = await TuyaUiBizbundle.openDevicePanel(id);
+              // String? message = await TuyaUiBizbundle.openDevicePanel(id);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -551,7 +551,7 @@ Step 3 - connect with it and enjoy!!'''),
                 child: Text('Okay'),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  TuyaUiBizbundle.devicePair();
+                  // TuyaUiBizbundle.devicePair();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => PairDevice1()));
                 })
