@@ -6,7 +6,7 @@ import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class TuyaSingupScreen extends StatefulWidget {
   static const String id = 'tuya_singup_screen';
@@ -402,44 +402,44 @@ class _TuyaSingupScreenState extends State<TuyaSingupScreen> {
     //Navigator.push(
     //   context, MaterialPageRoute(builder: (context) => TuyaOtpScreen()));
 
-    if (key.currentState!.validate()) {
-      print("form is validated");
-      // Check password
+    // if (key.currentState!.validate()) {
+    //   print("form is validated");
+    //   // Check password
 
-      if (password == conformPassword) {
-        print("password is correct !!");
+    //   if (password == conformPassword) {
+    //     print("password is correct !!");
 
-        //TODO: Create a payload all singup function
+    //     //TODO: Create a payload all singup function
 
-        //TODO: trigger OTP screen
-        String? message = await TuyaUiBizbundle.getOtp("+91", "0", email);
-        if (message != null) {
-          if (message.startsWith("success")) {
-            Navigator.of(context)
-                .pushReplacement(
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      TuyaOtpScreen(email: email, password: password)),
-            )
-                .then((value) {
-              if (value) {
-                Navigator.of(context).pop(true);
-              }
-            });
-          } else {
-            createAlertDialog(context, message.replaceRange(0, 5, ""));
-          }
-        } else {
-          createAlertDialog(context, "Error Signing up");
-        }
-      } else {
-        print("password and confirm password must be same");
-        createAlertDialog(
-            context, 'Password and confirm password must be same');
-      }
-    } else {
-      print("Validate failed");
-    }
+    //     //TODO: trigger OTP screen
+    //     String? message = await TuyaUiBizbundle.getOtp("+91", "0", email);
+    //     if (message != null) {
+    //       if (message.startsWith("success")) {
+    //         Navigator.of(context)
+    //             .pushReplacement(
+    //           MaterialPageRoute(
+    //               builder: (BuildContext context) =>
+    //                   TuyaOtpScreen(email: email, password: password)),
+    //         )
+    //             .then((value) {
+    //           if (value) {
+    //             Navigator.of(context).pop(true);
+    //           }
+    //         });
+    //       } else {
+    //         createAlertDialog(context, message.replaceRange(0, 5, ""));
+    //       }
+    //     } else {
+    //       createAlertDialog(context, "Error Signing up");
+    //     }
+    //   } else {
+    //     print("password and confirm password must be same");
+    //     createAlertDialog(
+    //         context, 'Password and confirm password must be same');
+    //   }
+    // } else {
+    //   print("Validate failed");
+    // }
   }
 }
 
