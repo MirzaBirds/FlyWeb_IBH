@@ -1,3 +1,4 @@
+import 'package:doctor_dreams/screens/hardware/sleep_belt/pairDeviceScreen.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/userPersonalInfo.dart';
 import 'package:flutter/material.dart';
 
@@ -61,6 +62,10 @@ class _AccountManagementState extends State<AccountManagementScreen> {
                     child: InkWell(
                       onTap: () {
                         if (listTitle[index] == "Pair Device") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PairDeviceScreen()));
                         } else if (listTitle[index] == "Battery Level") {
                         } else if (listTitle[index] ==
                             "User Personal Information") {

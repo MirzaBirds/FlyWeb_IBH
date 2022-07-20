@@ -1,6 +1,7 @@
 import 'package:doctor_dreams/config/appColors.dart';
 import 'package:doctor_dreams/screens/ecommerce/ProductDetailWebView.dart';
 import 'package:doctor_dreams/screens/hardware/findDevice.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/pairDeviceScreen.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
@@ -47,7 +48,7 @@ class _productListState extends State<productList> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (BuildContext context) => FindDevice()),
+                              builder: (BuildContext context) => PairDeviceScreen()),
                         );
                       },
                       child: Card(

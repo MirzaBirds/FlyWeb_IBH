@@ -5,6 +5,7 @@ import 'package:doctor_dreams/screens/ecommerce/experienceCenter.dart';
 import 'package:doctor_dreams/screens/ecommerce/productCategory.dart';
 import 'package:doctor_dreams/screens/hardware/findDevice.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/pairDeviceScreen.dart';
 import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
@@ -153,7 +154,7 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FindDevice()));
+                              builder: (context) => PairDeviceScreen()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

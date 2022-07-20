@@ -1,4 +1,5 @@
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/utilities/my_preference.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,37 @@ class UserPersonalInfo extends StatefulWidget {
 }
 
 class _UserPersonalInfoState extends State<UserPersonalInfo> {
-  int _selectedGenderValue = 0;
+  String _selectedGenderValue = "Select Gender";
+  String _selectedHeightValue = "Select Height";
+  String _selectedWeightValue = "Select Weight";
+  String _selectedBirthdayValue = "Select DD-MM-YYYY";
+
+  @override
+  void initState() {
+    super.initState();
+    _getValues();
+  }
+
+  _getValues() async {
+    if (await MyPreference.getStringToSF(MyPreference.gender) != null) {
+      _selectedGenderValue =
+          await MyPreference.getStringToSF(MyPreference.gender);
+    }
+    if (await MyPreference.getStringToSF(MyPreference.height) != null) {
+      _selectedHeightValue =
+          await MyPreference.getStringToSF(MyPreference.height);
+    }
+    if (await MyPreference.getStringToSF(MyPreference.weight) != null) {
+      _selectedWeightValue =
+          await MyPreference.getStringToSF(MyPreference.weight);
+    }
+    if (await MyPreference.getStringToSF(MyPreference.birthday) != null) {
+      _selectedBirthdayValue =
+          await MyPreference.getStringToSF(MyPreference.birthday);
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +108,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                     Row(
                       children: [
                         Text(
-                          "Male",
+                          _selectedGenderValue,
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
@@ -131,7 +162,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                     Row(
                       children: [
                         Text(
-                          "30cm",
+                          _selectedHeightValue,
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
@@ -185,7 +216,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                     Row(
                       children: [
                         Text(
-                          "50kg",
+                          _selectedWeightValue,
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
@@ -229,7 +260,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                     Row(
                       children: [
                         Text(
-                          "2022-07-10",
+                          _selectedBirthdayValue,
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
@@ -247,18 +278,21 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
           SizedBox(
             height: 30,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: AppColors.secondary,
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-            ),
-            onPressed: () {},
-            child: Text(
-              "Save",
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                  color: AppColors.white),
+          Visibility(
+            visible: false,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.secondary,
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              ),
+              onPressed: () {},
+              child: Text(
+                "Save",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    color: AppColors.white),
+              ),
             ),
           )
         ],
@@ -284,7 +318,9 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                             Icons.close,
                             color: AppColors.primary,
                           ),
-                          onPressed: () {}),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
                       Flexible(
                         child: Text(
                           "Gender",
@@ -300,7 +336,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                             color: AppColors.primary,
                           ),
                           onPressed: () {
-                            //Navigator.of(context).pop();
+                            Navigator.of(context).pop();
                           }),
                     ],
                   ),
@@ -313,13 +349,27 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                         FixedExtentScrollController(initialItem: 0),
                     children: widgetList,
                     onSelectedItemChanged: (value) {
-                       setState(() {
-                        _selectedGenderValue = value;
+                      setState(() {
                         print(value);
                         if (titleValue == "Gender") {
+                          if (value == 0) {
+                            MyPreference.addStringToSF(
+                                MyPreference.gender, "Female");
+                            _selectedGenderValue = "Female";
+                          } else {
+                            MyPreference.addStringToSF(
+                                MyPreference.gender, "Male");
+                            _selectedGenderValue = "Male";
+                          }
                         } else if (titleValue == "Height") {
-                        } else if (titleValue == "weight") {
-                        } else if (titleValue == "Birthday") {}
+                          MyPreference.addStringToSF(
+                              MyPreference.height, "${value + 30} cm");
+                          _selectedHeightValue = "${value + 30} cm";
+                        } else if (titleValue == "Weight") {
+                          MyPreference.addStringToSF(
+                              MyPreference.weight, "${value + 3} kg");
+                          _selectedWeightValue = "${value + 3} kg";
+                        }
                       });
                     },
                   ),
@@ -386,6 +436,11 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                         initialDateTime: DateTime(1969, 1, 1),
                         onDateTimeChanged: (DateTime newDateTime) {
                           // Do something
+                          setState((){
+                            _selectedBirthdayValue = "${newDateTime.day}-${newDateTime.month}-${newDateTime.year}";
+                          });
+                          MyPreference.addStringToSF(
+                              MyPreference.birthday, "${newDateTime.day}-${newDateTime.month}-${newDateTime.year}");
                           print(newDateTime);
                         },
                       ),
