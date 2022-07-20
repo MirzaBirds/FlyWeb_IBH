@@ -1,4 +1,5 @@
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserPersonalInfo extends StatefulWidget {
@@ -9,6 +10,8 @@ class UserPersonalInfo extends StatefulWidget {
 }
 
 class _UserPersonalInfoState extends State<UserPersonalInfo> {
+  int _selectedGenderValue = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,24 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
           Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                showPicker("Gender", [
+                  Text(
+                    "Female",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: AppColors.primary),
+                  ),
+                  Text(
+                    "Male",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: AppColors.primary),
+                  ),
+                ]);
+              },
               child: Container(
                 color: AppColors.primary,
                 padding: const EdgeInsets.all(10.0),
@@ -75,7 +95,19 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
           Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                List<Widget> list = [];
+                for (int i = 30; i < 231; i++) {
+                  list.add(Text(
+                    "${i} cm",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: AppColors.primary),
+                  ));
+                }
+                showPicker("Height", list);
+              },
               child: Container(
                 color: AppColors.primary,
                 padding: const EdgeInsets.all(10.0),
@@ -117,7 +149,19 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
           Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                List<Widget> list = [];
+                for (int i = 3; i < 220; i++) {
+                  list.add(Text(
+                    "${i} kg",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: AppColors.primary),
+                  ));
+                }
+                showPicker("Weight", list);
+              },
               child: Container(
                 color: AppColors.primary,
                 padding: const EdgeInsets.all(10.0),
@@ -159,7 +203,9 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
           Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                showPickerDate();
+              },
               child: Container(
                 color: AppColors.primary,
                 padding: const EdgeInsets.all(10.0),
@@ -206,9 +252,7 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
               primary: AppColors.secondary,
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () {
-
-            },
+            onPressed: () {},
             child: Text(
               "Save",
               style: TextStyle(
@@ -216,10 +260,141 @@ class _UserPersonalInfoState extends State<UserPersonalInfo> {
                   fontSize: 16,
                   color: AppColors.white),
             ),
-
           )
         ],
       ),
     );
+  }
+
+  showPicker(String titleValue, List<Widget> widgetList) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 200,
+            child: Column(
+              children: [
+                Container(
+                  color: AppColors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            Icons.close,
+                            color: AppColors.primary,
+                          ),
+                          onPressed: () {}),
+                      Flexible(
+                        child: Text(
+                          "Gender",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: AppColors.primary),
+                        ),
+                      ),
+                      IconButton(
+                          icon: Icon(
+                            Icons.done,
+                            color: AppColors.primary,
+                          ),
+                          onPressed: () {
+                            //Navigator.of(context).pop();
+                          }),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: CupertinoPicker(
+                    backgroundColor: Colors.white,
+                    itemExtent: 32,
+                    scrollController:
+                        FixedExtentScrollController(initialItem: 0),
+                    children: widgetList,
+                    onSelectedItemChanged: (value) {
+                       setState(() {
+                        _selectedGenderValue = value;
+                        print(value);
+                        if (titleValue == "Gender") {
+                        } else if (titleValue == "Height") {
+                        } else if (titleValue == "weight") {
+                        } else if (titleValue == "Birthday") {}
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  showPickerDate() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 300,
+            child: Column(
+              children: [
+                Container(
+                  color: AppColors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            Icons.close,
+                            color: AppColors.primary,
+                          ),
+                          onPressed: () {}),
+                      Flexible(
+                        child: Text(
+                          "Gender",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: AppColors.primary),
+                        ),
+                      ),
+                      IconButton(
+                          icon: Icon(
+                            Icons.done,
+                            color: AppColors.primary,
+                          ),
+                          onPressed: () {
+                            //Navigator.of(context).pop();
+                          }),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 200,
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18,
+                              color: AppColors.primary),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.date,
+                        initialDateTime: DateTime(1969, 1, 1),
+                        onDateTimeChanged: (DateTime newDateTime) {
+                          // Do something
+                          print(newDateTime);
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
