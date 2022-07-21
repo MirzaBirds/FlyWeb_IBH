@@ -121,4 +121,16 @@ mutation SendPasswordResetEmail(\$email: String!) {
 }
 
 ''';
+
+  static String deleteAccount = '''
+mutation customerDelete(\$input: String!) {
+  customerDelete(input: \$input) {
+    deletedCustomerId
+    
+    userErrors {
+      field
+      message
+    }
+  }
+}''';
 }
