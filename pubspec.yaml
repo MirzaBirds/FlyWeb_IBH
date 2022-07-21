@@ -37,8 +37,8 @@ dependencies:
   location: ^4.3.0
   http: ^0.13.4
   charcode: ^1.2.0
-  tuya_ui_bizbundle:
-    path: ../tuya_ui_bizbundle
+  # tuya_ui_bizbundle:
+  #   path: ../tuya_ui_bizbundle
   permission_handler: ^9.2.0
   app_settings: ^4.1.1
   webview_flutter: ^3.0.1

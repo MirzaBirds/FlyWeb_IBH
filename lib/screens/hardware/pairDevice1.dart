@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:doctor_dreams/config/appColors.dart';
@@ -13,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class PairDevice1 extends StatefulWidget {
   static const String id = 'pair_device1';
@@ -37,51 +38,46 @@ class _PairDevice1State extends State<PairDevice1> {
 
   void checkTuyaDetails() async {
     print("checkTuya 1");
-    if (await TuyaUiBizbundle.isLoggedin()) {
-      setState(() {
-        this.isLoggedIn = true;
-      });
-      print("checkTuya 2");
+    // if (await TuyaUiBizbundle.isLoggedin()) {
+    //   setState(() {
+    //     this.isLoggedIn = true;
+    //   });
+    //   print("checkTuya 2");
 
-      print("checkTuya 4");
-      /*bool bluetoothStatus=await Permission.bluetooth.isGranted;
-      print("blueTooth permission");
-      print(bluetoothStatus);
-      if(!bluetoothStatus){
-        await Permission.bluetooth.request();
-      }*/
-      bool locationStatus = await Permission.location.isGranted;
-      print("location Status");
-      print(locationStatus);
-      if (!locationStatus) {
-        createAlertDialog1(context, "test");
-        // await Permission.location.request();
-      }
-      /*bool blueToothIsOn=await FlutterBlue.instance.isOn;
-      print("blueToothisOn");
-      print(blueToothIsOn);
-      if(!blueToothIsOn) {
-        AppSettings.openBluetoothSettings();
-      }*/
-      String? message = await TuyaUiBizbundle.getDeviceList();
-      print("checkTuya 3");
-      if (message != null) {
-        if (message.startsWith("success")) {
-          String jsonString = message.replaceRange(0, 7, "");
-          List jsonArray = jsonDecode(jsonString);
-          List<Device> tmpDevices = [];
-          for (int i = 0; i < jsonArray.length; i++) {
-            tmpDevices.add(Device(jsonArray[i]['id'], jsonArray[i]['name']));
-          }
+    //   print("checkTuya 4");
 
-          setState(() {
-            devices = tmpDevices;
-          });
-        } else {
-          print(message);
-        }
-      }
-    }
+    //   bool locationStatus = await Permission.location.isGranted;
+    //   print("location Status");
+    //   print(locationStatus);
+    //   if (!locationStatus) {
+    //     createAlertDialog1(context, "test");
+    //     // await Permission.location.request();
+    //   }
+    //   /*bool blueToothIsOn=await FlutterBlue.instance.isOn;
+    //   print("blueToothisOn");
+    //   print(blueToothIsOn);
+    //   if(!blueToothIsOn) {
+    //     AppSettings.openBluetoothSettings();
+    //   }*/
+    //   // String? message = await TuyaUiBizbundle.getDeviceList();
+    //   print("checkTuya 3");
+    //   if (message != null) {
+    //     if (message.startsWith("success")) {
+    //       String jsonString = message.replaceRange(0, 7, "");
+    //       List jsonArray = jsonDecode(jsonString);
+    //       List<Device> tmpDevices = [];
+    //       for (int i = 0; i < jsonArray.length; i++) {
+    //         tmpDevices.add(Device(jsonArray[i]['id'], jsonArray[i]['name']));
+    //       }
+
+    //       setState(() {
+    //         devices = tmpDevices;
+    //       });
+    //     } else {
+    //       print(message);
+    //     }
+    //   }
+    // }
   }
 
   @override
@@ -105,6 +101,8 @@ class _PairDevice1State extends State<PairDevice1> {
   }
 }
 
+late List<BluetoothService> _services;
+
 Widget myLayoutWidget(
     BuildContext context, bool isLoggedIn, List<Device> devices) {
   return Column(
@@ -113,7 +111,7 @@ Widget myLayoutWidget(
         alignment: Alignment.topLeft,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 30, top: 60, right: 0, bottom: 0),
+               EdgeInsets.only(left: 10, top: 60, right: 0, bottom: 0),
           child: Text(
             "Your Devices",
             style: TextStyle(
@@ -126,8 +124,7 @@ Widget myLayoutWidget(
       Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 00, top: 20, right: 0, bottom: 0),
+          padding: EdgeInsets.only(left: 00, top: 20, right: 0, bottom: 0),
           child: Column(
             children: [
               // SizedBox(height: 5),
@@ -256,7 +253,7 @@ Widget myLayoutWidget(
               //         ],
               //       )
               //     : Container(),
-              (devices.length == 0)
+              (devices.length != 0)
                   ? Padding(
                       padding: EdgeInsets.only(left: 32, right: 16, top: 8),
                       child: Text("You don't have any devices",
@@ -269,6 +266,164 @@ Widget myLayoutWidget(
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
+                          Visibility(
+                            visible: false,
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(
+                                  right: 15, left: 15, top: 10),
+                              child: Text(
+                                'PAIRED',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: AppColors.white),
+                              ),
+                            ),
+                          ),
+                          StreamBuilder<List<BluetoothDevice>>(
+                            stream: Stream.periodic(Duration(seconds: 2)).asyncMap(
+                                    (_) => FlutterBlue.instance.connectedDevices),
+                            initialData: [],
+                            builder: (c, snapshot) => Column(
+                              children: snapshot.data!
+                                  .map((d) => Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                     EdgeInsets.only(top: 10.0),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        try {
+                                          await d.connect();
+                                        } catch (e) {
+                                          if (e != 'already_connected') {
+                                            throw e;
+                                          }
+                                        } finally {
+                                          _services =
+                                          await d.discoverServices();
+                                          //Navigator.pop(context);
+                                          log(_services.toString());
+                                        }
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.white,
+                                          border: Border.all(
+                                            color: AppColors.white,
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                        ),
+                                        child: ListTile(
+                                          title: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                  Icons
+                                                      .battery_charging_full,
+                                                  size: 20,
+                                                  color: AppColors.primary),
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.only(
+                                                    left: 4.0),
+                                                child: Text(
+                                                  d.name,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.normal,
+                                                      fontSize: 14,
+                                                      color:
+                                                      AppColors.primary),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          trailing: StreamBuilder<
+                                              BluetoothDeviceState>(
+                                            stream: d.state,
+                                            initialData:
+                                            BluetoothDeviceState
+                                                .disconnected,
+                                            builder: (c, snapshot) {
+                                              if (snapshot.data ==
+                                                  BluetoothDeviceState
+                                                      .connected) {
+                                                return Container(
+                                                  width: 200,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .end,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(
+                                                            left: 4.0),
+                                                        child: Icon(
+                                                            Icons
+                                                                .bluetooth_audio,
+                                                            size: 20,
+                                                            color: AppColors
+                                                                .primary),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(
+                                                            left: 4.0),
+                                                        child: Visibility(
+                                                          visible: false,
+                                                          child: Text(
+                                                            "${double.parse("10")}",
+                                                            style: Theme.of(
+                                                                context)
+                                                                .textTheme
+                                                                .subtitle1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(
+                                                            left: 4.0),
+                                                        child: Visibility(
+                                                          visible: false,
+                                                          child: Icon(
+                                                              Icons
+                                                                  .battery_full,
+                                                              size: 20,
+                                                              color: AppColors
+                                                                  .primary),
+                                                        ),
+                                                      ),
+                                                      Icon(
+                                                          Icons
+                                                              .arrow_forward_ios,
+                                                          size: 20,
+                                                          color: AppColors
+                                                              .primary),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                              return Text(
+                                                  snapshot.data.toString());
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ))
+                                  .toList(),
+                            ),
+                          ),
                           for (int i = 0; i < devices.length; i++)
                             DeviceButton(context, devices[i].deviceId,
                                 devices[i].deviceName),
@@ -353,7 +508,7 @@ Widget DeviceButton(BuildContext context, String id, String name) {
             child: GestureDetector(
               onTap: () async {
                 // print("button press");
-                String? message = await TuyaUiBizbundle.openDevicePanel(id);
+                // String? message = await TuyaUiBizbundle.openDevicePanel(id);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

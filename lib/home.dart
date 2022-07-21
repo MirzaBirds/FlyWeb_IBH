@@ -5,12 +5,13 @@ import 'package:doctor_dreams/screens/ecommerce/experienceCenter.dart';
 import 'package:doctor_dreams/screens/ecommerce/productCategory.dart';
 import 'package:doctor_dreams/screens/hardware/findDevice.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/pairDeviceScreen.dart';
 import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 import 'dart:io' show Platform;
 
 class Home extends StatefulWidget {
@@ -32,8 +33,8 @@ class _HomeState extends State<Home> {
       // TuyaUiBizbundle.init(
       //     "uxssy9xcsxv7ft599e75", "jjpvyc9td7f7v9u43hks99dsq3d3eqgy");
       // new with new package name
-      TuyaUiBizbundle.init(
-          "5tvf57kk45j8gkm5cjwu", "kjy7v84ffgvsxwfnsxhrwqwamw49y7fd");
+      // TuyaUiBizbundle.init(
+      //     "5tvf57kk45j8gkm5cjwu", "kjy7v84ffgvsxwfnsxhrwqwamw49y7fd");
     }
   }
 
@@ -113,10 +114,10 @@ class _HomeState extends State<Home> {
                       EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TuyaAuthScreen()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => TuyaAuthScreen()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -153,7 +154,7 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FindDevice()));
+                              builder: (context) => PairDeviceScreen()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
