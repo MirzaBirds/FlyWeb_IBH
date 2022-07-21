@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:doctor_dreams/config/appColors.dart';
+import 'package:doctor_dreams/config/graphql.dart';
 import 'package:doctor_dreams/home.dart';
 import 'package:doctor_dreams/screens/Auth/authScreen.dart';
 import 'package:doctor_dreams/screens/Auth/login.dart';
@@ -10,6 +11,7 @@ import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -22,7 +24,8 @@ class _AppDrawerState extends State<AppDrawer> {
   var getUserAccessToken;
   var userData;
   bool isToken = false;
-
+  final GraphQLClient _client = getGraphQLClient();
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
   void initState() {
     getUserData();
 
@@ -31,8 +34,8 @@ class _AppDrawerState extends State<AppDrawer> {
 
   Future<void> getUserData() async {
     var getUserInfo = json.decode(await CustomerAuth().getUserData());
-    // print("++++++++++++++++++++++user Data++++++++++++++++++++");
-
+    print("++++++++++++++++++++++user Data++++++++++++++++++++");
+    print(getUserInfo);
     setState(() {
       userData = getUserInfo;
     });
@@ -330,6 +333,38 @@ class _AppDrawerState extends State<AppDrawer> {
           thickness: 1,
           color: AppColors.white,
         ),
+        ListTile(
+          tileColor: AppColors.white,
+          leading: const Icon(
+            Icons.delete,
+            color: AppColors.white,
+          ),
+          title: const Text(
+            'Logout for Doctor Dreams Account',
+            style: TextStyle(fontSize: 16.00, color: AppColors.white),
+          ),
+          onTap: () async {
+            // bool status = await CustomerAuth().removeUserAccessTokenAndData();
+            deleteAccountAlert(context, "");
+            // if (status) {
+            //   print("logout successful....");
+            //   setState(() {
+            //     this.isToken = false;
+            //   });
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute<void>(
+            //       builder: (BuildContext context) => AuthScreen(),
+            //     ),
+            //   );
+            // }
+          },
+        ),
+        const Divider(
+          height: 10,
+          thickness: 1,
+          color: AppColors.white,
+        ),
       ],
     );
   }
@@ -435,4 +470,73 @@ class _AppDrawerState extends State<AppDrawer> {
       ],
     );
   }
+
+  //
+
+  deleteAccountAlert(BuildContext context, msg) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('''Do you want to delete doctor dreams account ?'''),
+            actions: <Widget>[
+              MaterialButton(
+                  elevation: 5.0,
+                  child: Text('Yes'),
+                  onPressed: () async {
+                    print("Call delete Api");
+
+                    // _deleteAccount();
+                    print("Print : in deleted account........");
+                    print("gid://shopify/Customer/${this.userData?['id']}");
+                    print("Print : in deleted account........");
+                    // final MutationOptions options = MutationOptions(
+                    //   document: gql(CustomerAuth.deleteAccount),
+                    //   variables: <String, dynamic>{"id": this.userData?['id']},
+                    // );
+
+                    final MutationOptions options = MutationOptions(
+                      document: gql(CustomerAuth.deleteAccount),
+                      variables: <String, dynamic>{
+                        "id": "gid://shopify/Customer/${this.userData?['id']}"
+                      },
+                    );
+
+                    final QueryResult result = await _client.mutate(options);
+                    print(result);
+                    // if (result.hasException) {
+                    //   print(result.exception.toString());
+                    //   return;
+                    // }
+
+                    bool status =
+                        await CustomerAuth().removeUserAccessTokenAndData();
+
+                    if (status) {
+                      print("logout successful....");
+                      setState(() {
+                        this.isToken = false;
+                      });
+                      Navigator.of(context).pop();
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => AuthScreen(),
+                        ),
+                      );
+                    }
+                  }),
+              MaterialButton(
+                  elevation: 5.0,
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+            ],
+          );
+        });
+  }
 }
+
+// _deletAccount() async {}
