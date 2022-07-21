@@ -5,7 +5,7 @@ import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class TuyaOtpScreen extends StatefulWidget {
   static const String id = 'tuya_otp_screen';
@@ -169,34 +169,34 @@ class _TuyaOtpScreenState extends State<TuyaOtpScreen> {
 
   _submitOtp(BuildContext context) async {
     key.currentState?.save();
-    if (key.currentState!.validate()) {
-      // TODO:
-      print("form is validated");
-      print('Call OTP');
-      String? message =
-          await TuyaUiBizbundle.reg("+91", "0", password, email, otp);
-      if (message != null) {
-        if (message.startsWith("success")) {
-          String? message2 =
-              await TuyaUiBizbundle.login("+91", "0", password, email);
-          if (message2 != null) {
-            if (message2.startsWith("success")) {
-              Navigator.of(context).pop(true);
-            } else {
-              createAlertDialog(context, message2.replaceRange(0, 5, ""));
-            }
-          } else {
-            createAlertDialog(context, "Error validating otp");
-          }
-        } else {
-          createAlertDialog(context, message.replaceRange(0, 5, ""));
-        }
-      } else {
-        createAlertDialog(context, "Error validating otp");
-      }
-    } else {
-      print("Validate failed");
-    }
+    // if (key.currentState!.validate()) {
+   
+    //   print("form is validated");
+    //   print('Call OTP');
+    //   String? message =
+    //       await TuyaUiBizbundle.reg("+91", "0", password, email, otp);
+    //   if (message != null) {
+    //     if (message.startsWith("success")) {
+    //       String? message2 =
+    //           await TuyaUiBizbundle.login("+91", "0", password, email);
+    //       if (message2 != null) {
+    //         if (message2.startsWith("success")) {
+    //           Navigator.of(context).pop(true);
+    //         } else {
+    //           createAlertDialog(context, message2.replaceRange(0, 5, ""));
+    //         }
+    //       } else {
+    //         createAlertDialog(context, "Error validating otp");
+    //       }
+    //     } else {
+    //       createAlertDialog(context, message.replaceRange(0, 5, ""));
+    //     }
+    //   } else {
+    //     createAlertDialog(context, "Error validating otp");
+    //   }
+    // } else {
+    //   print("Validate failed");
+    // }
   }
 }
 
