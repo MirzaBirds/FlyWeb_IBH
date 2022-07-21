@@ -31,6 +31,8 @@ dependencies:
   graphql_flutter: ^5.0.0
   shared_preferences: ^2.0.6
   flutter_blue: ^0.8.0
+  flutter_reactive_ble: ^4.0.0
+  hex: ^0.2.0
   path: ^1.8.0
   intl: ^0.17.0
   awesome_circular_chart: ^1.0.0
