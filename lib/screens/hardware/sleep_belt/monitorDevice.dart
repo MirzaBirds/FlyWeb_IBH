@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -16,18 +15,21 @@ class MonitorDeviceScreen extends StatefulWidget {
 }
 
 class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
-
   BLE ble = BLE();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    ble.connectToBLE();
   }
 
   @override
   Widget build(BuildContext context) {
-    log("Read Data ${ble.readData()}");
+    // log("Read Data ${ble.readData()}");
+    // ble.sendData();
+    // // log("Read Data ${ble.readData()}");
+    // print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    // print("Read Data ${ble.readData()}");
+    // print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -36,6 +38,22 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
               SizedBox(
                 height: 10,
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    ble.sendData();
+                  },
+                  child: Text("send data")),
+              ElevatedButton(
+                  onPressed: () {
+                    ble.readData();
+                  },
+                  child: Text("Read data")),
+              ElevatedButton(
+                  onPressed: () {
+                    BLE ble = BLE();
+                    ble.connectToBLE();
+                  },
+                  child: Text("Connect")),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

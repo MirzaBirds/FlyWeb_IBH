@@ -8,6 +8,7 @@ import 'package:doctor_dreams/screens/Auth/tuya/tuyaAuthScreen.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
+import 'package:doctor_dreams/utilities/ble.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
@@ -111,8 +112,7 @@ Widget myLayoutWidget(
       Align(
         alignment: Alignment.topLeft,
         child: Padding(
-          padding:
-               EdgeInsets.only(left: 10, top: 60, right: 0, bottom: 0),
+          padding: EdgeInsets.only(left: 10, top: 60, right: 0, bottom: 0),
           child: Text(
             "Your Devices",
             style: TextStyle(
@@ -271,8 +271,8 @@ Widget myLayoutWidget(
                             visible: false,
                             child: Container(
                               alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(
-                                  right: 15, left: 15, top: 10),
+                              padding:
+                                  EdgeInsets.only(right: 15, left: 15, top: 10),
                               child: Text(
                                 'PAIRED',
                                 style: TextStyle(
@@ -283,149 +283,163 @@ Widget myLayoutWidget(
                             ),
                           ),
                           StreamBuilder<List<BluetoothDevice>>(
-                            stream: Stream.periodic(Duration(seconds: 2)).asyncMap(
-                                    (_) => FlutterBlue.instance.connectedDevices),
+                            stream: Stream.periodic(Duration(seconds: 2))
+                                .asyncMap((_) =>
+                                    FlutterBlue.instance.connectedDevices),
                             initialData: [],
                             builder: (c, snapshot) => Column(
                               children: snapshot.data!
                                   .map((d) => Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding:
-                                     EdgeInsets.only(top: 10.0),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        try {
-                                          await d.connect();
-                                        } catch (e) {
-                                          if (e != 'already_connected') {
-                                            throw e;
-                                          }
-                                        } finally {
-                                          _services =
-                                          await d.discoverServices();
-                                          //Navigator.pop(context);
-                                          log(_services.toString());
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => MonitorDeviceScreen()));
-                                        }
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.white,
-                                          border: Border.all(
-                                            color: AppColors.white,
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                        ),
-                                        child: ListTile(
-                                          title: Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                  Icons
-                                                      .battery_charging_full,
-                                                  size: 20,
-                                                  color: AppColors.primary),
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets.only(
-                                                    left: 4.0),
-                                                child: Text(
-                                                  d.name,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      fontSize: 14,
-                                                      color:
-                                                      AppColors.primary),
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 10.0),
+                                            child: InkWell(
+                                              onTap: () async {
+                                                try {
+                                                  // await d.connect();
+                                                } catch (e) {
+                                                  if (e !=
+                                                      'already_connected') {
+                                                    throw e;
+                                                  }
+                                                } finally {
+                                                  _services = await d
+                                                      .discoverServices();
+                                                  //Navigator.pop(context);
+                                                  log(_services.toString());
+
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MonitorDeviceScreen()));
+                                                }
+                                              },
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.white,
+                                                  border: Border.all(
+                                                    color: AppColors.white,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          trailing: StreamBuilder<
-                                              BluetoothDeviceState>(
-                                            stream: d.state,
-                                            initialData:
-                                            BluetoothDeviceState
-                                                .disconnected,
-                                            builder: (c, snapshot) {
-                                              if (snapshot.data ==
-                                                  BluetoothDeviceState
-                                                      .connected) {
-                                                return Container(
-                                                  width: 200,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .end,
+                                                child: ListTile(
+                                                  title: Row(
                                                     children: <Widget>[
+                                                      Icon(
+                                                          Icons
+                                                              .battery_charging_full,
+                                                          size: 20,
+                                                          color: AppColors
+                                                              .primary),
                                                       Padding(
                                                         padding:
-                                                        const EdgeInsets
-                                                            .only(
-                                                            left: 4.0),
-                                                        child: Icon(
-                                                            Icons
-                                                                .bluetooth_audio,
-                                                            size: 20,
-                                                            color: AppColors
-                                                                .primary),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(
-                                                            left: 4.0),
-                                                        child: Visibility(
-                                                          visible: false,
-                                                          child: Text(
-                                                            "${double.parse("10")}",
-                                                            style: Theme.of(
-                                                                context)
-                                                                .textTheme
-                                                                .subtitle1,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(
-                                                            left: 4.0),
-                                                        child: Visibility(
-                                                          visible: false,
-                                                          child: Icon(
-                                                              Icons
-                                                                  .battery_full,
-                                                              size: 20,
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 4.0),
+                                                        child: Text(
+                                                          d.name,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 14,
                                                               color: AppColors
                                                                   .primary),
                                                         ),
                                                       ),
-                                                      Icon(
-                                                          Icons
-                                                              .arrow_forward_ios,
-                                                          size: 20,
-                                                          color: AppColors
-                                                              .primary),
                                                     ],
                                                   ),
-                                                );
-                                              }
-                                              return Text(
-                                                  snapshot.data.toString());
-                                            },
+                                                  trailing: StreamBuilder<
+                                                      BluetoothDeviceState>(
+                                                    stream: d.state,
+                                                    initialData:
+                                                        BluetoothDeviceState
+                                                            .disconnected,
+                                                    builder: (c, snapshot) {
+                                                      if (snapshot.data ==
+                                                          BluetoothDeviceState
+                                                              .connected) {
+                                                        return Container(
+                                                          width: 200,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: <Widget>[
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            4.0),
+                                                                child: Icon(
+                                                                    Icons
+                                                                        .bluetooth_audio,
+                                                                    size: 20,
+                                                                    color: AppColors
+                                                                        .primary),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            4.0),
+                                                                child:
+                                                                    Visibility(
+                                                                  visible:
+                                                                      false,
+                                                                  child: Text(
+                                                                    "${double.parse("10")}",
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .subtitle1,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            4.0),
+                                                                child:
+                                                                    Visibility(
+                                                                  visible:
+                                                                      false,
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .battery_full,
+                                                                      size: 20,
+                                                                      color: AppColors
+                                                                          .primary),
+                                                                ),
+                                                              ),
+                                                              Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                  color: AppColors
+                                                                      .primary),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }
+                                                      return Text(snapshot.data
+                                                          .toString());
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ))
+                                        ],
+                                      ))
                                   .toList(),
                             ),
                           ),
