@@ -1,7 +1,11 @@
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../../config/appColors.dart';
+import '../../../utilities/ble.dart';
 import '../../../utils.dart';
 
 class MonitorDeviceScreen extends StatefulWidget {
@@ -12,8 +16,18 @@ class MonitorDeviceScreen extends StatefulWidget {
 }
 
 class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
+
+  BLE ble = BLE();
+
+  @override
+  void initState(){
+    super.initState();
+    ble.connectToBLE();
+  }
+
   @override
   Widget build(BuildContext context) {
+    log("Read Data ${ble.readData()}");
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -34,7 +48,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         width: 30,
                       ),
                       Text(
-                        "--",
+                        "${ble.readData()}",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 20,

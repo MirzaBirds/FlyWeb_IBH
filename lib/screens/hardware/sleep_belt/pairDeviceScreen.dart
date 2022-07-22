@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
 import 'package:doctor_dreams/screens/hardware/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -79,11 +80,11 @@ class _PairDeviceScreenState extends State<PairDeviceScreen> {
                                       .data![i].device
                                       .discoverServices();
                                   //Navigator.pop(context);
-                                  ScaffoldMessenger.of(
-                                      context)
-                                      .showSnackBar(SnackBar(
-                                      content: Text(
-                                          "Connected")));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MonitorDeviceScreen()));
+
                                 }
                               }),
                         );
