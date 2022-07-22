@@ -9,6 +9,7 @@ import 'package:doctor_dreams/screens/ecommerce/user-details/account.dart';
 import 'package:doctor_dreams/screens/ecommerce/user-details/orderHistory.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
 import 'package:doctor_dreams/services/shopify/customerAuth.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -184,7 +185,8 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => PairDevice1(),
+                // builder: (BuildContext context) => PairDevice1(),
+                builder: (BuildContext context) => MonitorDeviceScreen(),
               ),
             );
           },
@@ -407,7 +409,8 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => PairDevice1(),
+                builder: (BuildContext context) => MonitorDeviceScreen(),
+                // builder: (BuildContext context) => PairDevice1(),
               ),
             );
           },

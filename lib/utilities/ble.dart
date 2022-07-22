@@ -92,6 +92,15 @@ class BLE {
     return value;
   }
 
+  static List<int> getPowerDevice() {
+    final List<int> value = _generateInitValue(); //16
+    final int AA = 1;
+    value[0] = 0xd;
+    value[1] = _getBcdValue(AA);
+    crcValue(value);
+    return value;
+  }
+
   static getReadableResponse(data) {
     print("+++++++++++++++++++++++++++++++++");
     print("return data");
