@@ -8,7 +8,6 @@ import 'package:doctor_dreams/screens/Auth/tuya/tuyaAuthScreen.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
-import 'package:doctor_dreams/utilities/ble.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
@@ -311,8 +310,10 @@ Widget myLayoutWidget(
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MonitorDeviceScreen()));
+                                                          builder: (context) =>MonitorDeviceScreen(
+                                                            device: d,
+                                                            services: _services,
+                                                          )));
                                                 }
                                               },
                                               child: Container(

@@ -185,8 +185,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                // builder: (BuildContext context) => PairDevice1(),
-                builder: (BuildContext context) => MonitorDeviceScreen(),
+                 builder: (BuildContext context) => PairDevice1(),
               ),
             );
           },
@@ -409,8 +408,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => MonitorDeviceScreen(),
-                // builder: (BuildContext context) => PairDevice1(),
+                 builder: (BuildContext context) => PairDevice1(),
               ),
             );
           },

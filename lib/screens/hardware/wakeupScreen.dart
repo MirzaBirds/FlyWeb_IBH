@@ -338,7 +338,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
                 child: TabBarView(
                   children: [
                     ReportDeviceScreen(),
-                    MonitorDeviceScreen(),
+                   // MonitorDeviceScreen(),
                     AccountManagementScreen(),
                   ],
                 ),
