@@ -74,7 +74,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         width: 30,
                       ),
                       Text(
-                        "--",
+                        getRealValueFromArray(widget.readValues[2]!).toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 20,
