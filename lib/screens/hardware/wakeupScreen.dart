@@ -276,7 +276,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
         ));
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
 //         appBar: AppBar(
 //           leading: IconButton(
@@ -326,9 +326,9 @@ class _WakeUpScreen extends State<WakeUpScreen> {
                     text: "Report",
 
                   ),
-                  Tab(
+                 /* Tab(
                     text: "Monitor",
-                  ),
+                  ),*/
                   Tab(
                     text: "Account",
                   ),

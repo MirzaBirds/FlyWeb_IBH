@@ -51,9 +51,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     // log("Read Data ${ble.readData()}");
     // ble.sendData();
     // // log("Read Data ${ble.readData()}");
-    // print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    // print("Read Data ${ble.readData()}");
-    // print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    print("Read Data ${widget.readValues[2]}");
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -74,7 +75,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         width: 30,
                       ),
                       Text(
-                        getRealValueFromArray(widget.readValues[2]!).toString(),
+                          widget.readValues[2] != null?getRealValueFromArray(widget.readValues[2]!).toString():"--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 20,
@@ -330,7 +331,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
       case 1:
         await _writecharacteristic.write(getRealTimeHeartRate());
         break;
-      case 2:
+      /*case 2:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 81));
         break;
       case 3:
@@ -347,7 +348,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
         break;
       case 7:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 93));
-        break;
+        break;*/
     }
   }
 
