@@ -19,7 +19,6 @@ class MonitorDeviceScreen extends StatefulWidget {
 }
 
 class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
-
   BluetoothService? tempservice;
   BluetoothCharacteristic? _nodifycharacteristic;
   BluetoothCharacteristic? _writecharacteristic;
@@ -42,8 +41,30 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
       });
     });
 
-    Timer.periodic(new Duration(milliseconds: 300), (timer) {
-      if(isConnected) _sendCommand();
+    this.getUserData();
+  }
+
+  getUserData() {
+    Timer.periodic(new Duration(seconds: 5), (timer) {
+      // comandKind = 0;
+      if (isConnected) {
+        _sendCommand();
+        setState(() {
+          // comandKind = 0;
+          _writecharacteristic!.write(getPowerDevice());
+        });
+      }
+    });
+
+    Timer.periodic(new Duration(seconds: 7), (timer) {
+      // comandKind = 0;
+      if (isConnected) {
+        _sendCommand();
+        setState(() {
+          // comandKind = 1;
+          _writecharacteristic!.write(getPowerDevice1());
+        });
+      }
     });
   }
 
@@ -52,15 +73,41 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     // log("Read Data ${ble.readData()}");
     // ble.sendData();
     // // log("Read Data ${ble.readData()}");
-    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    print("Read Data ${widget.readValues[2]}");
-    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+    // print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    // print("Read Data ${widget.readValues[2]}");
+    // print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
+              // Row(children: <Widget>[
+              //   SizedBox(width: 20),
+              //   ButtonTheme(
+              //     minWidth: 100.0,
+              //     height: 35.0,
+              //     child: RaisedButton(
+              //       child:
+              //           Text("PowerOff", style: TextStyle(color: Colors.white)),
+              //       onPressed: () {
+              //         comandKind = 0;
+              //         _writecharacteristic!.write(getPowerDevice());
+              //       },
+              //     ),
+              //   ),
+              //   SizedBox(width: 80),
+              //   Text(
+              //     widget.readValues[0] != null
+              //         ? getRealValueFromArray(widget.readValues[0]!).toString()
+              //         : "--",
+              //     style: TextStyle(
+              //         fontWeight: FontWeight.normal,
+              //         fontSize: 20,
+              //         color: AppColors.primary),
+              //   ), // widget.readValues[0].toString()),
+              // ]),
               SizedBox(
                 height: 10,
               ),
@@ -76,7 +123,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         width: 30,
                       ),
                       Text(
-                          widget.readValues[2] != null?getRealValueFromArray(widget.readValues[2]!).toString():"--",
+                        widget.readValues[0] != null
+                            ? getRealValueFromArray(widget.readValues[0]!)[1]
+                                .toString()
+                            : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 20,
@@ -96,7 +146,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         width: 25,
                       ),
                       Text(
-                        "--",
+                        widget.readValues[0] != null
+                            ? getRealValueFromArray(widget.readValues[0]!)[3]
+                                .toString()
+                            : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 20,
@@ -115,7 +168,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         size: 30,
                       ),
                       Text(
-                        "--",
+                        widget.readValues[0] != null
+                            ? getRealValueFromArray(widget.readValues[0]!)[3]
+                                .toString()
+                            : "-",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 20,
@@ -274,18 +330,17 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     );
   }
 
-
   Future<void> _notification() async {
     tempservice = widget.services[2];
     for (BluetoothCharacteristic characteristic
-    in tempservice!.characteristics) {
+        in tempservice!.characteristics) {
       if (characteristic.properties.write)
         _writecharacteristic = characteristic;
       if (characteristic.properties.notify)
         _nodifycharacteristic = characteristic;
     }
     _nodifycharacteristic?.value.listen((value) {
-      if(mounted)
+      if (mounted)
         setState(() {
           switch (comandKind) {
             case 0:
@@ -294,24 +349,24 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
             case 1:
               widget.readValues[1] = value;
               break;
-            case 2:
-              widget.readValues[2] = value;
-              break;
-            case 3:
-              widget.readValues[3] = value;
-              break;
-            case 4:
-              widget.readValues[4] = value;
-              break;
-            case 5:
-              widget.readValues[5] = value;
-              break;
-            case 6:
-              widget.readValues[6] = value;
-              break;
-            case 7:
-              widget.readValues[7] = value;
-              break;
+            // case 2:
+            //   widget.readValues[2] = value;
+            //   break;
+            // case 3:
+            //   widget.readValues[3] = value;
+            //   break;
+            // case 4:
+            //   widget.readValues[4] = value;
+            //   break;
+            // case 5:
+            //   widget.readValues[5] = value;
+            //   break;
+            // case 6:
+            //   widget.readValues[6] = value;
+            //   break;
+            // case 7:
+            //   widget.readValues[7] = value;
+            //   break;
           }
         });
     });
@@ -319,18 +374,18 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   }
 
   Future<void> _sendCommand() async {
-
     print("Device Connecting State value is $isConnected");
 
     comandKind++;
-    if (comandKind == 8) comandKind = 2;
-
+    if (comandKind == 2) comandKind = 0;
+    print("+++++++++++++++++++comandKind++++++++++++++++++++++++++");
+    print(comandKind);
     switch (comandKind) {
       case 0:
         await _writecharacteristic!.write(getPowerDevice());
         break;
       case 1:
-        await _writecharacteristic!.write(getRealTimeHeartRate());
+        await _writecharacteristic!.write(getPowerDevice1());
         break;
       /*case 2:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 81));
@@ -353,19 +408,21 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     }
   }
 
-  int getRealValueFromArray(List<int> data) {
+  List<int> getRealValueFromArray(List<int> data) {
     print("+++++++++++++++++++++++++++++");
     print(data);
     print("+++++++++++++++++++++++++++++");
-    if(data == null) return 0;
-    List<int> temp = <int>[];
-    temp = data;
-    if (temp == null) return 0;
-    if (temp.length == 0)
-      return 0;
-    else {
-      return (temp[3] << 8) + temp[4];
-    }
+    // if (data == null) return 0;
+    // List<int> temp = <int>[];
+    // temp = data;
+    // if (temp == null) return 0;
+    // if (temp.length == 0)
+    //   return 0;
+    // else {
+    //   // return (temp[3] << 8) + temp[4];
+    //   return data;
+    // }
+    return data;
   }
 
   List<int> _buildChargeBotCommand(int command1, int command2) {
@@ -377,7 +434,6 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     cmd.add(0);
     return cmd;
   }
-
 
   //
   static int _getBcdValue(int value) {
@@ -458,6 +514,15 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     final int AA = 1;
     value[0] = 0xd;
     value[1] = _getBcdValue(AA);
+    crcValue(value);
+    return value;
+  }
+
+  static List<int> getPowerDevice1() {
+    final List<int> value = _generateInitValue(); //16
+    // final int AA = 1;
+    value[0] = 0x13;
+    // value[1] = _getBcdValue(AA);
     crcValue(value);
     return value;
   }
