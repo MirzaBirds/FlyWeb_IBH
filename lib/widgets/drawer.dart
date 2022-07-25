@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../screens/hardware/sleep_belt/yourDevices.dart';
+
 class AppDrawer extends StatefulWidget {
   @override
   _AppDrawerState createState() => _AppDrawerState();
@@ -185,7 +187,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                 builder: (BuildContext context) => PairDevice1(),
+                 builder: (BuildContext context) => YourDevicesScreen(),
               ),
             );
           },
@@ -408,7 +410,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                 builder: (BuildContext context) => PairDevice1(),
+                 builder: (BuildContext context) => YourDevicesScreen(),
               ),
             );
           },
