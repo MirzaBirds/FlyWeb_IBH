@@ -18,10 +18,10 @@ class YourDevicesScreen extends StatefulWidget {
 
 class _YourDevicesScreenState extends State<YourDevicesScreen> {
   final _writeController = TextEditingController();
-  late BluetoothDevice _connectedDevice;
-  late List<BluetoothService> _services;
-  late BluetoothService tempservice;
-  late BluetoothCharacteristic _nodifycharacteristic, _writecharacteristic;
+  BluetoothDevice? _connectedDevice;
+  List<BluetoothService>? _services;
+   BluetoothService? tempservice;
+   BluetoothCharacteristic? _nodifycharacteristic, _writecharacteristic;
   int comandKind = 0;
 
   _addDeviceTolist(final BluetoothDevice device) {
@@ -204,9 +204,9 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
 
   ListView _buildChargeBotView() {
 
-    tempservice = _services[2];
+    tempservice = _services![2];
 
-    for(BluetoothCharacteristic characteristic in tempservice.characteristics){
+    for(BluetoothCharacteristic characteristic in tempservice!.characteristics){
       if(characteristic.properties.write) _writecharacteristic = characteristic;
       if(characteristic.properties.notify)  _nodifycharacteristic = characteristic;
     }
@@ -226,7 +226,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         child: Text("Nodification",style:TextStyle(color: Colors.white)),
                         onPressed: () async  {
-                          _nodifycharacteristic.value.listen((value) {
+                          _nodifycharacteristic!.value.listen((value) {
                             setState(()  {
                               switch(comandKind){
                                 case 0:
@@ -295,7 +295,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                               }
                             });
                           });
-                          await _nodifycharacteristic.setNotifyValue(true);
+                          await _nodifycharacteristic!.setNotifyValue(true);
                         },
 
                       ),
@@ -313,7 +313,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                         child: Text("PowerOff",style:TextStyle(color: Colors.white)),
                         onPressed: () {
                           comandKind = 0;
-                          _writecharacteristic.write(_buildChargeBotCommand(160));
+                          _writecharacteristic!.write(_buildChargeBotCommand(160));
                         },
                       ),
                     ),
@@ -331,7 +331,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                         child: Text("FVersion",style:TextStyle(color: Colors.white)),
                         onPressed: () {
                           comandKind = 1;
-                          _writecharacteristic.write(_buildChargeBotCommand(80));
+                          _writecharacteristic?.write(_buildChargeBotCommand(80));
                         },
                       ),
                     ),
@@ -349,7 +349,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                         child: Text("BatLevL",style:TextStyle(color: Colors.white)),
                         onPressed: () {
                           comandKind = 2;
-                          _writecharacteristic.write(_buildChargeBotCommand(81));
+                          _writecharacteristic?.write(_buildChargeBotCommand(81));
                         },
                       ),
                     ),
@@ -366,7 +366,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 3;
-                          _writecharacteristic.write(_buildChargeBotCommand(82));
+                          _writecharacteristic?.write(_buildChargeBotCommand(82));
                         },
                         child: Text("BatTemp",style:TextStyle(color: Colors.white)),
                       ),
@@ -385,7 +385,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 4;
-                          _writecharacteristic.write(_buildChargeBotCommand(84));
+                          _writecharacteristic?.write(_buildChargeBotCommand(84));
                         },
                         child: Text("BatVolt",style:TextStyle(color: Colors.white)),
                       ),
@@ -403,7 +403,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 5;
-                          _writecharacteristic.write(_buildChargeBotCommand(85));
+                          _writecharacteristic?.write(_buildChargeBotCommand(85));
                         },
                         child: Text("BatCurt",style:TextStyle(color: Colors.white)),
                       ),
@@ -421,7 +421,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 6;
-                          _writecharacteristic.write(_buildChargeBotCommand(86));
+                          _writecharacteristic?.write(_buildChargeBotCommand(86));
                         },
                         child: Text("BatPow",style:TextStyle(color: Colors.white)),
                       ),
@@ -439,7 +439,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 7;
-                          _writecharacteristic.write(_buildChargeBotCommand(87));
+                          _writecharacteristic?.write(_buildChargeBotCommand(87));
 
                         },
                         child: Text("SolarVolt",style:TextStyle(color: Colors.white)),
@@ -458,7 +458,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 8;
-                          _writecharacteristic.write(_buildChargeBotCommand(88));
+                          _writecharacteristic?.write(_buildChargeBotCommand(88));
                         },
                         child: Text("SolarCurt",style:TextStyle(color: Colors.white)),
                       ),
@@ -476,7 +476,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 9;
-                          _writecharacteristic.write(_buildChargeBotCommand(89));
+                          _writecharacteristic?.write(_buildChargeBotCommand(89));
                         },
                         child: Text("SolarPow",style:TextStyle(color: Colors.white)),
                       ),
@@ -494,7 +494,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 10;
-                          _writecharacteristic.write(_buildChargeBotCommand(90));
+                          _writecharacteristic?.write(_buildChargeBotCommand(90));
                         },
                         child: Text("12Volt",style:TextStyle(color: Colors.white)),
                       ),
@@ -512,7 +512,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 11;
-                          _writecharacteristic.write(_buildChargeBotCommand(97));
+                          _writecharacteristic?.write(_buildChargeBotCommand(97));
                         },
                         child: Text("PupState",style:TextStyle(color: Colors.white)),
                       ),
@@ -530,7 +530,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 12;
-                          _writecharacteristic.write(_buildChargeBotCommand(93));
+                          _writecharacteristic?.write(_buildChargeBotCommand(93));
                         },
                         child: Text("BatState",style:TextStyle(color: Colors.white)),
                       ),
@@ -548,7 +548,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 13;
-                          _writecharacteristic.write(_buildChargeBotCommand(1));
+                          _writecharacteristic?.write(_buildChargeBotCommand(1));
                         },
                         child: Text("SN-0102",style:TextStyle(color: Colors.white)),
                       ),
@@ -566,7 +566,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 14;
-                          _writecharacteristic.write(_buildChargeBotCommand(2));
+                          _writecharacteristic?.write(_buildChargeBotCommand(2));
                         },
                         child: Text("SN-0304",style:TextStyle(color: Colors.white)),
                       ),
@@ -584,7 +584,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 15;
-                          _writecharacteristic.write(_buildChargeBotCommand(3));
+                          _writecharacteristic?.write(_buildChargeBotCommand(3));
 
                         },
                         child: Text("SN-0506",style:TextStyle(color: Colors.white)),
@@ -603,7 +603,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 16;
-                          _writecharacteristic.write(_buildChargeBotCommand(4));
+                          _writecharacteristic?.write(_buildChargeBotCommand(4));
                         },
                         child: Text("SN-0708",style:TextStyle(color: Colors.white)),
                       ),
@@ -621,7 +621,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 17;
-                          _writecharacteristic.write(_buildChargeBotCommand(5));
+                          _writecharacteristic?.write(_buildChargeBotCommand(5));
                         },
                         child: Text("SN-0910",style:TextStyle(color: Colors.white)),
                       ),
@@ -639,7 +639,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 18;
-                          _writecharacteristic.write(_buildChargeBotCommand(6));
+                          _writecharacteristic?.write(_buildChargeBotCommand(6));
                         },
                         child: Text("SN-1112",style:TextStyle(color: Colors.white)),
                       ),
@@ -657,7 +657,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 19;
-                          _writecharacteristic.write(_buildChargeBotCommand(7));
+                          _writecharacteristic?.write(_buildChargeBotCommand(7));
                         },
                         child: Text("SN-1314",style:TextStyle(color: Colors.white)),
                       ),
@@ -675,7 +675,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           comandKind = 20;
-                          _writecharacteristic.write(_buildChargeBotCommand(8));
+                          _writecharacteristic!.write(_buildChargeBotCommand(8));
                         },
                         child: Text("SN-1516",style:TextStyle(color: Colors.white)),
                       ),
@@ -719,7 +719,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
 
   ListView _buildView() {
     if (_connectedDevice != null) {
-      if(!_connectedDevice.name.contains("Chargebot")) {
+      if(!_connectedDevice!.name.contains("Chargebot")) {
         return  _buildChargeBotView();
       }
     }

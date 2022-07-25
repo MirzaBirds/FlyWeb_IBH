@@ -20,7 +20,7 @@ class MonitorDeviceScreen extends StatefulWidget {
 
 class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
 
-  late BluetoothService tempservice;
+  BluetoothService? tempservice;
   BluetoothCharacteristic? _nodifycharacteristic;
   BluetoothCharacteristic? _writecharacteristic;
   int comandKind = 0;
@@ -278,7 +278,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   Future<void> _notification() async {
     tempservice = widget.services[2];
     for (BluetoothCharacteristic characteristic
-    in tempservice.characteristics) {
+    in tempservice!.characteristics) {
       if (characteristic.properties.write)
         _writecharacteristic = characteristic;
       if (characteristic.properties.notify)
