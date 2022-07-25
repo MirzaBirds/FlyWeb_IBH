@@ -21,7 +21,8 @@ class MonitorDeviceScreen extends StatefulWidget {
 class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
 
   late BluetoothService tempservice;
-  late BluetoothCharacteristic _nodifycharacteristic, _writecharacteristic;
+  BluetoothCharacteristic? _nodifycharacteristic;
+  BluetoothCharacteristic? _writecharacteristic;
   int comandKind = 0;
   late Timer timer;
   bool isConnected = false;
@@ -283,7 +284,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
       if (characteristic.properties.notify)
         _nodifycharacteristic = characteristic;
     }
-    _nodifycharacteristic.value.listen((value) {
+    _nodifycharacteristic?.value.listen((value) {
       if(mounted)
         setState(() {
           switch (comandKind) {
@@ -314,7 +315,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
           }
         });
     });
-    await _nodifycharacteristic.setNotifyValue(true);
+    await _nodifycharacteristic?.setNotifyValue(true);
   }
 
   Future<void> _sendCommand() async {
@@ -326,10 +327,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
 
     switch (comandKind) {
       case 0:
-        await _writecharacteristic.write(getPowerDevice());
+        await _writecharacteristic!.write(getPowerDevice());
         break;
       case 1:
-        await _writecharacteristic.write(getRealTimeHeartRate());
+        await _writecharacteristic!.write(getRealTimeHeartRate());
         break;
       /*case 2:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 81));
