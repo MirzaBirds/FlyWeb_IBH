@@ -326,9 +326,11 @@ class _PairDevice1State extends State<PairDevice1> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                WakeUpScreen( device: d,
+                                                                WakeUpScreen(
+                                                                  device: d,
                                                                   services:
-                                                                  _services,)));
+                                                                      _services,
+                                                                )));
                                                   }
                                                 },
                                                 child: Container(
@@ -351,20 +353,22 @@ class _PairDevice1State extends State<PairDevice1> {
                                                             size: 20,
                                                             color: AppColors
                                                                 .white),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 4.0),
-                                                          child: Text(
-                                                            d.name,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                fontSize: 14,
-                                                                color: AppColors
-                                                                    .white),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 4.0),
+                                                            child: Text(
+                                                              d.name,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontSize: 14,
+                                                                  color: AppColors
+                                                                      .white),
+                                                            ),
                                                           ),
                                                         ),
                                                       ],

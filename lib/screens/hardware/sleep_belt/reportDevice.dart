@@ -13,15 +13,14 @@ class ReportDeviceScreen extends StatefulWidget {
   final List<BluetoothService> services;
   final Map<int, List<int>> readValues = new Map<int, List<int>>();
 
-  ReportDeviceScreen({Key? key, required this.device, required this.services}) : super(key: key);
+  ReportDeviceScreen({Key? key, required this.device, required this.services})
+      : super(key: key);
 
   @override
   State<ReportDeviceScreen> createState() => _ReportDeviceScreenState();
 }
 
 class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
-
-
   BluetoothService? tempservice;
   BluetoothCharacteristic? _nodifycharacteristic;
   BluetoothCharacteristic? _writecharacteristic;
@@ -47,27 +46,23 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   }
 
   getUserData() {
-    Timer.periodic(new Duration(seconds: 5), (timer) {
+    Timer.periodic(new Duration(seconds: 2), (timer) {
       // comandKind = 0;
       if (isConnected) {
         _sendCommand();
-        setState(() {
-          // comandKind = 0;
-          _writecharacteristic!.write(getPowerDevice());
-        });
       }
     });
 
-    Timer.periodic(new Duration(seconds: 7), (timer) {
-      // comandKind = 0;
-      if (isConnected) {
-        _sendCommand();
-        setState(() {
-          // comandKind = 1;
-          _writecharacteristic!.write(getPowerDevice1());
-        });
-      }
-    });
+    // Timer.periodic(new Duration(seconds: 7), (timer) {
+    //   // comandKind = 0;
+    //   if (isConnected) {
+    //     _sendCommand();
+    //     setState(() {
+    //       // comandKind = 1;
+    //       _writecharacteristic!.write(getRealTimeHeartRate());
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -85,8 +80,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
                 child: Text(
                   TimeUtils.dayFormat(DateTime.now()),
-                  style: TextStyle(
-                      color: AppColors.primary, fontSize: 25),
+                  style: TextStyle(color: AppColors.primary, fontSize: 25),
                 ),
               ),
               SizedBox(
@@ -97,7 +91,10 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                   Center(
                     child: CircularStepProgressIndicator(
                       totalSteps: 50,
-                      currentStep: ( widget.readValues[0] != null?getRealValueFromArray(widget.readValues[0]!)[3]:0 / 2).toInt(),
+                      currentStep: (widget.readValues[0] != null
+                              ? getRealValueFromArray(widget.readValues[0]!)[3]
+                              : 0 / 2)
+                          .toInt(),
                       width: MediaQuery.of(context).size.width / 1.5,
                       height: MediaQuery.of(context).size.width / 1.5,
                       selectedColor: AppColors.primary,
@@ -115,8 +112,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                       child: Text(
                         widget.readValues[0] != null
                             ? getRealValueFromArray(widget.readValues[0]!)[3]
-                            .toString()
-                            :"No Sleep Data",
+                                .toString()
+                            : "No Sleep Data",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
@@ -172,8 +169,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                 children: [
                   Row(
                     children: [
-                      Image.asset("assets/sleep_belt/ic_heart_pulse.png",
-                          color: AppColors.primary,height: 25,width: 25,),
+                      Image.asset(
+                        "assets/sleep_belt/ic_heart_pulse.png",
+                        color: AppColors.primary,
+                        height: 25,
+                        width: 25,
+                      ),
                       SizedBox(
                         width: 10,
                       ),
@@ -188,8 +189,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                   ),
                   Row(
                     children: [
-                      Image.asset("assets/sleep_belt/ic_lungs.png",
-                        color: AppColors.primary,height: 25,width: 25,),
+                      Image.asset(
+                        "assets/sleep_belt/ic_lungs.png",
+                        color: AppColors.primary,
+                        height: 25,
+                        width: 25,
+                      ),
                       SizedBox(
                         width: 10,
                       ),
@@ -204,8 +209,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                   ),
                   Row(
                     children: [
-                      Image.asset("assets/sleep_belt/ic_bed_time.png",
-                        color: AppColors.primary,height: 30,width: 30,),
+                      Image.asset(
+                        "assets/sleep_belt/ic_bed_time.png",
+                        color: AppColors.primary,
+                        height: 30,
+                        width: 30,
+                      ),
                       SizedBox(
                         width: 10,
                       ),
@@ -230,7 +239,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   Future<void> _notification() async {
     tempservice = widget.services[2];
     for (BluetoothCharacteristic characteristic
-    in tempservice!.characteristics) {
+        in tempservice!.characteristics) {
       if (characteristic.properties.write)
         _writecharacteristic = characteristic;
       if (characteristic.properties.notify)
@@ -243,27 +252,27 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
             case 0:
               widget.readValues[0] = value;
               break;
-            case 1:
-              widget.readValues[1] = value;
-              break;
-          // case 2:
-          //   widget.readValues[2] = value;
-          //   break;
-          // case 3:
-          //   widget.readValues[3] = value;
-          //   break;
-          // case 4:
-          //   widget.readValues[4] = value;
-          //   break;
-          // case 5:
-          //   widget.readValues[5] = value;
-          //   break;
-          // case 6:
-          //   widget.readValues[6] = value;
-          //   break;
-          // case 7:
-          //   widget.readValues[7] = value;
-          //   break;
+            // case 1:
+            //   widget.readValues[1] = value;
+            //   break;
+            // case 2:
+            //   widget.readValues[2] = value;
+            //   break;
+            // case 3:
+            //   widget.readValues[3] = value;
+            //   break;
+            // case 4:
+            //   widget.readValues[4] = value;
+            //   break;
+            // case 5:
+            //   widget.readValues[5] = value;
+            //   break;
+            // case 6:
+            //   widget.readValues[6] = value;
+            //   break;
+            // case 7:
+            //   widget.readValues[7] = value;
+            //   break;
           }
         });
     });
@@ -274,17 +283,17 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     print("Device Connecting State value is $isConnected");
 
     comandKind++;
-    if (comandKind == 2) comandKind = 0;
+    if (comandKind == 1) comandKind = 0;
     print("+++++++++++++++++++comandKind++++++++++++++++++++++++++");
     print(comandKind);
     switch (comandKind) {
       case 0:
-        await _writecharacteristic!.write(getPowerDevice());
+        await _writecharacteristic!.write(getHeartRateBreathing());
         break;
-      case 1:
-        await _writecharacteristic!.write(getPowerDevice1());
-        break;
-    /*case 2:
+      // case 1:
+      //   await _writecharacteristic!.write(getRealTimeHeartRate());
+      //   break;
+      /*case 2:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 81));
         break;
       case 3:
@@ -314,7 +323,18 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     // temp = data;
     // if (temp == null) return 0;
     if (data.length == 0)
-      return [0,0,0,0,0,0,0,0,0,0,];
+      return [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+      ];
     else {
       // return (temp[3] << 8) + temp[4];
       return data;
@@ -415,10 +435,10 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     return value;
   }
 
-  static List<int> getPowerDevice1() {
+  static List<int> getHeartRateBreathing() {
     final List<int> value = _generateInitValue(); //16
     // final int AA = 1;
-    value[0] = 0x13;
+    value[0] = 0x17;
     // value[1] = _getBcdValue(AA);
     crcValue(value);
     return value;

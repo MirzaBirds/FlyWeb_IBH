@@ -44,30 +44,24 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
       });
     });
 
-    this.getUserData();
+    // this.getUserData();
   }
 
   getUserData() {
-    Timer.periodic(new Duration(seconds: 2), (timer) {
+    Timer.periodic(new Duration(milliseconds: 300), (timer) {
       // comandKind = 0;
       if (isConnected) {
         _sendCommand();
-        setState(() {
-          // comandKind = 0;
-          _writecharacteristic!.write(getPowerDevice());
-          _writecharacteristic!.write(getRealTimeHeartRate());
-        });
+        // _writecharacteristic!.write(getPowerDevice());
       }
     });
 
-    // Timer.periodic(new Duration(seconds: 5), (timer) {
+    // Timer.periodic(new Duration(seconds: 3), (timer) {
     //   // comandKind = 0;
     //   if (isConnected) {
     //     _sendCommand();
-    //     setState(() {
-    //       // comandKind = 1;
-    //       _writecharacteristic!.write(getRealTimeHeartRate());
-    //     });
+
+    //     _writecharacteristic!.write(getRealTimeHeartRate());
     //   }
     // });
   }
@@ -128,7 +122,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}.${getRealValueFromArray(widget.readValues[0]!)[2]}%"
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}.${getRealValueFromArray(widget.readValues[0]!)[2]}°C"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -398,9 +392,9 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
       case 0:
         await _writecharacteristic!.write(getPowerDevice());
         break;
-      case 1:
-        await _writecharacteristic!.write(getRealTimeHeartRate());
-        break;
+      // case 1:
+      //   await _writecharacteristic!.write(getRealTimeHeartRate());
+      //   break;
       // case 2:
       //   await _writecharacteristic!.write(getRealTimeHeartRate());
       //   break;
@@ -447,7 +441,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
       // return (temp[3] << 8) + temp[4];
       return data;
     }
-    return data;
+    // return data;
   }
 
   List<int> _buildChargeBotCommand(int command1, int command2) {
