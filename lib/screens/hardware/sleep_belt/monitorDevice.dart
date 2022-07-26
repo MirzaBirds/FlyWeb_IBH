@@ -198,7 +198,11 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         children: [
                           CircularStepProgressIndicator(
                             totalSteps: 20,
-                            currentStep: (70 / 5).toInt(),
+                            currentStep: (widget.readValues[1] != null
+                                    ? getRealValueFromArray(
+                                        widget.readValues[1]!)[1]
+                                    : 0 / 5)
+                                .toInt(),
                             width: 150,
                             height: 150,
                             selectedColor: AppColors.primary,
@@ -259,7 +263,11 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                         children: [
                           CircularStepProgressIndicator(
                             totalSteps: 20,
-                            currentStep: (70 / 5).toInt(),
+                            currentStep: (widget.readValues[1] != null
+                                    ? getRealValueFromArray(
+                                        widget.readValues[1]!)[2]
+                                    : 0 / 5)
+                                .toInt(),
                             width: 150,
                             height: 150,
                             selectedColor: AppColors.primary,
