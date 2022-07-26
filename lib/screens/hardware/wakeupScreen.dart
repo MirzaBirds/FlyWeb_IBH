@@ -443,9 +443,9 @@ class _WakeUpScreen extends State<WakeUpScreen> {
       case 0:
         await _writecharacteristic!.write(getPowerDevice());
         break;
-    // case 1:
-    //   await _writecharacteristic!.write(getRealTimeHeartRate());
-    //   break;
+    case 1:
+      await _writecharacteristic!.write(getRealTimeHeartRate());
+      break;
     // case 2:
     //   await _writecharacteristic!.write(getRealTimeHeartRate());
     //   break;
