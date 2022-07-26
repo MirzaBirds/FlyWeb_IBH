@@ -42,7 +42,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       });
     });
 
-    this.getUserData();
+    //this.getUserData();
   }
 
   getUserData() {
