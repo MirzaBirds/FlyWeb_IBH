@@ -48,27 +48,28 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   }
 
   getUserData() {
-    Timer.periodic(new Duration(seconds: 5), (timer) {
+    Timer.periodic(new Duration(seconds: 2), (timer) {
       // comandKind = 0;
       if (isConnected) {
         _sendCommand();
         setState(() {
           // comandKind = 0;
           _writecharacteristic!.write(getPowerDevice());
+          _writecharacteristic!.write(getRealTimeHeartRate());
         });
       }
     });
 
-    Timer.periodic(new Duration(seconds: 7), (timer) {
-      // comandKind = 0;
-      if (isConnected) {
-        _sendCommand();
-        setState(() {
-          // comandKind = 1;
-          _writecharacteristic!.write(getPowerDevice1());
-        });
-      }
-    });
+    // Timer.periodic(new Duration(seconds: 5), (timer) {
+    //   // comandKind = 0;
+    //   if (isConnected) {
+    //     _sendCommand();
+    //     setState(() {
+    //       // comandKind = 1;
+    //       _writecharacteristic!.write(getRealTimeHeartRate());
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -127,7 +128,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}:${getRealValueFromArray(widget.readValues[0]!)[2]}%"
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}.${getRealValueFromArray(widget.readValues[0]!)[2]}%"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -149,7 +150,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? "${getRealValueFromArray(widget.readValues[0]!)[3]}:${getRealValueFromArray(widget.readValues[0]!)[4]}%"
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[3]}.${getRealValueFromArray(widget.readValues[0]!)[4]}%"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -225,10 +226,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                             right: 0,
                             child: Center(
                               child: Text(
-                                "--",
+                                widget.readValues[1] != null
+                                    ? "${getRealValueFromArray(widget.readValues[1]!)[1]}"
+                                    : "--",
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     color: AppColors.primary),
                               ),
                             ),
@@ -284,10 +287,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                             right: 0,
                             child: Center(
                               child: Text(
-                                "--",
+                                widget.readValues[1] != null
+                                    ? "${getRealValueFromArray(widget.readValues[1]!)[2]}"
+                                    : "--",
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     color: AppColors.primary),
                               ),
                             ),
@@ -386,12 +391,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
         await _writecharacteristic!.write(getPowerDevice());
         break;
       case 1:
-        await _writecharacteristic!.write(getPowerDevice1());
+        await _writecharacteristic!.write(getRealTimeHeartRate());
         break;
-      /*case 2:
-        await _writecharacteristic.write(_buildChargeBotCommand(1, 81));
-        break;
-      case 3:
+      // case 2:
+      //   await _writecharacteristic!.write(getRealTimeHeartRate());
+      //   break;
+      /* case 3:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 82));
         break;
       case 4:
@@ -418,7 +423,18 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     // temp = data;
     // if (temp == null) return 0;
     if (data.length == 0)
-      return [0,0,0,0,0,0,0,0,0,0,];
+      return [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+      ];
     else {
       // return (temp[3] << 8) + temp[4];
       return data;
