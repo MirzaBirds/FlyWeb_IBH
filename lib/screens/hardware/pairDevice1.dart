@@ -8,6 +8,7 @@ import 'package:doctor_dreams/screens/Auth/tuya/tuyaAuthScreen.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice.dart';
 import 'package:doctor_dreams/screens/hardware/productList.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
+import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:doctor_dreams/widgets/appBar.dart';
 import 'package:doctor_dreams/widgets/bottomNav.dart';
 import 'package:doctor_dreams/widgets/drawer.dart';
@@ -91,8 +92,8 @@ class _PairDevice1State extends State<PairDevice1> {
       drawer: AppDrawer(),
       body: Container(
           decoration: new BoxDecoration(color: AppColors.white),
-          child: myLayoutWidget(
-              context, isLoggedIn, devices, widget.isSleetbelt)),
+          child:
+              myLayoutWidget(context, isLoggedIn, devices, widget.isSleetbelt)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -101,8 +102,8 @@ class _PairDevice1State extends State<PairDevice1> {
         backgroundColor: AppColors.secondary,
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: Visibility(
-          visible: widget.isSleetbelt, child: BottomNavBar()),
+      bottomNavigationBar:
+          Visibility(visible: widget.isSleetbelt, child: BottomNavBar()),
     );
   }
 
@@ -259,61 +260,60 @@ class _PairDevice1State extends State<PairDevice1> {
                 //     : Container(),
                 (devices.length != 0)
                     ? Padding(
-                  padding: EdgeInsets.only(left: 32, right: 16, top: 8),
-                  child: Text("You don't have any devices",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w400)),
-                )
-                    : SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: false,
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding:
-                          EdgeInsets.only(right: 15, left: 15, top: 10),
-                          child: Text(
-                            'PAIRED',
+                        padding: EdgeInsets.only(left: 32, right: 16, top: 8),
+                        child: Text("You don't have any devices",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: AppColors.primary),
-                          ),
-                        ),
-                      ),
-                      StreamBuilder<List<BluetoothDevice>>(
-                        stream: Stream.periodic(Duration(seconds: 2))
-                            .asyncMap((_) =>
-                        FlutterBlue.instance.connectedDevices),
-                        initialData: [],
-                        builder: (c, snapshot) =>
-                            Column(
-                              children: snapshot.data!
-                                  .map((d) =>
-                                  Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 10.0),
-                                        child: InkWell(
-                                          onTap: () async {
-                                            try {
-                                              // await d.connect();
-                                            } catch (e) {
-                                              if (e !=
-                                                  'already_connected') {
-                                                throw e;
-                                              }
-                                            } finally {
-                                              _services = await d
-                                                  .discoverServices();
-                                              //Navigator.pop(context);
-                                              log(_services.toString());
+                                fontSize: 15,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w400)),
+                      )
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            Visibility(
+                              visible: false,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(
+                                    right: 15, left: 15, top: 10),
+                                child: Text(
+                                  'PAIRED',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: AppColors.primary),
+                                ),
+                              ),
+                            ),
+                            StreamBuilder<List<BluetoothDevice>>(
+                              stream: Stream.periodic(Duration(seconds: 2))
+                                  .asyncMap((_) =>
+                                      FlutterBlue.instance.connectedDevices),
+                              initialData: [],
+                              builder: (c, snapshot) => Column(
+                                children: snapshot.data!
+                                    .map((d) => Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 10.0),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  try {
+                                                    // await d.connect();
+                                                  } catch (e) {
+                                                    if (e !=
+                                                        'already_connected') {
+                                                      throw e;
+                                                    }
+                                                  } finally {
+                                                    _services = await d
+                                                        .discoverServices();
+                                                    //Navigator.pop(context);
+                                                    log(_services.toString());
 
-                                              Navigator.push(
+                                                    /*  Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
@@ -321,129 +321,133 @@ class _PairDevice1State extends State<PairDevice1> {
                                                             device: d,
                                                             services:
                                                             _services,
-                                                          )));
-
-                                            }
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.primary,
-                                              border: Border.all(
-                                                color: AppColors.primary,
-                                              ),
-                                              borderRadius:
-                                              BorderRadius.all(
-                                                  Radius.circular(5)),
-                                            ),
-                                            child: ListTile(
-                                              title: Row(
-                                                children: <Widget>[
-                                                  Icon(
-                                                      Icons
-                                                          .battery_charging_full,
-                                                      size: 20,
-                                                      color: AppColors
-                                                          .white),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets
-                                                        .only(
-                                                        left: 4.0),
-                                                    child: Text(
-                                                      d.name,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .normal,
-                                                          fontSize: 14,
-                                                          color: AppColors
-                                                              .white),
+                                                          )));*/
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                WakeUpScreen( device: d,
+                                                                  services:
+                                                                  _services,)));
+                                                  }
+                                                },
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.primary,
+                                                    border: Border.all(
+                                                      color: AppColors.primary,
                                                     ),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(5)),
                                                   ),
-                                                ],
-                                              ),
-                                              trailing: StreamBuilder<
-                                                  BluetoothDeviceState>(
-                                                stream: d.state,
-                                                initialData:
-                                                BluetoothDeviceState
-                                                    .disconnected,
-                                                builder: (c, snapshot) {
-                                                  if (snapshot.data ==
-                                                      BluetoothDeviceState
-                                                          .connected) {
-                                                    return Container(
-                                                      width: 200,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .end,
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left:
-                                                                4.0),
-                                                            child: Icon(
-                                                                Icons
-                                                                    .bluetooth_audio,
-                                                                size: 20,
+                                                  child: ListTile(
+                                                    title: Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                            Icons
+                                                                .battery_charging_full,
+                                                            size: 20,
+                                                            color: AppColors
+                                                                .white),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 4.0),
+                                                          child: Text(
+                                                            d.name,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
                                                                 color: AppColors
                                                                     .white),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left:
-                                                                4.0),
-                                                            child:
-                                                            Visibility(
-                                                              visible:
-                                                              false,
-                                                              child: Text(
-                                                                "${double.parse(
-                                                                    "10")}",
-                                                                style: Theme
-                                                                    .of(
-                                                                    context)
-                                                                    .textTheme
-                                                                    .subtitle1,
-                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: StreamBuilder<
+                                                        BluetoothDeviceState>(
+                                                      stream: d.state,
+                                                      initialData:
+                                                          BluetoothDeviceState
+                                                              .disconnected,
+                                                      builder: (c, snapshot) {
+                                                        if (snapshot.data ==
+                                                            BluetoothDeviceState
+                                                                .connected) {
+                                                          return Container(
+                                                            width: 200,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: <
+                                                                  Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          4.0),
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .bluetooth_audio,
+                                                                      size: 20,
+                                                                      color: AppColors
+                                                                          .white),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          4.0),
+                                                                  child:
+                                                                      Visibility(
+                                                                    visible:
+                                                                        false,
+                                                                    child: Text(
+                                                                      "${double.parse("10")}",
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .subtitle1,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios,
+                                                                    size: 20,
+                                                                    color: AppColors
+                                                                        .white),
+                                                              ],
                                                             ),
-                                                          ),
-                                                          Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios,
-                                                              size: 20,
-                                                              color: AppColors
-                                                                  .white),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }
-                                                  return Text(snapshot.data
-                                                      .toString());
-                                                },
+                                                          );
+                                                        }
+                                                        return Text(snapshot
+                                                            .data
+                                                            .toString());
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ))
-                                  .toList(),
+                                          ],
+                                        ))
+                                    .toList(),
+                              ),
                             ),
-                      ),
-                      for (int i = 0; i < devices.length; i++)
-                        DeviceButton(context, devices[i].deviceId,
-                            devices[i].deviceName),
-                      SizedBox(height: 5),
-                    ],
-                  ),
-                )
+                            for (int i = 0; i < devices.length; i++)
+                              DeviceButton(context, devices[i].deviceId,
+                                  devices[i].deviceName),
+                            SizedBox(height: 5),
+                          ],
+                        ),
+                      )
               ],
             ),
           ),
@@ -549,7 +553,6 @@ class _PairDevice1State extends State<PairDevice1> {
     );
   }
 }
-
 
 class Device {
   String deviceName;

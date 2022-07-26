@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
 import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:doctor_dreams/utils.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _SleepingScreenState extends State<SleepingScreen> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                WakeUpScreen(),
+                PairDevice1(isSleetbelt: true),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               var begin = Offset(0.0, 1.0);

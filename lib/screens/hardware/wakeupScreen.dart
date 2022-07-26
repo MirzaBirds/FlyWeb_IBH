@@ -11,6 +11,7 @@ import 'package:doctor_dreams/widgets/drawer.dart';
 import 'package:doctor_dreams/widgets/uniform_box_decoration.dart';
 import 'package:doctor_dreams/widgets/wakeup_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:location/location.dart';
@@ -22,7 +23,10 @@ import '../../config/appColors.dart';
   The screen after user wakes up.
  */
 class WakeUpScreen extends StatefulWidget {
-  const WakeUpScreen({Key? key}) : super(key: key);
+  WakeUpScreen({required this.device, required this.services});
+
+  final BluetoothDevice device;
+  final List<BluetoothService> services;
   @override
   State<StatefulWidget> createState() => _WakeUpScreen();
 }
@@ -338,8 +342,10 @@ class _WakeUpScreen extends State<WakeUpScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ReportDeviceScreen(),
-                    PairDevice1(isSleetbelt: false,),
+                    ReportDeviceScreen(device: widget.device,
+                      services: widget.services,),
+                    MonitorDeviceScreen( device: widget.device,
+                      services: widget.services,),
                     AccountManagementScreen(),
                   ],
                 ),

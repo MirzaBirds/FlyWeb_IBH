@@ -83,10 +83,6 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppPrimaryBar(
-          isSleetBelt: true,
-        ),
-        drawer: AppDrawer(),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -331,7 +327,6 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavBar(),
       ),
     );
   }

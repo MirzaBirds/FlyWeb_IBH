@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 import '../../../config/appColors.dart';
+import '../wakeupScreen.dart';
 
 class PairDeviceScreen extends StatefulWidget {
   const PairDeviceScreen({Key? key}) : super(key: key);
@@ -83,7 +84,7 @@ class _PairDeviceScreenState extends State<PairDeviceScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>MonitorDeviceScreen(
+                                          builder: (context) =>WakeUpScreen(
                                             device: snapshot
                                                 .data![i].device,
                                             services: _services,
