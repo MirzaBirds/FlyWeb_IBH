@@ -23,7 +23,7 @@ class _ExperienceCenterState extends State<ExperienceCenter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppPrimaryBar(),
+        appBar: AppPrimaryBar(isSleetBelt: true),
         drawer: AppDrawer(),
         // body: Container(child: myLayoutWidget(context)),
         body: Builder(builder: (BuildContext context) {

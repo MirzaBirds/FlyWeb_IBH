@@ -24,7 +24,7 @@ class _productListState extends State<productList> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppPrimaryBar(),
+      appBar: AppPrimaryBar(isSleetBelt: true),
       drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: comming_soon

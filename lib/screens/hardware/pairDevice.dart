@@ -89,7 +89,7 @@ class _PairDeviceState extends State<PairDevice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppPrimaryBar(),
+      appBar: AppPrimaryBar(isSleetBelt: true),
       drawer: AppDrawer(),
       body: Container(
           decoration: new BoxDecoration(color: AppColors.primary),
@@ -553,7 +553,7 @@ Step 3 - connect with it and enjoy!!'''),
                   Navigator.of(context).pop();
                   // TuyaUiBizbundle.devicePair();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PairDevice1()));
+                      MaterialPageRoute(builder: (context) => PairDevice1(isSleetbelt: true,)));
                 })
           ],
         );

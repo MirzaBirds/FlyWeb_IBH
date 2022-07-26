@@ -25,7 +25,7 @@ class _ProductDetailWebViewState extends State<ProductDetailWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppPrimaryBar(),
+        appBar: AppPrimaryBar(isSleetBelt: true),
         // extendBodyBehindAppBar: true,
         body: Builder(builder: (BuildContext context) {
           return Padding(

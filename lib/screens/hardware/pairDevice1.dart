@@ -19,8 +19,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 class PairDevice1 extends StatefulWidget {
   static const String id = 'pair_device1';
+  final bool isSleetbelt;
 
-  const PairDevice1({Key? key}) : super(key: key);
+  const PairDevice1({Key? key, required this.isSleetbelt}) : super(key: key);
 
   @override
   _PairDevice1State createState() => _PairDevice1State();
@@ -84,11 +85,14 @@ class _PairDevice1State extends State<PairDevice1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppPrimaryBar(),
+      appBar: AppPrimaryBar(
+        isSleetBelt: widget.isSleetbelt,
+      ),
       drawer: AppDrawer(),
       body: Container(
-          decoration: new BoxDecoration(color: AppColors.primary),
-          child: myLayoutWidget(context, isLoggedIn, devices)),
+          decoration: new BoxDecoration(color: AppColors.white),
+          child: myLayoutWidget(
+              context, isLoggedIn, devices, widget.isSleetbelt)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -97,468 +101,460 @@ class _PairDevice1State extends State<PairDevice1> {
         backgroundColor: AppColors.secondary,
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: Visibility(
+          visible: widget.isSleetbelt, child: BottomNavBar()),
     );
   }
-}
 
-late List<BluetoothService> _services;
+  late List<BluetoothService> _services;
 
-Widget myLayoutWidget(
-    BuildContext context, bool isLoggedIn, List<Device> devices) {
-  return Column(
-    children: [
-      Align(
-        alignment: Alignment.topLeft,
-        child: Padding(
-          padding: EdgeInsets.only(left: 10, top: 60, right: 0, bottom: 0),
-          child: Text(
-            "Your Devices",
-            style: TextStyle(
-                fontSize: 40,
-                color: AppColors.white,
-                fontWeight: FontWeight.w400),
+  Widget myLayoutWidget(BuildContext context, bool isLoggedIn,
+      List<Device> devices, bool isSleetbelt) {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, top: 30, right: 0, bottom: 0),
+            child: Text(
+              "Your Devices",
+              style: TextStyle(
+                  fontSize: 30,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w400),
+            ),
           ),
         ),
-      ),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: EdgeInsets.only(left: 00, top: 20, right: 0, bottom: 0),
-          child: Column(
-            children: [
-              // SizedBox(height: 5),
-              // GestureDetector(
-              //   onTap: () {
-              //     print("button press");
-              //     Navigator.of(context).push(
-              //       MaterialPageRoute(
-              //           builder: (BuildContext context) => productList()),
-              //     );
-              //   },
-              //   child: Container(
-              //     width: 150,
-              //     padding: EdgeInsets.symmetric(vertical: 15),
-              //     alignment: Alignment.center,
-              //     decoration: BoxDecoration(
-              //         // borderRadius: BorderRadius.only(
-              //         //   topRight: Radius.circular(15),
-              //         //   bottomRight: Radius.circular(15),
-              //         //   topLeft: Radius.circular(15),
-              //         //   bottomLeft: Radius.circular(15),
-              //         // ),
-              //         color: AppColors.secondary),
-              //     child: Text(
-              //       'Tap to Pair',
-              //       style: TextStyle(fontSize: 18, color: Colors.white),
-              //     ),
-              //   ),
-              // ),
-              // isLoggedIn
-              //     ? Container()
-              //     : Column(
-              //         children: [
-              //           SizedBox(height: 5),
-              //           Container(
-              //             width: 150,
-              //             padding: EdgeInsets.symmetric(vertical: 15),
-              //             alignment: Alignment.center,
-              //             decoration: BoxDecoration(
-              //                 // borderRadius: BorderRadius.only(
-              //                 //   topRight: Radius.circular(15),
-              //                 //   bottomRight: Radius.circular(15),
-              //                 //   topLeft: Radius.circular(15),
-              //                 //   bottomLeft: Radius.circular(15),
-              //                 // ),
-              //                 color: AppColors.secondary),
-              //             child: GestureDetector(
-              //               onTap: () {
-              //                 // print("button press");
-              //                 Navigator.of(context).push(
-              //                   MaterialPageRoute(
-              //                       builder: (BuildContext context) =>
-              //                           TuyaAuthScreen()),
-              //                 );
-              //               },
-              //               child: Text(
-              //                 'Connect a Device',
-              //                 style:
-              //                     TextStyle(fontSize: 18, color: Colors.white),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              // isLoggedIn
-              //     ? Column(
-              //         children: [
-              //           SizedBox(height: 5),
-              //           GestureDetector(
-              //             onTap: () {
-              //               // print("button press");
-              //               TuyaUiBizbundle.devicePair();
-              //             },
-              //             child: Container(
-              //               width: 150,
-              //               padding: EdgeInsets.symmetric(vertical: 15),
-              //               alignment: Alignment.center,
-              //               decoration: BoxDecoration(
-              //                   // borderRadius: BorderRadius.only(
-              //                   //   topRight: Radius.circular(15),
-              //                   //   bottomRight: Radius.circular(15),
-              //                   //   topLeft: Radius.circular(15),
-              //                   //   bottomLeft: Radius.circular(15),
-              //                   // ),
-              //                   color: AppColors.secondary),
-              //               child: Text(
-              //                 // 'Pair Tuya Device',
-              //                 'Pair Device',
-              //                 style:
-              //                     TextStyle(fontSize: 18, color: Colors.white),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       )
-              //     : Container(),
-              // isLoggedIn
-              //     ? Column(
-              //         children: [
-              //           SizedBox(height: 5),
-              //           GestureDetector(
-              //             onTap: () {
-              //               // print("button press");
-              //               TuyaUiBizbundle.openVoicePage();
-              //             },
-              //             child: Container(
-              //               width: 150,
-              //               padding: EdgeInsets.symmetric(vertical: 15),
-              //               alignment: Alignment.center,
-              //               decoration: BoxDecoration(
-              //                   // borderRadius: BorderRadius.only(
-              //                   //   topRight: Radius.circular(15),
-              //                   //   bottomRight: Radius.circular(15),
-              //                   //   topLeft: Radius.circular(15),
-              //                   //   bottomLeft: Radius.circular(15),
-              //                   // ),
-              //                   color: AppColors.secondary),
-              //               child: Text(
-              //                 'Open Voice Page',
-              //                 style:
-              //                     TextStyle(fontSize: 18, color: Colors.white),
-              //               ),
-              //             ),
-              //           ),
-              //           // SizedBox(height: 5),
-              //         ],
-              //       )
-              //     : Container(),
-              (devices.length != 0)
-                  ? Padding(
-                      padding: EdgeInsets.only(left: 32, right: 16, top: 8),
-                      child: Text("You don't have any devices",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w400)),
-                    )
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          Visibility(
-                            visible: false,
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              padding:
-                                  EdgeInsets.only(right: 15, left: 15, top: 10),
-                              child: Text(
-                                'PAIRED',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppColors.white),
-                              ),
-                            ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 00, top: 20, right: 0, bottom: 0),
+            child: Column(
+              children: [
+                // SizedBox(height: 5),
+                // GestureDetector(
+                //   onTap: () {
+                //     print("button press");
+                //     Navigator.of(context).push(
+                //       MaterialPageRoute(
+                //           builder: (BuildContext context) => productList()),
+                //     );
+                //   },
+                //   child: Container(
+                //     width: 150,
+                //     padding: EdgeInsets.symmetric(vertical: 15),
+                //     alignment: Alignment.center,
+                //     decoration: BoxDecoration(
+                //         // borderRadius: BorderRadius.only(
+                //         //   topRight: Radius.circular(15),
+                //         //   bottomRight: Radius.circular(15),
+                //         //   topLeft: Radius.circular(15),
+                //         //   bottomLeft: Radius.circular(15),
+                //         // ),
+                //         color: AppColors.secondary),
+                //     child: Text(
+                //       'Tap to Pair',
+                //       style: TextStyle(fontSize: 18, color: Colors.primary),
+                //     ),
+                //   ),
+                // ),
+                // isLoggedIn
+                //     ? Container()
+                //     : Column(
+                //         children: [
+                //           SizedBox(height: 5),
+                //           Container(
+                //             width: 150,
+                //             padding: EdgeInsets.symmetric(vertical: 15),
+                //             alignment: Alignment.center,
+                //             decoration: BoxDecoration(
+                //                 // borderRadius: BorderRadius.only(
+                //                 //   topRight: Radius.circular(15),
+                //                 //   bottomRight: Radius.circular(15),
+                //                 //   topLeft: Radius.circular(15),
+                //                 //   bottomLeft: Radius.circular(15),
+                //                 // ),
+                //                 color: AppColors.secondary),
+                //             child: GestureDetector(
+                //               onTap: () {
+                //                 // print("button press");
+                //                 Navigator.of(context).push(
+                //                   MaterialPageRoute(
+                //                       builder: (BuildContext context) =>
+                //                           TuyaAuthScreen()),
+                //                 );
+                //               },
+                //               child: Text(
+                //                 'Connect a Device',
+                //                 style:
+                //                     TextStyle(fontSize: 18, color: Colors.primary),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                // isLoggedIn
+                //     ? Column(
+                //         children: [
+                //           SizedBox(height: 5),
+                //           GestureDetector(
+                //             onTap: () {
+                //               // print("button press");
+                //               TuyaUiBizbundle.devicePair();
+                //             },
+                //             child: Container(
+                //               width: 150,
+                //               padding: EdgeInsets.symmetric(vertical: 15),
+                //               alignment: Alignment.center,
+                //               decoration: BoxDecoration(
+                //                   // borderRadius: BorderRadius.only(
+                //                   //   topRight: Radius.circular(15),
+                //                   //   bottomRight: Radius.circular(15),
+                //                   //   topLeft: Radius.circular(15),
+                //                   //   bottomLeft: Radius.circular(15),
+                //                   // ),
+                //                   color: AppColors.secondary),
+                //               child: Text(
+                //                 // 'Pair Tuya Device',
+                //                 'Pair Device',
+                //                 style:
+                //                     TextStyle(fontSize: 18, color: Colors.primary),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       )
+                //     : Container(),
+                // isLoggedIn
+                //     ? Column(
+                //         children: [
+                //           SizedBox(height: 5),
+                //           GestureDetector(
+                //             onTap: () {
+                //               // print("button press");
+                //               TuyaUiBizbundle.openVoicePage();
+                //             },
+                //             child: Container(
+                //               width: 150,
+                //               padding: EdgeInsets.symmetric(vertical: 15),
+                //               alignment: Alignment.center,
+                //               decoration: BoxDecoration(
+                //                   // borderRadius: BorderRadius.only(
+                //                   //   topRight: Radius.circular(15),
+                //                   //   bottomRight: Radius.circular(15),
+                //                   //   topLeft: Radius.circular(15),
+                //                   //   bottomLeft: Radius.circular(15),
+                //                   // ),
+                //                   color: AppColors.secondary),
+                //               child: Text(
+                //                 'Open Voice Page',
+                //                 style:
+                //                     TextStyle(fontSize: 18, color: Colors.primary),
+                //               ),
+                //             ),
+                //           ),
+                //           // SizedBox(height: 5),
+                //         ],
+                //       )
+                //     : Container(),
+                (devices.length != 0)
+                    ? Padding(
+                  padding: EdgeInsets.only(left: 32, right: 16, top: 8),
+                  child: Text("You don't have any devices",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w400)),
+                )
+                    : SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: false,
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding:
+                          EdgeInsets.only(right: 15, left: 15, top: 10),
+                          child: Text(
+                            'PAIRED',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: AppColors.primary),
                           ),
-                          StreamBuilder<List<BluetoothDevice>>(
-                            stream: Stream.periodic(Duration(seconds: 2))
-                                .asyncMap((_) =>
-                                    FlutterBlue.instance.connectedDevices),
-                            initialData: [],
-                            builder: (c, snapshot) => Column(
+                        ),
+                      ),
+                      StreamBuilder<List<BluetoothDevice>>(
+                        stream: Stream.periodic(Duration(seconds: 2))
+                            .asyncMap((_) =>
+                        FlutterBlue.instance.connectedDevices),
+                        initialData: [],
+                        builder: (c, snapshot) =>
+                            Column(
                               children: snapshot.data!
-                                  .map((d) => Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 10.0),
-                                            child: InkWell(
-                                              onTap: () async {
-                                                try {
-                                                  // await d.connect();
-                                                } catch (e) {
-                                                  if (e !=
-                                                      'already_connected') {
-                                                    throw e;
-                                                  }
-                                                } finally {
-                                                  _services = await d
-                                                      .discoverServices();
-                                                  //Navigator.pop(context);
-                                                  log(_services.toString());
+                                  .map((d) =>
+                                  Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 10.0),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            try {
+                                              // await d.connect();
+                                            } catch (e) {
+                                              if (e !=
+                                                  'already_connected') {
+                                                throw e;
+                                              }
+                                            } finally {
+                                              _services = await d
+                                                  .discoverServices();
+                                              //Navigator.pop(context);
+                                              log(_services.toString());
 
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>MonitorDeviceScreen(
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MonitorDeviceScreen(
                                                             device: d,
-                                                            services: _services,
+                                                            services:
+                                                            _services,
                                                           )));
-                                                }
-                                              },
-                                              child: Container(
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.white,
-                                                  border: Border.all(
-                                                    color: AppColors.white,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5)),
-                                                ),
-                                                child: ListTile(
-                                                  title: Row(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                          Icons
-                                                              .battery_charging_full,
-                                                          size: 20,
+
+                                            }
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: AppColors.primary,
+                                              border: Border.all(
+                                                color: AppColors.primary,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(
+                                                  Radius.circular(5)),
+                                            ),
+                                            child: ListTile(
+                                              title: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                      Icons
+                                                          .battery_charging_full,
+                                                      size: 20,
+                                                      color: AppColors
+                                                          .white),
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .only(
+                                                        left: 4.0),
+                                                    child: Text(
+                                                      d.name,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .normal,
+                                                          fontSize: 14,
                                                           color: AppColors
-                                                              .primary),
-                                                      Padding(
-                                                        padding:
+                                                              .white),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              trailing: StreamBuilder<
+                                                  BluetoothDeviceState>(
+                                                stream: d.state,
+                                                initialData:
+                                                BluetoothDeviceState
+                                                    .disconnected,
+                                                builder: (c, snapshot) {
+                                                  if (snapshot.data ==
+                                                      BluetoothDeviceState
+                                                          .connected) {
+                                                    return Container(
+                                                      width: 200,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .end,
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding:
                                                             const EdgeInsets
-                                                                    .only(
-                                                                left: 4.0),
-                                                        child: Text(
-                                                          d.name,
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              fontSize: 14,
-                                                              color: AppColors
-                                                                  .primary),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  trailing: StreamBuilder<
-                                                      BluetoothDeviceState>(
-                                                    stream: d.state,
-                                                    initialData:
-                                                        BluetoothDeviceState
-                                                            .disconnected,
-                                                    builder: (c, snapshot) {
-                                                      if (snapshot.data ==
-                                                          BluetoothDeviceState
-                                                              .connected) {
-                                                        return Container(
-                                                          width: 200,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: <Widget>[
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            4.0),
-                                                                child: Icon(
-                                                                    Icons
-                                                                        .bluetooth_audio,
-                                                                    size: 20,
-                                                                    color: AppColors
-                                                                        .primary),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            4.0),
-                                                                child:
-                                                                    Visibility(
-                                                                  visible:
-                                                                      false,
-                                                                  child: Text(
-                                                                    "${double.parse("10")}",
-                                                                    style: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .subtitle1,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            4.0),
-                                                                child:
-                                                                    Visibility(
-                                                                  visible:
-                                                                      false,
-                                                                  child: Icon(
-                                                                      Icons
-                                                                          .battery_full,
-                                                                      size: 20,
-                                                                      color: AppColors
-                                                                          .primary),
-                                                                ),
-                                                              ),
-                                                              Icon(
-                                                                  Icons
-                                                                      .arrow_forward_ios,
-                                                                  size: 20,
-                                                                  color: AppColors
-                                                                      .primary),
-                                                            ],
+                                                                .only(
+                                                                left:
+                                                                4.0),
+                                                            child: Icon(
+                                                                Icons
+                                                                    .bluetooth_audio,
+                                                                size: 20,
+                                                                color: AppColors
+                                                                    .white),
                                                           ),
-                                                        );
-                                                      }
-                                                      return Text(snapshot.data
-                                                          .toString());
-                                                    },
-                                                  ),
-                                                ),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left:
+                                                                4.0),
+                                                            child:
+                                                            Visibility(
+                                                              visible:
+                                                              false,
+                                                              child: Text(
+                                                                "${double.parse(
+                                                                    "10")}",
+                                                                style: Theme
+                                                                    .of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .subtitle1,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios,
+                                                              size: 20,
+                                                              color: AppColors
+                                                                  .white),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }
+                                                  return Text(snapshot.data
+                                                      .toString());
+                                                },
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ))
+                                        ),
+                                      ),
+                                    ],
+                                  ))
                                   .toList(),
                             ),
-                          ),
-                          for (int i = 0; i < devices.length; i++)
-                            DeviceButton(context, devices[i].deviceId,
-                                devices[i].deviceName),
-                          SizedBox(height: 5),
-                        ],
                       ),
-                    )
-            ],
+                      for (int i = 0; i < devices.length; i++)
+                        DeviceButton(context, devices[i].deviceId,
+                            devices[i].deviceName),
+                      SizedBox(height: 5),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
-Widget DeviceButton(BuildContext context, String id, String name) {
-  // return Column(
-  //   children: [
+  Widget DeviceButton(BuildContext context, String id, String name) {
+    // return Column(
+    //   children: [
 
-  //     GestureDetector(
-  //       onTap: () async {
-  //         print("button press");
-  //         String? message = await TuyaUiBizbundle.openDevicePanel(id);
-  //       },
-  //       child: Container(
-  //         width: 150,
-  //         padding: EdgeInsets.symmetric(vertical: 15),
-  //         alignment: Alignment.center,
-  //         decoration: BoxDecoration(
-  //             // borderRadius: BorderRadius.only(
-  //             //   topRight: Radius.circular(15),
-  //             //   bottomRight: Radius.circular(15),
-  //             //   topLeft: Radius.circular(15),
-  //             //   bottomLeft: Radius.circular(15),
-  //             // ),
-  //             color: AppColors.secondary),
-  //         child: Text(
-  //           name,
-  //           style: TextStyle(fontSize: 18, color: Colors.white),
-  //         ),
-  //       ),
-  //     ),
-  //   ],
-  // );
-  return Column(
-    children: [
-      // SizedBox(height: 5),
-      // GestureDetector(
-      //   onTap: () async {
-      //     // print("button press");
-      //     String? message = await TuyaUiBizbundle.openDevicePanel(id);
-      //   },
-      //   child: Container(
-      //     width: 150,
-      //     padding: EdgeInsets.symmetric(vertical: 15),
-      //     alignment: Alignment.center,
-      //     decoration: BoxDecoration(
-      //         // borderRadius: BorderRadius.only(
-      //         //   topRight: Radius.circular(15),
-      //         //   bottomRight: Radius.circular(15),
-      //         //   topLeft: Radius.circular(15),
-      //         //   bottomLeft: Radius.circular(15),
-      //         // ),
-      //         color: AppColors.secondary),
-      //     child: Text(
-      //       name,
-      //       style: TextStyle(fontSize: 18, color: Colors.white),
-      //     ),
-      //   ),
-      // ),
-      // SizedBox(height: 5),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          color: AppColors.secondary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          elevation: 10,
-          child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 8),
-            child: GestureDetector(
-              onTap: () async {
-                // print("button press");
-                // String? message = await TuyaUiBizbundle.openDevicePanel(id);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Column(children: [
-                    Text(
-                      name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                          color: AppColors.white),
-                    ),
-                  ]),
-                  Column(children: [
-                    Image.asset('assets/difuuser.png',
-                        height: 130.00, fit: BoxFit.fill),
-                  ])
-                ],
+    //     GestureDetector(
+    //       onTap: () async {
+    //         print("button press");
+    //         String? message = await TuyaUiBizbundle.openDevicePanel(id);
+    //       },
+    //       child: Container(
+    //         width: 150,
+    //         padding: EdgeInsets.symmetric(vertical: 15),
+    //         alignment: Alignment.center,
+    //         decoration: BoxDecoration(
+    //             // borderRadius: BorderRadius.only(
+    //             //   topRight: Radius.circular(15),
+    //             //   bottomRight: Radius.circular(15),
+    //             //   topLeft: Radius.circular(15),
+    //             //   bottomLeft: Radius.circular(15),
+    //             // ),
+    //             color: AppColors.secondary),
+    //         child: Text(
+    //           name,
+    //           style: TextStyle(fontSize: 18, color: Colors.primary),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
+    return Column(
+      children: [
+        // SizedBox(height: 5),
+        // GestureDetector(
+        //   onTap: () async {
+        //     // print("button press");
+        //     String? message = await TuyaUiBizbundle.openDevicePanel(id);
+        //   },
+        //   child: Container(
+        //     width: 150,
+        //     padding: EdgeInsets.symmetric(vertical: 15),
+        //     alignment: Alignment.center,
+        //     decoration: BoxDecoration(
+        //         // borderRadius: BorderRadius.only(
+        //         //   topRight: Radius.circular(15),
+        //         //   bottomRight: Radius.circular(15),
+        //         //   topLeft: Radius.circular(15),
+        //         //   bottomLeft: Radius.circular(15),
+        //         // ),
+        //         color: AppColors.secondary),
+        //     child: Text(
+        //       name,
+        //       style: TextStyle(fontSize: 18, color: Colors.primary),
+        //     ),
+        //   ),
+        // ),
+        // SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            color: AppColors.secondary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            elevation: 10,
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+              child: GestureDetector(
+                onTap: () async {
+                  // print("button press");
+                  // String? message = await TuyaUiBizbundle.openDevicePanel(id);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Column(children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 28,
+                            color: AppColors.primary),
+                      ),
+                    ]),
+                    Column(children: [
+                      Image.asset('assets/difuuser.png',
+                          height: 130.00, fit: BoxFit.fill),
+                    ])
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
+
 
 class Device {
   String deviceName;
   String deviceId;
+
   Device(this.deviceId, this.deviceName);
 }
 

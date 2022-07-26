@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/accountManagement.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/monitorDevice.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/reportDevice.dart';
@@ -276,7 +277,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
         ));
 
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
 //         appBar: AppBar(
 //           leading: IconButton(
@@ -309,7 +310,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
 //             style: TextStyle(color: Theme.of(context).primaryColor),
 //           ),
 //         ),
-          appBar: AppPrimaryBar(),
+          appBar: AppPrimaryBar(isSleetBelt: true),
           drawer: AppDrawer(),
           body: Column(
             children:[
@@ -326,9 +327,9 @@ class _WakeUpScreen extends State<WakeUpScreen> {
                     text: "Report",
 
                   ),
-                 /* Tab(
+                  Tab(
                     text: "Monitor",
-                  ),*/
+                  ),
                   Tab(
                     text: "Account",
                   ),
@@ -338,7 +339,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
                 child: TabBarView(
                   children: [
                     ReportDeviceScreen(),
-                   // MonitorDeviceScreen(),
+                    PairDevice1(isSleetbelt: false,),
                     AccountManagementScreen(),
                   ],
                 ),

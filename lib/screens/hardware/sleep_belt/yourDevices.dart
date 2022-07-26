@@ -737,7 +737,7 @@ class _YourDevicesScreenState extends State<YourDevicesScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppPrimaryBar(),
+        appBar: AppPrimaryBar(isSleetBelt: true),
         body: _buildView(),
       );
 

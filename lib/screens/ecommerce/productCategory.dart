@@ -17,7 +17,7 @@ class _ProductCategoryState extends State<ProductCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppPrimaryBar(),
+      appBar: AppPrimaryBar(isSleetBelt: true),
       drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Container(

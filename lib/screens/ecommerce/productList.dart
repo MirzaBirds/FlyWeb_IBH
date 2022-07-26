@@ -115,7 +115,7 @@ class _ProductListState extends State<ProductList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppPrimaryBar(),
+      appBar: AppPrimaryBar(isSleetBelt: true),
       drawer: AppDrawer(),
       body: productListView(context),
       bottomNavigationBar: BottomNavBar(),

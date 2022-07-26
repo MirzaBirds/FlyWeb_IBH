@@ -58,7 +58,7 @@ class _FindDeviceState extends State<FindDevice> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppPrimaryBar(),
+      appBar: AppPrimaryBar(isSleetBelt: true),
       drawer: AppDrawer(),
       body: comming_soon
           ? Padding(

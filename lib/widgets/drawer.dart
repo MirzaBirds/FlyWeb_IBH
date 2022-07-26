@@ -187,7 +187,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => PairDevice1(),
+                builder: (BuildContext context) => PairDevice1(isSleetbelt: true,),
               ),
             );
           },
@@ -410,7 +410,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => PairDevice1(),
+                builder: (BuildContext context) => PairDevice1(isSleetbelt: true,),
               ),
             );
           },

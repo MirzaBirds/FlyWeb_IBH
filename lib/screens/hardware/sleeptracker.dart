@@ -15,7 +15,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//         appBar: AppPrimaryBar(),
+//         appBar: AppPrimaryBar(isSleetBelt: true),
 //         drawer: AppDrawer(),
 //         body: Container(
 //             decoration: new BoxDecoration(color: AppColors.primary),

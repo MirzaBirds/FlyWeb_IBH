@@ -7,9 +7,13 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../../config/appColors.dart';
 import '../../../utils.dart';
+import '../../../widgets/appBar.dart';
+import '../../../widgets/bottomNav.dart';
+import '../../../widgets/drawer.dart';
 
 class MonitorDeviceScreen extends StatefulWidget {
   MonitorDeviceScreen({required this.device, required this.services});
+
   final BluetoothDevice device;
   final List<BluetoothService> services;
   final Map<int, List<int>> readValues = new Map<int, List<int>>();
@@ -29,7 +33,6 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   @override
   void initState() {
     super.initState();
-
     Timer.periodic(new Duration(seconds: 1), (timer) {
       FlutterBlue.instance.connectedDevices.then((value) {
         if (value.length >= 1 && !isConnected) {
@@ -80,6 +83,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppPrimaryBar(
+          isSleetBelt: true,
+        ),
+        drawer: AppDrawer(),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -124,12 +131,11 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? getRealValueFromArray(widget.readValues[0]!)[1]
-                                .toString()
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}:${getRealValueFromArray(widget.readValues[0]!)[2]}%"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: 16,
                             color: AppColors.primary),
                       ),
                     ],
@@ -147,12 +153,11 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? getRealValueFromArray(widget.readValues[0]!)[3]
-                                .toString()
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[3]}:${getRealValueFromArray(widget.readValues[0]!)[4]}%"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: 16,
                             color: AppColors.primary),
                       ),
                     ],
@@ -326,6 +331,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
             ],
           ),
         ),
+        bottomNavigationBar: BottomNavBar(),
       ),
     );
   }
@@ -416,12 +422,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     // List<int> temp = <int>[];
     // temp = data;
     // if (temp == null) return 0;
-    // if (temp.length == 0)
-    //   return 0;
-    // else {
-    //   // return (temp[3] << 8) + temp[4];
-    //   return data;
-    // }
+    if (data.length == 0)
+      return [0,0,0,0,0,0,0,0,0,0,];
+    else {
+      // return (temp[3] << 8) + temp[4];
+      return data;
+    }
     return data;
   }
 
