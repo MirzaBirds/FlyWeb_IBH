@@ -153,28 +153,28 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.adjust_rounded,
-                        color: AppColors.primary,
-                        size: 30,
-                      ),
-                      Text(
-                        widget.readValues[0] != null
-                            ? getRealValueFromArray(widget.readValues[0]!)[3]
-                                .toString()
-                            : "-",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            color: AppColors.primary),
-                      ),
-                    ],
-                  ),
+                  // SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Column(
+                  //   children: [
+                  //     Icon(
+                  //       Icons.adjust_rounded,
+                  //       color: AppColors.primary,
+                  //       size: 30,
+                  //     ),
+                  //     Text(
+                  //       widget.readValues[0] != null
+                  //           ? getRealValueFromArray(widget.readValues[0]!)[3]
+                  //               .toString()
+                  //           : "-",
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.normal,
+                  //           fontSize: 20,
+                  //           color: AppColors.primary),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     width: 10,
                   ),
