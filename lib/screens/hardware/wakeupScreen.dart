@@ -319,9 +319,9 @@ class _WakeUpScreen extends State<WakeUpScreen> {
             case 1:
               widget.readValues[1] = value;
               break;
-            case 2:
-              widget.readValues[2] = value;
-              break;
+            // case 2:
+            //   widget.readValues[2] = value;
+            //   break;
             // case 3:
             //   widget.readValues[3] = value;
             //   break;
@@ -348,7 +348,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
     print("Device Connecting State value is $isConnected");
 
     comandKind++;
-    if (comandKind == 3) comandKind = 0;
+    if (comandKind == 2) comandKind = 0;
     print("+++++++++++++++++++comandKind++++++++++++++++++++++++++");
     print(comandKind);
     switch (comandKind) {
@@ -358,9 +358,9 @@ class _WakeUpScreen extends State<WakeUpScreen> {
       case 1:
         await _writecharacteristic!.write(getRealTimeHeartRate());
         break;
-      case 2:
-        await _writecharacteristic!.write(getOutOfBedStoreData());
-        break;
+      // case 2:
+      //   await _writecharacteristic!.write(getOutOfBedStoreData());
+      //   break;
       // case 3:
       //   await _writecharacteristic!.write(getOutOfBedStoreData());
       //   break;

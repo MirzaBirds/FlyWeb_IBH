@@ -12,21 +12,21 @@ import '../../../widgets/bottomNav.dart';
 import '../../../widgets/drawer.dart';
 
 class MonitorDeviceScreen extends StatefulWidget {
-
   final Map<int, List<int>> readValues;
 
-  const MonitorDeviceScreen({Key? key, required this.readValues}) : super(key: key);
+  const MonitorDeviceScreen({Key? key, required this.readValues})
+      : super(key: key);
 
   @override
   State<MonitorDeviceScreen> createState() => _MonitorDeviceScreenState();
 }
 
 class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
-
   @override
   void initState() {
     super.initState();
   }
+
   List<int> getRealValueFromArray(List<int> data) {
     print("+++++++++++++++++++++++++++++");
     print(data);
@@ -78,7 +78,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}.${getRealValueFromArray(widget.readValues[0]!)[2]}°C"
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[1]}°C"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -95,12 +95,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
                       Image.asset(
                         "assets/sleep_belt/ic_water_drop.png",
                         color: AppColors.primary,
-                        height: 25,
+                        height: 30,
                         width: 25,
                       ),
                       Text(
                         widget.readValues[0] != null
-                            ? "${getRealValueFromArray(widget.readValues[0]!)[3]}.${getRealValueFromArray(widget.readValues[0]!)[4]}%"
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[3]}%"
                             : "--",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
