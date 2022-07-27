@@ -32,6 +32,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   bool isConnected = false;
 
   @override
+  void dispose() {
+    getUserData();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     Timer.periodic(new Duration(seconds: 1), (timer) {
@@ -49,28 +55,11 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   }
 
   getUserData() {
-    Timer.periodic(new Duration(seconds: 2), (timer) {
-      // comandKind = 0;
+    Timer.periodic(new Duration(milliseconds: 500), (timer) {
       if (isConnected) {
         _sendCommand();
-        setState(() {
-          // comandKind = 0;
-          _writecharacteristic!.write(getPowerDevice());
-          _writecharacteristic!.write(getRealTimeHeartRate());
-        });
       }
     });
-
-    // Timer.periodic(new Duration(seconds: 5), (timer) {
-    //   // comandKind = 0;
-    //   if (isConnected) {
-    //     _sendCommand();
-    //     setState(() {
-    //       // comandKind = 1;
-    //       _writecharacteristic!.write(getRealTimeHeartRate());
-    //     });
-    //   }
-    // });
   }
 
   @override
@@ -82,9 +71,10 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TopNavBar(device: widget.device,
-                services:
-                widget.services,),
+              TopNavBar(
+                device: widget.device,
+                services: widget.services,
+              ),
               SizedBox(
                 height: 10,
               ),

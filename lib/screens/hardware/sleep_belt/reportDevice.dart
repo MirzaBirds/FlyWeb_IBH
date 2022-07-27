@@ -33,6 +33,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   bool isConnected = false;
 
   @override
+  void dispose() {
+    getUserData();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     Timer.periodic(new Duration(seconds: 1), (timer) {
@@ -46,7 +52,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       });
     });
 
-    //this.getUserData();
+    this.getUserData();
   }
 
   getUserData() {
@@ -71,6 +77,9 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
+    print(widget.readValues);
+    print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
     return SafeArea(
       child: Scaffold(
         appBar: AppPrimaryBar(isSleetBelt: true),
@@ -78,9 +87,10 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TopNavBar(device: widget.device,
-                services:
-                widget.services,),
+              TopNavBar(
+                device: widget.device,
+                services: widget.services,
+              ),
               SizedBox(
                 height: 5,
               ),
@@ -119,8 +129,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                     right: 0,
                     child: Center(
                       child: Text(
-                        widget.readValues[2] != null
-                            ? "${getRealValueFromArray(widget.readValues[2]!)[2]} ${getRealValueFromArray(widget.readValues[2]!)[3]} ${getRealValueFromArray(widget.readValues[2]!)[4]} ${getRealValueFromArray(widget.readValues[2]!)[5]}"
+                        widget.readValues[0] != null
+                            ? "${getRealValueFromArray(widget.readValues[0]!)[2]} ${getRealValueFromArray(widget.readValues[0]!)[3]} ${getRealValueFromArray(widget.readValues[0]!)[4]} ${getRealValueFromArray(widget.readValues[0]!)[5]}"
                                 .toString()
                             : "No Sleep Data",
                         style: TextStyle(
