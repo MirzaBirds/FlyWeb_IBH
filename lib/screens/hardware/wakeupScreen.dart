@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/accountManagement.dart';
@@ -64,56 +65,13 @@ class _WakeUpScreen extends State<WakeUpScreen> {
 
   void getDataFromPreferenceAndDatabase() async {
     // From preference
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // int sleepTime = prefs.getInt("sleepTime");
-    // int wakeupTime = prefs.getInt("alarm");
-    // int duration = wakeupTime - sleepTime;
-    // setState(() {
-    //   _sleepDurationText = formatHHMMSS((duration / 1000).round());
-    //   _sleepDuration = (duration / 1000).round();
-    //   _sleepGoToBed = TimeUtils.millisecToLocalSec(sleepTime);
-    //   _sleepWakeup = TimeUtils.millisecToLocalSec(wakeupTime);
-    // });
 
-    // From database
-    // var database = MyDatabase.instance;
-    // var db = await database.database;
-    // var allSleeps = await database.sleeps();
-    // int nextId = allSleeps.length;
     int totalDuration = 0;
     int totalGoToBed = 0;
     int totalWakeup = 0;
 
     // Inserts only when there's no repeated entry. TODO: bugs
     bool hasRepeat = false;
-    // for (var sleep in allSleeps) {
-    //   if (sleep.start == sleepTime && sleep.end == wakeupTime) {
-    //     hasRepeat = true;
-    //     break;
-    //   }
-    // }
-    // if (!hasRepeat) {
-    //   await database
-    //       .insertSleep(Sleep(id: nextId, start: sleepTime, end: wakeupTime));
-    // }
-
-    // if (allSleeps.length > 0) {
-    //   for (var sleep in allSleeps) {
-    //     totalDuration += (sleep.duration / 1000).round();
-    //     totalGoToBed += TimeUtils.millisecToLocalSec(sleep.start);
-    //     totalWakeup += TimeUtils.millisecToLocalSec(sleep.end);
-    //     print("Sleep: ${sleep.start}, ${sleep.end}");
-    //   }
-    //   print(allSleeps.length);
-    //   setState(() {
-    //     _averageSleepText =
-    //         formatHHMMSS((totalDuration / allSleeps.length).round());
-    //     _averageSleep = (totalDuration / allSleeps.length).round();
-    //     print(_averageSleep);
-    //     _averageGoToBed = (totalGoToBed / allSleeps.length).round();
-    //     _averageWakeup = (totalWakeup / allSleeps.length).round();
-    //   });
-    // }
 
     // Gets location
     Location location = Location();
@@ -124,58 +82,8 @@ class _WakeUpScreen extends State<WakeUpScreen> {
     double? lat;
     double? lon;
 
-    // serviceEnabled = await location.serviceEnabled();
-    // if (!serviceEnabled) {
-    //   createAlertDialog1(context, "test");
-
-    //   serviceEnabled = await location.requestService();
-    //   if (!serviceEnabled) {
-    //     return;
-    //   }
-    // }
-
-    // permissionGranted = await location.hasPermission();
-    // if (permissionGranted == PermissionStatus.denied) {
-    //   permissionGranted = await location.requestPermission();
-    //   if (permissionGranted != PermissionStatus.granted) {
-    //     return;
-    //   }
-    // }
-
-    // locationData = await location.getLocation();
-
-    // lat = locationData.latitude;
-    // lon = LocationData.ling;
-    // await fetchWeather(lat, lon);
     print("Done fetching");
   }
-
-  /*
-    Makes API call to get weather data.
-   */
-  // Future<void> fetchWeather(double lat, double lon) async {
-  //   final response = await http.get(
-  //       "https://api.openweathermap.org/data/2.5/weather?lat=${lat.round()}&lon=${lon.round()}&appid=$apiKey&units=$_units");
-
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> data = json.decode(response.body);
-  //     print(data);
-  //     setState(() {
-  //       _apiError = false;
-  //       _condition = data['weather'][0]['main'];
-  //       _cityName = data['name'];
-  //       _temp = data['main']['temp'].round();
-  //       _tempMax = data['main']['temp_max'].round();
-  //       _tempMin = data['main']['temp_min'].round();
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _apiError = true;
-  //     });
-
-  //     print("Error when fetching from API.");
-  //   }
-  // }
 
   BluetoothService? tempservice;
   BluetoothCharacteristic? _nodifycharacteristic;
@@ -203,19 +111,21 @@ class _WakeUpScreen extends State<WakeUpScreen> {
   }
 
   getUserData() {
-    Timer.periodic(new Duration(milliseconds: 300), (timer) {
+    Timer.periodic(new Duration(milliseconds: 500), (timer) {
       if (isConnected) {
         _sendCommand();
       }
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     // The entire widget displaying weather
+
+    print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
+    print(widget.readValues);
+    print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
+
     Widget weatherWidget = Container(
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(5),
@@ -348,19 +258,18 @@ class _WakeUpScreen extends State<WakeUpScreen> {
           appBar: AppPrimaryBar(isSleetBelt: true),
           drawer: AppDrawer(),
           body: Column(
-            children:[
+            children: [
               SizedBox(
                 height: 5,
               ),
               TabBar(
-                indicatorColor:  AppColors.primary,
-                labelColor:  AppColors.primary,
+                indicatorColor: AppColors.primary,
+                labelColor: AppColors.primary,
                 unselectedLabelColor: Colors.grey,
                 isScrollable: true,
                 tabs: [
                   Tab(
                     text: "Report",
-
                   ),
                   Tab(
                     text: "Monitor",
@@ -373,13 +282,17 @@ class _WakeUpScreen extends State<WakeUpScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ReportDeviceScreen(readValues: widget.readValues,),
-                    MonitorDeviceScreen(readValues: widget.readValues,),
+                    ReportDeviceScreen(
+                      readValues: widget.readValues,
+                    ),
+                    MonitorDeviceScreen(
+                      readValues: widget.readValues,
+                    ),
                     AccountManagementScreen(),
                   ],
                 ),
               ),
-             /* WakeupList(_sleepDuration, _averageSleep, _sleepGoToBed,
+              /* WakeupList(_sleepDuration, _averageSleep, _sleepGoToBed,
                   _averageGoToBed, _sleepWakeup, _averageWakeup),*/
             ],
           ),
@@ -387,11 +300,10 @@ class _WakeUpScreen extends State<WakeUpScreen> {
     );
   }
 
-
   Future<void> _notification() async {
     tempservice = widget.services[2];
     for (BluetoothCharacteristic characteristic
-    in tempservice!.characteristics) {
+        in tempservice!.characteristics) {
       if (characteristic.properties.write)
         _writecharacteristic = characteristic;
       if (characteristic.properties.notify)
@@ -407,27 +319,28 @@ class _WakeUpScreen extends State<WakeUpScreen> {
             case 1:
               widget.readValues[1] = value;
               break;
-          // case 2:
-          //   widget.readValues[2] = value;
-          //   break;
-          // case 3:
-          //   widget.readValues[3] = value;
-          //   break;
-          // case 4:
-          //   widget.readValues[4] = value;
-          //   break;
-          // case 5:
-          //   widget.readValues[5] = value;
-          //   break;
-          // case 6:
-          //   widget.readValues[6] = value;
-          //   break;
-          // case 7:
-          //   widget.readValues[7] = value;
-          //   break;
+            case 2:
+              widget.readValues[2] = value;
+              break;
+            // case 3:
+            //   widget.readValues[3] = value;
+            //   break;
+            // case 4:
+            //   widget.readValues[4] = value;
+            //   break;
+            // case 5:
+            //   widget.readValues[5] = value;
+            //   break;
+            // case 6:
+            //   widget.readValues[6] = value;
+            //   break;
+            // case 7:
+            //   widget.readValues[7] = value;
+            //   break;
           }
         });
     });
+
     await _nodifycharacteristic?.setNotifyValue(true);
   }
 
@@ -435,23 +348,23 @@ class _WakeUpScreen extends State<WakeUpScreen> {
     print("Device Connecting State value is $isConnected");
 
     comandKind++;
-    if (comandKind == 2) comandKind = 0;
+    if (comandKind == 3) comandKind = 0;
     print("+++++++++++++++++++comandKind++++++++++++++++++++++++++");
     print(comandKind);
     switch (comandKind) {
       case 0:
         await _writecharacteristic!.write(getPowerDevice());
         break;
-    case 1:
-      await _writecharacteristic!.write(getRealTimeHeartRate());
-      break;
-    // case 2:
-    //   await _writecharacteristic!.write(getRealTimeHeartRate());
-    //   break;
-    /* case 3:
-        await _writecharacteristic.write(_buildChargeBotCommand(1, 82));
+      case 1:
+        await _writecharacteristic!.write(getRealTimeHeartRate());
         break;
-      case 4:
+      case 2:
+        await _writecharacteristic!.write(getOutOfBedStoreData());
+        break;
+      // case 3:
+      //   await _writecharacteristic!.write(getOutOfBedStoreData());
+      //   break;
+      /*case 4:
         await _writecharacteristic.write(_buildChargeBotCommand(1, 87));
         break;
       case 5:
@@ -595,7 +508,37 @@ class _WakeUpScreen extends State<WakeUpScreen> {
     crcValue(value);
     return value;
   }
+
+  static List<int> getHeartandSleepBeltStoreData() {
+    final List<int> value = _generateInitValue(); //16
+    // final int AA = 1;
+    value[0] = 0x17;
+    // value[1] = _getBcdValue(AA);
+    crcValue(value);
+    return value;
+  }
+
+  static List<int> getOutOfBedStoreData() {
+    final List<int> value = _generateInitValue(); //16
+    value[0] = 0x14;
+    crcValue(value);
+    return value;
+  }
+
+  static List<int> getRollOverData() {
+    final List<int> value = _generateInitValue(); //16
+    value[0] = 0x15;
+    crcValue(value);
+    return value;
+  }
 }
+
+ 
+
+
+
+
+
 
 // createAlertDialog1(BuildContext context, msg) {
 //   print("in popup !! ");

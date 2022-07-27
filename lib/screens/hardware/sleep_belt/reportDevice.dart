@@ -9,19 +9,15 @@ import '../../../config/appColors.dart';
 import '../../../utils.dart';
 
 class ReportDeviceScreen extends StatefulWidget {
-
   final Map<int, List<int>> readValues;
 
-  ReportDeviceScreen({Key? key, required this.readValues})
-      : super(key: key);
+  ReportDeviceScreen({Key? key, required this.readValues}) : super(key: key);
 
   @override
   State<ReportDeviceScreen> createState() => _ReportDeviceScreenState();
 }
 
 class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
-
-
   @override
   void initState() {
     super.initState();
@@ -100,8 +96,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                     right: 0,
                     child: Center(
                       child: Text(
-                        widget.readValues[0] != null
-                            ? getRealValueFromArray(widget.readValues[0]!)[3]
+                        widget.readValues[2] != null
+                            ? "${getRealValueFromArray(widget.readValues[2]!)[2]} ${getRealValueFromArray(widget.readValues[2]!)[3]} ${getRealValueFromArray(widget.readValues[2]!)[4]} ${getRealValueFromArray(widget.readValues[2]!)[5]}"
                                 .toString()
                             : "No Sleep Data",
                         style: TextStyle(
