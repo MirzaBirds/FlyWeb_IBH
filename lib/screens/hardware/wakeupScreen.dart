@@ -373,8 +373,7 @@ class _WakeUpScreen extends State<WakeUpScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ReportDeviceScreen(device: widget.device,
-                      services: widget.services,),
+                    ReportDeviceScreen(readValues: widget.readValues,),
                     MonitorDeviceScreen(readValues: widget.readValues,),
                     AccountManagementScreen(),
                   ],
