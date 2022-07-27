@@ -31,7 +31,6 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   late Timer timer;
   bool isConnected = false;
 
-
   @override
   void dispose() {
     timer.cancel();
@@ -55,7 +54,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   }
 
   getUserData() {
-    timer = Timer.periodic(new Duration(milliseconds: 500), (timer) {
+    timer = Timer.periodic(new Duration(seconds: 5), (timer) {
       if (isConnected) {
         _sendCommand();
       }
