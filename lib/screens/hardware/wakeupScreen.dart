@@ -282,13 +282,13 @@ class _WakeUpScreen extends State<WakeUpScreen> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ReportDeviceScreen(
-                      readValues: widget.readValues,
-                    ),
-                    MonitorDeviceScreen(
-                      readValues: widget.readValues,
-                    ),
-                    AccountManagementScreen(),
+                    // ReportDeviceScreen(
+                    //   readValues: widget.readValues,
+                    // ),
+                    // MonitorDeviceScreen(
+                    //   readValues: widget.readValues,
+                    // ),
+                   // AccountManagementScreen(),
                   ],
                 ),
               ),

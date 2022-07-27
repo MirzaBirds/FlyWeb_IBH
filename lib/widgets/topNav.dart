@@ -3,13 +3,22 @@ import 'package:doctor_dreams/home.dart';
 import 'package:doctor_dreams/screens/ecommerce/experienceCenter.dart';
 import 'package:doctor_dreams/screens/ecommerce/productCategory.dart';
 import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/accountManagement.dart';
+import 'package:doctor_dreams/screens/hardware/sleep_belt/reportDevice.dart';
 import 'package:doctor_dreams/screens/hardware/sleepingScreen.dart';
 import 'package:doctor_dreams/screens/hardware/sleeptracker.dart';
 import 'package:doctor_dreams/screens/hardware/wakeupScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+
+import '../screens/hardware/sleep_belt/monitorDevice.dart';
 
 class TopNavBar extends StatefulWidget {
-  const TopNavBar({Key? key}) : super(key: key);
+
+  final BluetoothDevice device;
+  final List<BluetoothService> services;
+
+  const TopNavBar({Key? key, required this.device, required this.services}) : super(key: key);
 
   @override
   _TopNavBarState createState() => _TopNavBarState();
@@ -18,20 +27,6 @@ class TopNavBar extends StatefulWidget {
 class _TopNavBarState extends State<TopNavBar> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[
-    Icon(
-      Icons.call,
-      size: 150,
-    ),
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -43,7 +38,8 @@ class _TopNavBarState extends State<TopNavBar> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute<void>(
-            builder: (BuildContext context) => const Home(),
+            builder: (BuildContext context) =>  ReportDeviceScreen(device: widget.device,
+              services:widget.services,),
           ),
         );
       } else if (_selectedIndex == 1) {
@@ -51,7 +47,8 @@ class _TopNavBarState extends State<TopNavBar> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute<void>(
-            builder: (BuildContext context) => const ExperienceCenter(),
+            builder: (BuildContext context) =>MonitorDeviceScreen(device: widget.device,
+              services:widget.services,),
           ),
         );
       }
@@ -61,15 +58,8 @@ class _TopNavBarState extends State<TopNavBar> {
           context,
           MaterialPageRoute<void>(
             // builder: (BuildContext context) => const SleepTracker(),
-            builder: (BuildContext context) => const PairDevice1(isSleetbelt: true),
-          ),
-        );
-      }
-      if (_selectedIndex == 3) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const ProductCategory(),
+            builder: (BuildContext context) => AccountManagementScreen(device: widget.device,
+              services:widget.services,),
           ),
         );
       }
@@ -90,24 +80,19 @@ class _TopNavBarState extends State<TopNavBar> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           backgroundColor: AppColors.white,
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
+          icon: Visibility(visible:false,child: Icon(Icons.home_outlined)),
+          label: 'Report',
         ),
         BottomNavigationBarItem(
           backgroundColor: AppColors.primary,
-          icon: ImageIcon(AssetImage('assets/sleep.png')),
+          icon: Visibility(visible:false,child: ImageIcon(AssetImage('assets/sleep.png'))),
           // icon: Icon(Icons.star_rate_outlined),
-          label: 'Experience Center',
+          label: 'Monitor',
         ),
         BottomNavigationBarItem(
           backgroundColor: AppColors.primary,
-          icon: ImageIcon(AssetImage('assets/tracker.png')),
-          label: 'Sleep Tracker',
-        ),
-        BottomNavigationBarItem(
-          backgroundColor: AppColors.primary,
-          icon: ImageIcon(AssetImage('assets/e-sleep.png')),
-          label: 'Sleep Essentials',
+          icon: Visibility(visible:false,child: ImageIcon(AssetImage('assets/tracker.png'))),
+          label: 'Account',
         ),
       ],
       currentIndex: _selectedIndex,

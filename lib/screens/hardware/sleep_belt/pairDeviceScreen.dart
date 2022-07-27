@@ -84,7 +84,7 @@ class _PairDeviceScreenState extends State<PairDeviceScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>WakeUpScreen(
+                                          builder: (context) =>MonitorDeviceScreen(
                                             device: snapshot
                                                 .data![i].device,
                                             services: _services,

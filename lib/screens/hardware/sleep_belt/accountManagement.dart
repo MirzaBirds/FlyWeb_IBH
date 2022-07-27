@@ -1,11 +1,19 @@
 import 'package:doctor_dreams/screens/hardware/sleep_belt/pairDeviceScreen.dart';
 import 'package:doctor_dreams/screens/hardware/sleep_belt/userPersonalInfo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 import '../../../config/appColors.dart';
+import '../../../widgets/appBar.dart';
+import '../../../widgets/bottomNav.dart';
+import '../../../widgets/drawer.dart';
+import '../../../widgets/topNav.dart';
 
 class AccountManagementScreen extends StatefulWidget {
-  const AccountManagementScreen({Key? key}) : super(key: key);
+  final BluetoothDevice device;
+  final List<BluetoothService> services;
+
+  const AccountManagementScreen({Key? key, required this.device, required this.services}) : super(key: key);
 
   @override
   State<AccountManagementScreen> createState() => _AccountManagementState();
@@ -27,9 +35,14 @@ class _AccountManagementState extends State<AccountManagementScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppPrimaryBar(isSleetBelt: true),
+        drawer: AppDrawer(),
         body: SingleChildScrollView(
           child: Column(
             children: [
+              TopNavBar(device: widget.device,
+                services:
+                widget.services,),
               SizedBox(
                 height: 5,
               ),
@@ -119,6 +132,7 @@ class _AccountManagementState extends State<AccountManagementScreen> {
             ],
           ),
         ),
+        bottomNavigationBar: BottomNavBar(),
       ),
     );
   }

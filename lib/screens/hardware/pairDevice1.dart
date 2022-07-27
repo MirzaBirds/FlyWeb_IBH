@@ -326,7 +326,7 @@ class _PairDevice1State extends State<PairDevice1> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                WakeUpScreen(
+                                                                MonitorDeviceScreen(
                                                                   device: d,
                                                                   services:
                                                                       _services,
