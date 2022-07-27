@@ -31,16 +31,17 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
   late Timer timer;
   bool isConnected = false;
 
+
   @override
   void dispose() {
-    getUserData();
+    timer.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(new Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(new Duration(seconds: 1), (timer) {
       FlutterBlue.instance.connectedDevices.then((value) {
         if (value.length >= 1 && !isConnected) {
           _notification();
@@ -50,12 +51,11 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
         }
       });
     });
-
     this.getUserData();
   }
 
   getUserData() {
-    Timer.periodic(new Duration(milliseconds: 500), (timer) {
+    timer = Timer.periodic(new Duration(milliseconds: 500), (timer) {
       if (isConnected) {
         _sendCommand();
       }

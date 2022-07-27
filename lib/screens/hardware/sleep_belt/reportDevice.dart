@@ -34,14 +34,14 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   @override
   void dispose() {
-    getUserData();
+    timer.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(new Duration(seconds: 1), (timer) {
+    timer =  Timer.periodic(new Duration(seconds: 1), (timer) {
       FlutterBlue.instance.connectedDevices.then((value) {
         if (value.length >= 1 && !isConnected) {
           _notification();
@@ -56,7 +56,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   }
 
   getUserData() {
-    Timer.periodic(new Duration(seconds: 2), (timer) {
+    timer =  Timer.periodic(new Duration(seconds: 2), (timer) {
       // comandKind = 0;
       if (isConnected) {
         _sendCommand();
