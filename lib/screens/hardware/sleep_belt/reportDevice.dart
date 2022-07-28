@@ -399,33 +399,25 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     return generateValue(16);
   }
 
-  static List<int> setPersonalInfo() {
+  static List<int> _setPersonalInfo(int gender,int age,int height,int weight) {
     final List<int> value = _generateInitValue(); //16
-    final int year = 2022;
-    final int month = 5;
-    final int day = 20;
-    final int hour = 00;
-    final int minute = 00;
-    final int second = 00;
     value[0] = 0x01;
-    value[1] = _getBcdValue(year);
-    value[2] = _getBcdValue(month);
-    value[3] = _getBcdValue(day);
-    value[4] = _getBcdValue(hour);
-    value[5] = _getBcdValue(minute);
-    value[6] = _getBcdValue(second);
+    value[1] = _getBcdValue(gender);
+    value[2] = _getBcdValue(age);
+    value[3] = _getBcdValue(height);
+    value[4] = _getBcdValue(weight);
     crcValue(value);
     return value;
   }
 
   static List<int> setDeviceTime() {
     final List<int> value = _generateInitValue(); //16
-    final int year = 2022;
-    final int month = 5;
-    final int day = 20;
-    final int hour = 00;
-    final int minute = 00;
-    final int second = 00;
+    final int year = DateTime.now().year;
+    final int month = DateTime.now().month;
+    final int day = DateTime.now().day;
+    final int hour = DateTime.now().hour;
+    final int minute =DateTime.now().minute;
+    final int second = DateTime.now().second;
     value[0] = 0x01;
     value[1] = _getBcdValue(year);
     value[2] = _getBcdValue(month);

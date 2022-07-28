@@ -471,12 +471,12 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
 
   static List<int> setDeviceTime() {
     final List<int> value = _generateInitValue(); //16
-    final int year = 2022;
-    final int month = 5;
-    final int day = 20;
-    final int hour = 00;
-    final int minute = 00;
-    final int second = 00;
+    final int year = DateTime.now().year;
+    final int month = DateTime.now().month;
+    final int day = DateTime.now().day;
+    final int hour = DateTime.now().hour;
+    final int minute =DateTime.now().minute;
+    final int second = DateTime.now().second;
     value[0] = 0x01;
     value[1] = _getBcdValue(year);
     value[2] = _getBcdValue(month);
