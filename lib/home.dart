@@ -116,10 +116,10 @@ class _HomeState extends State<Home> {
                       EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
                   child: GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => TuyaAuthScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TuyaAuthScreen()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

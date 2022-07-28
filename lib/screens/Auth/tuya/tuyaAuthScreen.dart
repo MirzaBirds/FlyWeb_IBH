@@ -8,7 +8,7 @@ import 'package:doctor_dreams/screens/hardware/pairDevice1.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class TuyaAuthScreen extends StatefulWidget {
   static const String id = 'tuya_auth_screen';
@@ -24,22 +24,23 @@ class _TuyaAuthScreenState extends State<TuyaAuthScreen> {
   @override
   void initState() {
     super.initState();
-    // checkTuyaDetails();
+    checkTuyaDetails();
   }
 
-  // checkTuyaDetails() async {
-  //   if (await TuyaUiBizbundle.isLoggedin()) {
-  //     setState(() {
-  //       this.isLoggedIn = true;
-  //     });
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute<void>(
-  //         builder: (BuildContext context) => const PairDevice1(),
-  //       ),
-  //     );
-  //   }
-  // }
+  checkTuyaDetails() async {
+    if (await TuyaUiBizbundle.isLoggedin()) {
+      setState(() {
+        this.isLoggedIn = true;
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
+              const PairDevice1(isSleetbelt: true),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
