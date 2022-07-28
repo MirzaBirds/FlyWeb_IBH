@@ -609,6 +609,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.9"
+  tuya_ui_bizbundle:
+    dependency: "direct main"
+    description:
+      path: "../tuya_ui_bizbundle"
+      relative: true
+    source: path
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
