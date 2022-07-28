@@ -48,12 +48,7 @@ class _PairDevice1State extends State<PairDevice1> {
       print("checkTuya 2");
 
       print("checkTuya 4");
-      /*bool bluetoothStatus=await Permission.bluetooth.isGranted;
-      print("blueTooth permission");
-      print(bluetoothStatus);
-      if(!bluetoothStatus){
-        await Permission.bluetooth.request();
-      }*/
+
       bool locationStatus = await Permission.location.isGranted;
       print("location Status");
       print(locationStatus);
@@ -534,7 +529,7 @@ class _PairDevice1State extends State<PairDevice1> {
               child: GestureDetector(
                 onTap: () async {
                   // print("button press");
-                  // String? message = await TuyaUiBizbundle.openDevicePanel(id);
+                  String? message = await TuyaUiBizbundle.openDevicePanel(id);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
