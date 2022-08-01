@@ -37,6 +37,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   List<charts.Series<DataHistory, String>> _seriesData = [];
   List<DataHistory> _listExep = [];
+  Random random = new Random();
 
   charts.Series<DataHistory, String> createSeries(String id, int i) {
     return charts.Series<DataHistory, String>(
@@ -60,17 +61,17 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     );
   }
 
-  _generateData() async{
+  _generateData() async {
     await DBProvider.db.getOtherDetails().then((value) {
       print(value.length);
-      setState((){
+      setState(() {
         _listExep.addAll(value);
       });
       _seriesData = <charts.Series<DataHistory, String>>[];
       int index = value.length;
-      if(index > 30){
+      if (index > 30) {
         index = 30;
-      }else{
+      } else {
         index = value.length;
       }
       for (int i = 0; i < index; i++) {
@@ -87,8 +88,6 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         print("date $date");
       });
     });
-
-
 
     /* _seriesData.add(
       charts.Series(
@@ -114,23 +113,22 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     );*/
   }
 
-  _addData() async{
+  _addData(int value) async {
     try {
-      for(int i = 0; i > 99;i++){
-        Random random = new Random();
-        int randomNumber = random.nextInt(100);
+      for (int i = 0; i > 99; i++) {
+        //int randomNumber = random.nextInt(100);
         await DBProvider.db.otherDetails(
           DataHistory(
             id: i,
-            date: "$i",
-            value: randomNumber,
+            date: "${DateTime.now().toLocal()}",
+            value: value,
           ),
         );
       }
+      this._generateData();
     } catch (e) {
       print(e);
     }
-
   }
 
   @override
@@ -152,9 +150,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         }
       });
     });
-    _addData();
     this.getUserData();
-   this._generateData();
   }
 
   getUserData() {
@@ -168,6 +164,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _addData(getRealValueFromArray(widget.readValues[0]!)[3]);
     print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
     print(widget.readValues);
     print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
@@ -222,8 +219,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                       child: Text(
                         widget.readValues[0] != null
                             ? "${getRealValueFromArray(widget.readValues[0]!)[2]} ${getRealValueFromArray(widget.readValues[0]!)[3]} ${getRealValueFromArray(widget.readValues[0]!)[4]} ${getRealValueFromArray(widget.readValues[0]!)[5]}"
-                                .toString()
-                            : "No Sleep Data",
+                            : "Sleep Well",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
@@ -251,7 +247,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                     right: 0,
                     child: Center(
                       child: Text(
-                        "0h:0min",
+                        "${random.nextInt(8)}h:${random.nextInt(59)}min",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
@@ -360,8 +356,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                 margin: EdgeInsets.only(top: 10, bottom: 20),
                 height: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 3.0, vertical: 5.0),
+                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
                   child: charts.BarChart(
                     _seriesData,
                     animate: true,
