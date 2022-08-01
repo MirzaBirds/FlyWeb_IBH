@@ -44,7 +44,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       domainFn: (DataHistory wear, _) {
         var str = wear.date;
         var parts = str.split('-');
-        return parts[2].trim();
+        return str;
       },
       measureFn: (DataHistory wear, _) => wear.value,
       data: [
@@ -62,6 +62,25 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   _generateData() async{
     await DBProvider.db.getOtherDetails().then((value) {
+      print(value.length);
+      setState((){
+        _listExep.addAll(value);
+      });
+      _seriesData = <charts.Series<DataHistory, String>>[];
+      int index = value.length;
+      if(index > 30){
+        index = 30;
+      }else{
+        index = value.length;
+      }
+      for (int i = 0; i < index; i++) {
+        String id = '2022';
+        print("Data ${value[i]}");
+        _seriesData.add(createSeries(id, i));
+      }
+      setState(() {
+        _seriesData = _seriesData;
+      });
       String date = value[0].date;
       setState(() {
         //date = date;
@@ -69,14 +88,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       });
     });
 
-    _seriesData = <charts.Series<DataHistory, String>>[];
-    for (int i = 0; i < _listExep.length; i++) {
-      String id = '2020';
-      _seriesData.add(createSeries(id, i));
-    }
-    setState(() {
-      _seriesData = _seriesData;
-    });
+
 
     /* _seriesData.add(
       charts.Series(
@@ -104,13 +116,17 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   _addData() async{
     try {
-      await DBProvider.db.otherDetails(
-        DataHistory(
-          id: 0,
-          date: "",
-          value: 0,
-        ),
-      );
+      for(int i = 0; i > 99;i++){
+        Random random = new Random();
+        int randomNumber = random.nextInt(100);
+        await DBProvider.db.otherDetails(
+          DataHistory(
+            id: i,
+            date: "$i",
+            value: randomNumber,
+          ),
+        );
+      }
     } catch (e) {
       print(e);
     }
@@ -138,7 +154,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     });
     _addData();
     this.getUserData();
-    this._generateData();
+   this._generateData();
   }
 
   getUserData() {
@@ -323,12 +339,29 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                   )
                 ],
               ),
+              SizedBox(
+                height: 30,
+              ),
               Container(
-                margin: EdgeInsets.only(top: 620, bottom: 20),
-                height: 450,
+                color: AppColors.primary,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8),
+                child: Center(
+                  child: Text(
+                    "Heart Rate",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: AppColors.white),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, bottom: 20),
+                height: 350,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 5.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 3.0, vertical: 5.0),
                   child: charts.BarChart(
                     _seriesData,
                     animate: true,
@@ -339,7 +372,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                       renderSpec: new charts.SmallTickRendererSpec(
                         // Tick and Label styling here.
                         labelStyle: new charts.TextStyleSpec(
-                          fontSize: 14, // size in Pts.
+                          fontSize: 10, // size in Pts.
                           color: charts.ColorUtil.fromDartColor(
                               AppColors.secondary),
                         ),
@@ -354,7 +387,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                       renderSpec: new charts.GridlineRendererSpec(
                         // Tick and Label styling here.
                         labelStyle: new charts.TextStyleSpec(
-                          fontSize: 14, // size in Pts.
+                          fontSize: 11, // size in Pts.
                           color: charts.ColorUtil.fromDartColor(
                               AppColors.secondary),
                         ),

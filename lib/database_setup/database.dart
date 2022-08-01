@@ -26,7 +26,7 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE HeartData (id INTEGER PRIMARY KEY,date INTEGER,value TEXT)');
+          'CREATE TABLE HeartData (id INTEGER PRIMARY KEY,date TEXT,value INTEGER)');
     });
   }
 
@@ -42,8 +42,8 @@ class DBProvider {
    otherDetails(DataHistory newClient) async {
     final db = await database;
     var raw = await db!.rawInsert(
-        "INSERT Into OtherDetails (id,help,disclaimer,about)"
-            "VALUES (?,?,?,?)",
+        "INSERT Into HeartData (id,date,value)"
+            "VALUES (?,?,?)",
         [
           newClient.id,
           newClient.date,
@@ -152,7 +152,7 @@ class DBProvider {
 */
   Future<List<DataHistory>> getOtherDetails() async {
     final db = await database;
-    var res = await db!.query("OtherDetails");
+    var res = await db!.query("HeartData");
     List<DataHistory> list =
     res.isNotEmpty ? res.map((c) => DataHistory.fromJson(c)).toList() : [];
     return list;
