@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:permission_handler/permission_handler.dart';
-// import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
+import 'package:tuya_ui_bizbundle/tuya_ui_bizbundle.dart';
 
 class PairDevice extends StatefulWidget {
   static const String id = 'pair_device';
@@ -457,7 +457,7 @@ Widget DeviceButton(BuildContext context, String id, String name) {
           child: GestureDetector(
             onTap: () async {
               // print("button press");
-              // String? message = await TuyaUiBizbundle.openDevicePanel(id);
+              String? message = await TuyaUiBizbundle.openDevicePanel(id);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -552,8 +552,12 @@ Step 3 - connect with it and enjoy!!'''),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   // TuyaUiBizbundle.devicePair();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PairDevice1(isSleetbelt: true,)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PairDevice1(
+                                isSleetbelt: true,
+                              )));
                 })
           ],
         );

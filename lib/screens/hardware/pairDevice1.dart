@@ -64,6 +64,7 @@ class _PairDevice1State extends State<PairDevice1> {
       }*/
       String? message = await TuyaUiBizbundle.getDeviceList();
       print("checkTuya 3");
+      print(message);
       if (message != null) {
         if (message.startsWith("success")) {
           String jsonString = message.replaceRange(0, 7, "");
