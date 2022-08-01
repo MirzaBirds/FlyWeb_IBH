@@ -6,11 +6,14 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'dart:math';
 
 import '../../../config/appColors.dart';
+import '../../../database_setup/database.dart';
+import '../../../database_setup/models/dataHistory.dart';
 import '../../../utils.dart';
 import '../../../widgets/appBar.dart';
 import '../../../widgets/bottomNav.dart';
 import '../../../widgets/drawer.dart';
 import '../../../widgets/topNav.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class ReportDeviceScreen extends StatefulWidget {
   final BluetoothDevice device;
@@ -32,6 +35,88 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   late Timer timer;
   bool isConnected = false;
 
+  List<charts.Series<DataHistory, String>> _seriesData = [];
+  List<DataHistory> _listExep = [];
+
+  charts.Series<DataHistory, String> createSeries(String id, int i) {
+    return charts.Series<DataHistory, String>(
+      id: id,
+      domainFn: (DataHistory wear, _) {
+        var str = wear.date;
+        var parts = str.split('-');
+        return parts[2].trim();
+      },
+      measureFn: (DataHistory wear, _) => wear.value,
+      data: [
+        DataHistory(
+          id: _listExep[i].id,
+          value: _listExep[i].value,
+          date: _listExep[i].date,
+        ),
+      ],
+      fillPatternFn: (_, __) => charts.FillPatternType.solid,
+      fillColorFn: (DataHistory pollution, _) =>
+          charts.ColorUtil.fromDartColor(AppColors.primary),
+    );
+  }
+
+  _generateData() async{
+    await DBProvider.db.getOtherDetails().then((value) {
+      String date = value[0].date;
+      setState(() {
+        //date = date;
+        print("date $date");
+      });
+    });
+
+    _seriesData = <charts.Series<DataHistory, String>>[];
+    for (int i = 0; i < _listExep.length; i++) {
+      String id = '2020';
+      _seriesData.add(createSeries(id, i));
+    }
+    setState(() {
+      _seriesData = _seriesData;
+    });
+
+    /* _seriesData.add(
+      charts.Series(
+        domainFn: (Body pollution, _) => pollution.date,
+        measureFn: (Body pollution, _) => pollution.chargingValue,
+        id: '2017',
+        data: _listExep,
+        fillPatternFn: (_, __) => charts.FillPatternType.solid,
+        fillColorFn: (Body pollution, _) =>
+            charts.ColorUtil.fromDartColor(Colors.cyan),
+      ),
+    );
+    _seriesData.add(
+      charts.Series(
+        domainFn: (Body pollution, _) => pollution.date,
+        measureFn: (Body pollution, _) => pollution.chargingValue,
+        id: '2017',
+        data: _listExep,
+        fillPatternFn: (_, __) => charts.FillPatternType.solid,
+        fillColorFn: (Body pollution, _) =>
+            charts.ColorUtil.fromDartColor(Colors.purple),
+      ),
+    );*/
+  }
+
+  _addData() async{
+    try {
+      await DBProvider.db.otherDetails(
+        DataHistory(
+          id: 0,
+          date: "",
+          value: 0,
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
+
+  }
+
   @override
   void dispose() {
     timer.cancel();
@@ -41,7 +126,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   @override
   void initState() {
     super.initState();
-    timer =  Timer.periodic(new Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(new Duration(seconds: 1), (timer) {
       FlutterBlue.instance.connectedDevices.then((value) {
         if (value.length >= 1 && !isConnected) {
           _notification();
@@ -51,28 +136,18 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         }
       });
     });
-
+    _addData();
     this.getUserData();
+    this._generateData();
   }
 
   getUserData() {
-    timer =  Timer.periodic(new Duration(seconds: 2), (timer) {
+    timer = Timer.periodic(new Duration(seconds: 2), (timer) {
       // comandKind = 0;
       if (isConnected) {
         _sendCommand();
       }
     });
-
-    // Timer.periodic(new Duration(seconds: 7), (timer) {
-    //   // comandKind = 0;
-    //   if (isConnected) {
-    //     _sendCommand();
-    //     setState(() {
-    //       // comandKind = 1;
-    //       _writecharacteristic!.write(getRealTimeHeartRate());
-    //     });
-    //   }
-    // });
   }
 
   @override
@@ -247,7 +322,53 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                     ],
                   )
                 ],
-              )
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 620, bottom: 20),
+                height: 450,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 5.0),
+                  child: charts.BarChart(
+                    _seriesData,
+                    animate: true,
+                    barGroupingType: charts.BarGroupingType.grouped,
+                    //behaviors: [new charts.SeriesLegend()],
+                    animationDuration: Duration(seconds: 3),
+                    domainAxis: new charts.OrdinalAxisSpec(
+                      renderSpec: new charts.SmallTickRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                          fontSize: 14, // size in Pts.
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                        // Change the line colors to match text color.
+                        lineStyle: new charts.LineStyleSpec(
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                      ),
+                    ),
+                    primaryMeasureAxis: new charts.NumericAxisSpec(
+                      renderSpec: new charts.GridlineRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                          fontSize: 14, // size in Pts.
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+
+                        // Change the line colors to match text color.
+                        lineStyle: new charts.LineStyleSpec(
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -399,7 +520,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     return generateValue(16);
   }
 
-  static List<int> _setPersonalInfo(int gender,int age,int height,int weight) {
+  static List<int> _setPersonalInfo(
+      int gender, int age, int height, int weight) {
     final List<int> value = _generateInitValue(); //16
     value[0] = 0x01;
     value[1] = _getBcdValue(gender);
@@ -416,7 +538,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     final int month = DateTime.now().month;
     final int day = DateTime.now().day;
     final int hour = DateTime.now().hour;
-    final int minute =DateTime.now().minute;
+    final int minute = DateTime.now().minute;
     final int second = DateTime.now().second;
     value[0] = 0x01;
     value[1] = _getBcdValue(year);
