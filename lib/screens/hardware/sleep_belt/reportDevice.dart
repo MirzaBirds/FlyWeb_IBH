@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:intl/intl.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'dart:math';
 
@@ -44,8 +45,9 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       id: id,
       domainFn: (DataHistory wear, _) {
         var str = wear.date;
-        var parts = str.split('-');
-        return str;
+        DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(str);
+        print("Vale ${tempDate.hour}");
+        return tempDate.hour.toString();
       },
       measureFn: (DataHistory wear, _) => wear.value,
       data: [
@@ -84,7 +86,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       });
       String date = value[0].date;
       setState(() {
-        //date = date;
+        date = date;
         print("date $date");
       });
     });
@@ -115,20 +117,21 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   _addData(int value) async {
     try {
-      for (int i = 0; i > 99; i++) {
-        //int randomNumber = random.nextInt(100);
+      for (int i = 0; i < 99; i++) {
+        int randomNumber = random.nextInt(100);
         await DBProvider.db.otherDetails(
           DataHistory(
             id: i,
             date: "${DateTime.now().toLocal()}",
-            value: value,
+            value: randomNumber,
           ),
         );
       }
-      this._generateData();
+
     } catch (e) {
       print(e);
     }
+    this._generateData();
   }
 
   @override
@@ -159,12 +162,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       if (isConnected) {
         _sendCommand();
       }
+      _addData(widget.readValues[0] != null?getRealValueFromArray(widget.readValues[0]!)[3]:0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _addData(getRealValueFromArray(widget.readValues[0]!)[3]);
     print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
     print(widget.readValues);
     print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
@@ -457,7 +460,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     print(comandKind);
     switch (comandKind) {
       case 0:
-        await _writecharacteristic!.write(getHeartRateBreathing());
+        await _writecharacteristic?.write(getHeartRateBreathing());
         break;
       // case 1:
       //   await _writecharacteristic!.write(getRealTimeHeartRate());
