@@ -127,7 +127,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   _addData(List value, int index) async {
     try {
-      if (index != 0) {
+      if (index == 0) {
         dataSet.clear();
       } else {
         dataSet.add(value);
