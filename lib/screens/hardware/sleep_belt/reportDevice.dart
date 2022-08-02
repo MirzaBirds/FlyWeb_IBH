@@ -35,7 +35,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   int comandKind = 0;
   late Timer timer;
   bool isConnected = false;
-  List dataSet = [];
+  List<List> dataSet = [];
   List<charts.Series<DataHistory, String>> _seriesData = [];
   List<DataHistory> _listExep = [];
   Random random = new Random();
@@ -78,7 +78,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       domainFn: (DataHistory wear, _) {
         var str = wear.date;
         DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(str);
-        print("Vale ${tempDate.minute}");
+        //print("Vale ${tempDate.minute}");
         return tempDate.minute.toString();
       },
       measureFn: (DataHistory wear, _) => wear.value,
@@ -111,7 +111,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       }
       for (int i = 0; i < index; i++) {
         String id = '2022';
-        print("Data ${value[i]}");
+       // print("Data ${value[i]}");
         _seriesData.add(createSeries(id, i));
       }
       setState(() {
@@ -127,19 +127,30 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
 
   _addData(List value, int index) async {
     try {
-      if (index == 00) {
+      if (index != 0) {
         dataSet.clear();
       } else {
         dataSet.add(value);
       }
 
-      await DBProvider.db.otherDetails(
-        DataHistory(
-          id: DateTime.now().millisecondsSinceEpoch,
-          date: "${DateTime.now().toLocal()}",
-          value: random.nextInt(100),
-        ),
-      );
+     for (int i = 0; i < dataSet.length; i++) {
+       if(i == 0){
+         for (int j = 0; j < dataSet[i].length; j++){
+            if(j > 3){
+              print("Index Value ${dataSet[j][i]}");
+              /*await DBProvider.db.otherDetails(
+                DataHistory(
+                  id: DateTime.now().millisecondsSinceEpoch,
+                  date: "${DateTime.now().toLocal()}",
+                  value: random.nextInt(100),
+                ),
+              );*/
+            }
+         }
+       }
+     }
+
+
       /* for (int i = 0; i < 99; i++) {
         int randomNumber = random.nextInt(100);
         await DBProvider.db.otherDetails(
@@ -490,7 +501,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     // List<int> temp = <int>[];
     // temp = data;
     // if (temp == null) return 0;
-    if (data.length == 0)
+    if (data.isEmpty == 0)
       return [
         0,
         0,
