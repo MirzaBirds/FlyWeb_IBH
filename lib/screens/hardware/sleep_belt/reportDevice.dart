@@ -35,11 +35,10 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   int comandKind = 0;
   late Timer timer;
   bool isConnected = false;
-
+  List dataSet = [];
   List<charts.Series<DataHistory, String>> _seriesData = [];
   List<DataHistory> _listExep = [];
   Random random = new Random();
-
 
   @override
   void initState() {
@@ -63,7 +62,13 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       if (isConnected) {
         _sendCommand();
       }
-      _addData(widget.readValues[0] != null?getRealValueFromArray(widget.readValues[0]!)[3]:0);
+      _addData(
+          widget.readValues[0] != null
+              ? getRealValueFromArray(widget.readValues[0]!)
+              : [],
+          widget.readValues[0] != null
+              ? getRealValueFromArray(widget.readValues[0]!)[14]
+              : 0);
     });
   }
 
@@ -120,8 +125,14 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     });
   }
 
-  _addData(int value) async {
+  _addData(List value, int index) async {
     try {
+      if (index == 00) {
+        dataSet.clear();
+      } else {
+        dataSet.add(value);
+      }
+
       await DBProvider.db.otherDetails(
         DataHistory(
           id: DateTime.now().millisecondsSinceEpoch,
@@ -129,7 +140,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
           value: random.nextInt(100),
         ),
       );
-     /* for (int i = 0; i < 99; i++) {
+      /* for (int i = 0; i < 99; i++) {
         int randomNumber = random.nextInt(100);
         await DBProvider.db.otherDetails(
           DataHistory(
@@ -150,8 +161,6 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     timer.cancel();
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
