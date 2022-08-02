@@ -52,7 +52,6 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       measureFn: (DataHistory wear, _) => wear.value,
       data: [
         DataHistory(
-          id: _listExep[i].id,
           value: _listExep[i].value,
           date: _listExep[i].date,
         ),
@@ -121,7 +120,6 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         int randomNumber = random.nextInt(100);
         await DBProvider.db.otherDetails(
           DataHistory(
-            id: i,
             date: "${DateTime.now().toLocal()}",
             value: randomNumber,
           ),
