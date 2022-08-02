@@ -94,7 +94,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     await DBProvider.db.getOtherDetails().then((value) {
       print(value.length);
       setState(() {
-        _listExep.addAll(value);
+        _listExep.clear();
+        _listExep.addAll(value.reversed);
       });
       _seriesData = <charts.Series<DataHistory, String>>[];
       int index = value.length;
@@ -348,7 +349,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
                   child: charts.BarChart(
                     _seriesData,
-                    animate: true,
+                    animate: false,
                     barGroupingType: charts.BarGroupingType.grouped,
                     //behaviors: [new charts.SeriesLegend()],
                     animationDuration: Duration(seconds: 3),
