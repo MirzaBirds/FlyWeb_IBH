@@ -3,7 +3,7 @@ class DataHistory {
   String date = "";
   int value = 0;
 
-  DataHistory({required this.date, required this.value});
+  DataHistory({required this.id,required this.date, required this.value});
 
   DataHistory.fromJson(Map<String, dynamic> json) {
     id = json['id'];

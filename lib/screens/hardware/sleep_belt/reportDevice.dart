@@ -40,18 +40,46 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   List<DataHistory> _listExep = [];
   Random random = new Random();
 
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(new Duration(seconds: 1), (timer) {
+      FlutterBlue.instance.connectedDevices.then((value) {
+        if (value.length >= 1 && !isConnected) {
+          _notification();
+          isConnected = true;
+        } else if (value.length == 0 && isConnected) {
+          isConnected = false;
+        }
+      });
+    });
+    this.getUserData();
+  }
+
+  getUserData() {
+    timer = Timer.periodic(new Duration(seconds: 2), (timer) {
+      // comandKind = 0;
+      if (isConnected) {
+        _sendCommand();
+      }
+      _addData(widget.readValues[0] != null?getRealValueFromArray(widget.readValues[0]!)[3]:0);
+    });
+  }
+
   charts.Series<DataHistory, String> createSeries(String id, int i) {
     return charts.Series<DataHistory, String>(
       id: id,
       domainFn: (DataHistory wear, _) {
         var str = wear.date;
         DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(str);
-        print("Vale ${tempDate.hour}");
-        return tempDate.hour.toString();
+        print("Vale ${tempDate.minute}");
+        return tempDate.minute.toString();
       },
       measureFn: (DataHistory wear, _) => wear.value,
       data: [
         DataHistory(
+          id: _listExep[i].id,
           value: _listExep[i].value,
           date: _listExep[i].date,
         ),
@@ -83,40 +111,24 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       setState(() {
         _seriesData = _seriesData;
       });
-      String date = value[0].date;
+      String date = value[0].value.toString();
       setState(() {
         date = date;
         print("date $date");
       });
     });
-
-    /* _seriesData.add(
-      charts.Series(
-        domainFn: (Body pollution, _) => pollution.date,
-        measureFn: (Body pollution, _) => pollution.chargingValue,
-        id: '2017',
-        data: _listExep,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (Body pollution, _) =>
-            charts.ColorUtil.fromDartColor(Colors.cyan),
-      ),
-    );
-    _seriesData.add(
-      charts.Series(
-        domainFn: (Body pollution, _) => pollution.date,
-        measureFn: (Body pollution, _) => pollution.chargingValue,
-        id: '2017',
-        data: _listExep,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (Body pollution, _) =>
-            charts.ColorUtil.fromDartColor(Colors.purple),
-      ),
-    );*/
   }
 
   _addData(int value) async {
     try {
-      for (int i = 0; i < 99; i++) {
+      await DBProvider.db.otherDetails(
+        DataHistory(
+          id: DateTime.now().millisecondsSinceEpoch,
+          date: "${DateTime.now().toLocal()}",
+          value: random.nextInt(100),
+        ),
+      );
+     /* for (int i = 0; i < 99; i++) {
         int randomNumber = random.nextInt(100);
         await DBProvider.db.otherDetails(
           DataHistory(
@@ -124,7 +136,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
             value: randomNumber,
           ),
         );
-      }
+      }*/
 
     } catch (e) {
       print(e);
@@ -138,31 +150,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer.periodic(new Duration(seconds: 1), (timer) {
-      FlutterBlue.instance.connectedDevices.then((value) {
-        if (value.length >= 1 && !isConnected) {
-          _notification();
-          isConnected = true;
-        } else if (value.length == 0 && isConnected) {
-          isConnected = false;
-        }
-      });
-    });
-    this.getUserData();
-  }
 
-  getUserData() {
-    timer = Timer.periodic(new Duration(seconds: 2), (timer) {
-      // comandKind = 0;
-      if (isConnected) {
-        _sendCommand();
-      }
-      _addData(widget.readValues[0] != null?getRealValueFromArray(widget.readValues[0]!)[3]:0);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
