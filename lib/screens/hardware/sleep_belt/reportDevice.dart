@@ -57,7 +57,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   }
 
   getUserData() {
-    timer = Timer.periodic(new Duration(seconds: 2), (timer) {
+    timer = Timer.periodic(new Duration(seconds: 1), (timer) {
       // comandKind = 0;
       if (isConnected) {
         _sendCommand();
@@ -67,7 +67,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
               ? getRealValueFromArray(widget.readValues[0]!)
               : [],
           widget.readValues[0] != null
-              ? getRealValueFromArray(widget.readValues[0]!)[14]
+              ? getRealValueFromArray(widget.readValues[0]!)[18]
               : 0);
     });
   }
@@ -111,7 +111,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       }
       for (int i = 0; i < index; i++) {
         String id = '2022';
-       // print("Data ${value[i]}");
+        // print("Data ${value[i]}");
         _seriesData.add(createSeries(id, i));
       }
       setState(() {
@@ -126,30 +126,54 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   }
 
   _addData(List value, int index) async {
+    print("_____________Data set length 129_______________");
+    print(dataSet.length);
+    print(index);
+    print("_____________Data set length_______________");
     try {
       if (index == 0) {
+        print("Clearing the data list");
         dataSet.clear();
       } else {
         dataSet.add(value);
       }
-
-     for (int i = 0; i < dataSet.length; i++) {
-       if(i == 0){
-         for (int j = 0; j < dataSet[i].length; j++){
-            if(j > 3){
-              print("Index Value ${dataSet[j][i]}");
-              /*await DBProvider.db.otherDetails(
+      print("_____________Data set length 138_______________");
+      print(dataSet.length);
+      print("_____________Data set length_______________");
+      if (dataSet.length == 4) {
+        for (int i = 0; i < dataSet.length; i++) {
+          if (i == 0) {
+            for (int j = 0; j < dataSet[i].length; j++) {
+              if (j > 3) {
+                print("----------------------------------------");
+                print("Index Value ${dataSet[i][j]}");
+                print("----------------------------------------");
+                /*await DBProvider.db.otherDetails(
                 DataHistory(
                   id: DateTime.now().millisecondsSinceEpoch,
                   date: "${DateTime.now().toLocal()}",
                   value: random.nextInt(100),
                 ),
               );*/
+              }
             }
-         }
-       }
-     }
+          } else {
+            if (i == 0) {
+              for (int j = 0; j < dataSet[i].length; j++) {
+                print("Index Value ${dataSet[j][i]}");
+                /*await DBProvider.db.otherDetails(
+                DataHistory(
+                  id: DateTime.now().millisecondsSinceEpoch,
+                  date: "${DateTime.now().toLocal()}",
+                  value: random.nextInt(100),
+                ),
+              );*/
 
+              }
+            }
+          }
+        }
+      }
 
       /* for (int i = 0; i < 99; i++) {
         int randomNumber = random.nextInt(100);
@@ -228,7 +252,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                     child: Center(
                       child: Text(
                         widget.readValues[0] != null
-                            ? "${getRealValueFromArray(widget.readValues[0]!)[2]} ${getRealValueFromArray(widget.readValues[0]!)[3]} ${getRealValueFromArray(widget.readValues[0]!)[4]} ${getRealValueFromArray(widget.readValues[0]!)[5]}"
+                            ? "Sleep Well"
                             : "Sleep Well",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
@@ -355,6 +379,130 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                 child: Center(
                   child: Text(
                     "Heart Rate",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: AppColors.white),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, bottom: 20),
+                height: 350,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
+                  child: charts.BarChart(
+                    _seriesData,
+                    animate: false,
+                    barGroupingType: charts.BarGroupingType.grouped,
+                    //behaviors: [new charts.SeriesLegend()],
+                    animationDuration: Duration(seconds: 3),
+                    domainAxis: new charts.OrdinalAxisSpec(
+                      renderSpec: new charts.SmallTickRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                          fontSize: 10, // size in Pts.
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                        // Change the line colors to match text color.
+                        lineStyle: new charts.LineStyleSpec(
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                      ),
+                    ),
+                    primaryMeasureAxis: new charts.NumericAxisSpec(
+                      renderSpec: new charts.GridlineRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                          fontSize: 11, // size in Pts.
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+
+                        // Change the line colors to match text color.
+                        lineStyle: new charts.LineStyleSpec(
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                color: AppColors.primary,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8),
+                child: Center(
+                  child: Text(
+                    "Breath Rate",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: AppColors.white),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10, bottom: 20),
+                height: 350,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
+                  child: charts.BarChart(
+                    _seriesData,
+                    animate: false,
+                    barGroupingType: charts.BarGroupingType.grouped,
+                    //behaviors: [new charts.SeriesLegend()],
+                    animationDuration: Duration(seconds: 3),
+                    domainAxis: new charts.OrdinalAxisSpec(
+                      renderSpec: new charts.SmallTickRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                          fontSize: 10, // size in Pts.
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                        // Change the line colors to match text color.
+                        lineStyle: new charts.LineStyleSpec(
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                      ),
+                    ),
+                    primaryMeasureAxis: new charts.NumericAxisSpec(
+                      renderSpec: new charts.GridlineRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                          fontSize: 11, // size in Pts.
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+
+                        // Change the line colors to match text color.
+                        lineStyle: new charts.LineStyleSpec(
+                          color: charts.ColorUtil.fromDartColor(
+                              AppColors.secondary),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                color: AppColors.primary,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8),
+                child: Center(
+                  child: Text(
+                    "Sleep Details",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,

@@ -45,6 +45,35 @@ class _AccountManagementState extends State<AccountManagementScreen> {
   ];
 
   @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(new Duration(seconds: 1), (timer) {
+      FlutterBlue.instance.connectedDevices.then((value) {
+        if (value.length >= 1 && !isConnected) {
+          _notification();
+          isConnected = true;
+        } else if (value.length == 0 && isConnected) {
+          isConnected = false;
+        }
+      });
+    });
+    this.getUserData();
+  }
+
+  getUserData() {
+    timer = Timer.periodic(new Duration(seconds: 2), (timer) {
+      if (isConnected) {
+        _sendCommand();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -96,6 +125,9 @@ class _AccountManagementState extends State<AccountManagementScreen> {
                               MaterialPageRoute(
                                   builder: (context) => PairDeviceScreen()));
                         } else if (listTitle[index] == "Battery Level") {
+                          Text(widget.readValues[0] != null
+                              ? "${getRealValueFromArray(widget.readValues[0]!)[1]}%"
+                              : "--");
                         } else if (listTitle[index] ==
                             "User Personal Information") {
                           Navigator.push(
@@ -208,7 +240,7 @@ class _AccountManagementState extends State<AccountManagementScreen> {
     print(comandKind);
     switch (comandKind) {
       case 0:
-        await _writecharacteristic?.write(setDeviceTime());
+        await _writecharacteristic?.write(getPowerDevice());
         break;
       case 1:
         await _writecharacteristic?.write(getDeviceDateAndTime());
@@ -341,9 +373,9 @@ class _AccountManagementState extends State<AccountManagementScreen> {
 
   static List<int> getPowerDevice() {
     final List<int> value = _generateInitValue(); //16
-    final int AA = 1;
-    value[0] = 0xd;
-    value[1] = _getBcdValue(AA);
+    // final int AA = 1;
+    value[0] = 0x13;
+    // value[1] = _getBcdValue(AA);
     crcValue(value);
     return value;
   }

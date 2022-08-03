@@ -475,7 +475,7 @@ class _MonitorDeviceScreenState extends State<MonitorDeviceScreen> {
     final int month = DateTime.now().month;
     final int day = DateTime.now().day;
     final int hour = DateTime.now().hour;
-    final int minute =DateTime.now().minute;
+    final int minute = DateTime.now().minute;
     final int second = DateTime.now().second;
     value[0] = 0x01;
     value[1] = _getBcdValue(year);
