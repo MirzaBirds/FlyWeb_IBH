@@ -111,7 +111,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       }
       for (int i = 0; i < index; i++) {
         String id = '2022';
-       // print("Data ${value[i]}");
+        // print("Data ${value[i]}");
         _seriesData.add(createSeries(id, i));
       }
       setState(() {
@@ -132,24 +132,38 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       } else {
         dataSet.add(value);
       }
-
-     for (int i = 0; i < dataSet.length; i++) {
-       if(i == 0){
-         for (int j = 0; j < dataSet[i].length; j++){
-            if(j > 3){
-              print("Index Value ${dataSet[j][i]}");
-              /*await DBProvider.db.otherDetails(
+      if (dataSet.length == 4) {
+        for (int i = 0; i < dataSet.length; i++) {
+          if (i == 0) {
+            for (int j = 0; j < dataSet[i].length; j++) {
+              if (j > 3) {
+                print("Index Value ${dataSet[j][i]}");
+                /*await DBProvider.db.otherDetails(
                 DataHistory(
                   id: DateTime.now().millisecondsSinceEpoch,
                   date: "${DateTime.now().toLocal()}",
                   value: random.nextInt(100),
                 ),
               );*/
+              }
             }
-         }
-       }
-     }
+          } else {
+            if (i == 0) {
+              for (int j = 0; j < dataSet[i].length; j++) {
+                print("Index Value ${dataSet[j][i]}");
+                /*await DBProvider.db.otherDetails(
+                DataHistory(
+                  id: DateTime.now().millisecondsSinceEpoch,
+                  date: "${DateTime.now().toLocal()}",
+                  value: random.nextInt(100),
+                ),
+              );*/
 
+              }
+            }
+          }
+        }
+      }
 
       /* for (int i = 0; i < 99; i++) {
         int randomNumber = random.nextInt(100);
@@ -503,6 +517,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     // if (temp == null) return 0;
     if (data.isEmpty == 0)
       return [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
