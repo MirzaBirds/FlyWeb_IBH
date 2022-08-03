@@ -137,17 +137,24 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       } else {
         dataSet.add(value);
       }
+<<<<<<< HEAD
       print("_____________Data set length 138_______________");
       print(dataSet.length);
       print("_____________Data set length_______________");
+=======
+>>>>>>> 700d1053489a70a33de55136b3c84b9b5869d215
       if (dataSet.length == 4) {
         for (int i = 0; i < dataSet.length; i++) {
           if (i == 0) {
             for (int j = 0; j < dataSet[i].length; j++) {
               if (j > 3) {
+<<<<<<< HEAD
                 print("----------------------------------------");
                 print("Index Value ${dataSet[i][j]}");
                 print("----------------------------------------");
+=======
+                print("Index Value ${dataSet[j][i]}");
+>>>>>>> 700d1053489a70a33de55136b3c84b9b5869d215
                 /*await DBProvider.db.otherDetails(
                 DataHistory(
                   id: DateTime.now().millisecondsSinceEpoch,
@@ -651,6 +658,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     // if (temp == null) return 0;
     if (data.isEmpty == 0)
       return [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
