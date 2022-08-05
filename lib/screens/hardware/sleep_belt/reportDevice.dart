@@ -36,7 +36,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   late Timer timer;
   bool isConnected = false;
   List<List> dataSet = [];
-  List<charts.Series<DataHistory, String>> _seriesData = [];
+  List<charts.Series<DataHistory, String>> _seriesDataBar = [];
+  List<charts.Series<DataHistory, int>> _seriesDataLine = [];
   List<DataHistory> _listExep = [];
   Random random = new Random();
 
@@ -65,14 +66,16 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       _addData(
           widget.readValues[0] != null
               ? getRealValueFromArray(widget.readValues[0]!)
-              : [],
+              : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           widget.readValues[0] != null
-              ? getRealValueFromArray(widget.readValues[0]!)[18]
+              ? getRealValueFromArray(widget.readValues[0]!).isNotEmpty
+                  ? getRealValueFromArray(widget.readValues[0]!)[5]
+                  : 1
               : 0);
     });
   }
 
-  charts.Series<DataHistory, String> createSeries(String id, int i) {
+  charts.Series<DataHistory, String> createSeriesBar(String id, int i) {
     return charts.Series<DataHistory, String>(
       id: id,
       domainFn: (DataHistory wear, _) {
@@ -95,6 +98,26 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     );
   }
 
+  charts.Series<DataHistory, int> createSeriesLine(String id, int i) {
+    return charts.Series<DataHistory, int>(
+      id: id,
+      domainFn: (DataHistory wear, _) {
+        var str = wear.date;
+        DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(str);
+        //print("Vale ${tempDate.minute}");
+        return tempDate.minute.toInt();
+      },
+      measureFn: (DataHistory wear, _) => wear.value,
+      data: [
+        DataHistory(
+          id: _listExep[i].id,
+          value: _listExep[i].value,
+          date: _listExep[i].date,
+        ),
+      ],
+    );
+  }
+
   _generateData() async {
     await DBProvider.db.getOtherDetails().then((value) {
       print(value.length);
@@ -102,7 +125,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         _listExep.clear();
         _listExep.addAll(value.reversed);
       });
-      _seriesData = <charts.Series<DataHistory, String>>[];
+      _seriesDataBar = <charts.Series<DataHistory, String>>[];
+      _seriesDataLine = <charts.Series<DataHistory, int>>[];
       int index = value.length;
       if (index > 30) {
         index = 30;
@@ -112,10 +136,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       for (int i = 0; i < index; i++) {
         String id = '2022';
         // print("Data ${value[i]}");
-        _seriesData.add(createSeries(id, i));
+        _seriesDataBar.add(createSeriesBar(id, i));
+        _seriesDataLine.add(createSeriesLine(id, i));
       }
       setState(() {
-        _seriesData = _seriesData;
+        _seriesDataBar = _seriesDataBar;
+        _seriesDataLine = _seriesDataLine;
       });
       String date = value[0].value.toString();
       setState(() {
@@ -137,24 +163,19 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       } else {
         dataSet.add(value);
       }
-<<<<<<< HEAD
       print("_____________Data set length 138_______________");
       print(dataSet.length);
       print("_____________Data set length_______________");
-=======
->>>>>>> 700d1053489a70a33de55136b3c84b9b5869d215
+
       if (dataSet.length == 4) {
         for (int i = 0; i < dataSet.length; i++) {
           if (i == 0) {
             for (int j = 0; j < dataSet[i].length; j++) {
               if (j > 3) {
-<<<<<<< HEAD
                 print("----------------------------------------");
                 print("Index Value ${dataSet[i][j]}");
                 print("----------------------------------------");
-=======
                 print("Index Value ${dataSet[j][i]}");
->>>>>>> 700d1053489a70a33de55136b3c84b9b5869d215
                 /*await DBProvider.db.otherDetails(
                 DataHistory(
                   id: DateTime.now().millisecondsSinceEpoch,
@@ -182,16 +203,13 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
         }
       }
 
-      /* for (int i = 0; i < 99; i++) {
-        int randomNumber = random.nextInt(100);
-        await DBProvider.db.otherDetails(
-          DataHistory(
-            date: "${DateTime.now().toLocal()}",
-            value: randomNumber,
-          ),
-        );
-      }*/
-
+      await DBProvider.db.otherDetails(
+        DataHistory(
+          id: DateTime.now().millisecondsSinceEpoch,
+          date: "${DateTime.now().toLocal()}",
+          value: random.nextInt(90),
+        ),
+      );
     } catch (e) {
       print(e);
     }
@@ -213,7 +231,8 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       child: Scaffold(
         appBar: AppPrimaryBar(isSleetBelt: true),
         drawer: AppDrawer(),
-        body: SingleChildScrollView(
+        body: DefaultTabController(
+          length: 3,
           child: Column(
             children: [
               TopNavBar(
@@ -223,343 +242,646 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
               SizedBox(
                 height: 5,
               ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Text(
-                  TimeUtils.dayFormat(DateTime.now()),
-                  style: TextStyle(color: AppColors.primary, fontSize: 25),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Stack(
-                children: <Widget>[
-                  Center(
-                    child: CircularStepProgressIndicator(
-                      totalSteps: 50,
-                      currentStep: (widget.readValues[0] != null
-                              ? getRealValueFromArray(widget.readValues[0]!)[3]
-                              : 0 / 2)
-                          .toInt(),
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      height: MediaQuery.of(context).size.width / 1.5,
-                      selectedColor: AppColors.primary,
-                      unselectedColor: AppColors.secondary_light,
-                      selectedStepSize: 5.0,
-                      unselectedStepSize: 5.0,
-                      roundedCap: (_, isSelected) => isSelected,
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 5,
                     ),
-                  ),
-                  Positioned(
-                    top: 50,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Text(
-                        widget.readValues[0] != null
-                            ? "Sleep Well"
-                            : "Sleep Well",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppColors.primary),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 170,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Text(
-                        "Rest Time",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppColors.primary),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 190,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Text(
-                        "${random.nextInt(8)}h:${random.nextInt(59)}min",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppColors.primary),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Divider(
-                color: AppColors.primary,
-                height: 2,
-                thickness: 1,
-                indent: 0,
-                endIndent: 0,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        "assets/sleep_belt/ic_heart_pulse.png",
-                        color: AppColors.primary,
-                        height: 25,
-                        width: 25,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Average\nHeart Rate\n\n0Time/min",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppColors.primary),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Image.asset(
-                        "assets/sleep_belt/ic_lungs.png",
-                        color: AppColors.primary,
-                        height: 25,
-                        width: 25,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Average\nBreath Rate\n\n0Time/min",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppColors.primary),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Image.asset(
-                        "assets/sleep_belt/ic_bed_time.png",
-                        color: AppColors.primary,
-                        height: 30,
-                        width: 30,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Fall\nAsleep Rate\n\n0min",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppColors.primary),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                color: AppColors.primary,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(8),
-                child: Center(
-                  child: Text(
-                    "Heart Rate",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: AppColors.white),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10, bottom: 20),
-                height: 350,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
-                  child: charts.BarChart(
-                    _seriesData,
-                    animate: false,
-                    barGroupingType: charts.BarGroupingType.grouped,
-                    //behaviors: [new charts.SeriesLegend()],
-                    animationDuration: Duration(seconds: 3),
-                    domainAxis: new charts.OrdinalAxisSpec(
-                      renderSpec: new charts.SmallTickRendererSpec(
-                        // Tick and Label styling here.
-                        labelStyle: new charts.TextStyleSpec(
-                          fontSize: 10, // size in Pts.
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
+                    TabBar(
+                      indicatorColor: AppColors.primary,
+                      labelColor: AppColors.primary,
+                      unselectedLabelColor: Colors.grey,
+                      isScrollable: true,
+                      tabs: [
+                        Tab(
+                          text: "Day",
                         ),
-                        // Change the line colors to match text color.
-                        lineStyle: new charts.LineStyleSpec(
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
+                        Tab(
+                          text: "Week",
                         ),
-                      ),
+                        Tab(
+                          text: "Month",
+                        ),
+                      ],
                     ),
-                    primaryMeasureAxis: new charts.NumericAxisSpec(
-                      renderSpec: new charts.GridlineRendererSpec(
-                        // Tick and Label styling here.
-                        labelStyle: new charts.TextStyleSpec(
-                          fontSize: 11, // size in Pts.
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                                  child: Text(
+                                    TimeUtils.dayFormat(DateTime.now()),
+                                    style: TextStyle(
+                                        color: AppColors.primary, fontSize: 25),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Stack(
+                                  children: <Widget>[
+                                    Center(
+                                      child: CircularStepProgressIndicator(
+                                        totalSteps: 50,
+                                        currentStep: (widget.readValues[0] !=
+                                                    null
+                                                ? getRealValueFromArray(
+                                                    widget.readValues[0]!)[3]
+                                                : 0 / 2)
+                                            .toInt(),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.5,
+                                        height:
+                                            MediaQuery.of(context).size.width /
+                                                1.5,
+                                        selectedColor: AppColors.primary,
+                                        unselectedColor:
+                                            AppColors.secondary_light,
+                                        selectedStepSize: 5.0,
+                                        unselectedStepSize: 5.0,
+                                        roundedCap: (_, isSelected) =>
+                                            isSelected,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 50,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: Text(
+                                          widget.readValues[0] != null
+                                              ? "Sleep Well"
+                                              : "Sleep Well",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 170,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: Text(
+                                          "Rest Time",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 190,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: Text(
+                                          "${random.nextInt(8)}h:${random.nextInt(59)}min",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                const Divider(
+                                  color: AppColors.primary,
+                                  height: 2,
+                                  thickness: 1,
+                                  indent: 0,
+                                  endIndent: 0,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/sleep_belt/ic_heart_pulse.png",
+                                          color: AppColors.primary,
+                                          height: 25,
+                                          width: 25,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Average\nHeart Rate\n\n0Time/min",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/sleep_belt/ic_lungs.png",
+                                          color: AppColors.primary,
+                                          height: 25,
+                                          width: 25,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Average\nBreath Rate\n\n0Time/min",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/sleep_belt/ic_bed_time.png",
+                                          color: AppColors.primary,
+                                          height: 30,
+                                          width: 30,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Fall\nAsleep Rate\n\n0min",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Container(
+                                  color: AppColors.primary,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text(
+                                      "Heart Rate",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                                  height: 350,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 5.0),
+                                    child: charts.BarChart(
+                                      _seriesDataBar,
+                                      animate: false,
+                                      barGroupingType:
+                                          charts.BarGroupingType.grouped,
+                                      //behaviors: [new charts.SeriesLegend()],
+                                      animationDuration: Duration(seconds: 3),
+                                      domainAxis: new charts.OrdinalAxisSpec(
+                                        renderSpec:
+                                            new charts.SmallTickRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 10, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                      primaryMeasureAxis:
+                                          new charts.NumericAxisSpec(
+                                        renderSpec:
+                                            new charts.GridlineRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 11, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
 
-                        // Change the line colors to match text color.
-                        lineStyle: new charts.LineStyleSpec(
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                color: AppColors.primary,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(8),
-                child: Center(
-                  child: Text(
-                    "Breath Rate",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: AppColors.white),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10, bottom: 20),
-                height: 350,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
-                  child: charts.BarChart(
-                    _seriesData,
-                    animate: false,
-                    barGroupingType: charts.BarGroupingType.grouped,
-                    //behaviors: [new charts.SeriesLegend()],
-                    animationDuration: Duration(seconds: 3),
-                    domainAxis: new charts.OrdinalAxisSpec(
-                      renderSpec: new charts.SmallTickRendererSpec(
-                        // Tick and Label styling here.
-                        labelStyle: new charts.TextStyleSpec(
-                          fontSize: 10, // size in Pts.
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
-                        // Change the line colors to match text color.
-                        lineStyle: new charts.LineStyleSpec(
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
-                      ),
-                    ),
-                    primaryMeasureAxis: new charts.NumericAxisSpec(
-                      renderSpec: new charts.GridlineRendererSpec(
-                        // Tick and Label styling here.
-                        labelStyle: new charts.TextStyleSpec(
-                          fontSize: 11, // size in Pts.
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Container(
+                                  color: AppColors.primary,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text(
+                                      "Breath Rate",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                                  height: 350,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 5.0),
+                                    child: charts.BarChart(
+                                      _seriesDataBar,
+                                      animate: false,
+                                      barGroupingType:
+                                          charts.BarGroupingType.grouped,
+                                      //behaviors: [new charts.SeriesLegend()],
+                                      animationDuration: Duration(seconds: 3),
+                                      domainAxis: new charts.OrdinalAxisSpec(
+                                        renderSpec:
+                                            new charts.SmallTickRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 10, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                      primaryMeasureAxis:
+                                          new charts.NumericAxisSpec(
+                                        renderSpec:
+                                            new charts.GridlineRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 11, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
 
-                        // Change the line colors to match text color.
-                        lineStyle: new charts.LineStyleSpec(
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                color: AppColors.primary,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(8),
-                child: Center(
-                  child: Text(
-                    "Sleep Details",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: AppColors.white),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10, bottom: 20),
-                height: 350,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
-                  child: charts.BarChart(
-                    _seriesData,
-                    animate: false,
-                    barGroupingType: charts.BarGroupingType.grouped,
-                    //behaviors: [new charts.SeriesLegend()],
-                    animationDuration: Duration(seconds: 3),
-                    domainAxis: new charts.OrdinalAxisSpec(
-                      renderSpec: new charts.SmallTickRendererSpec(
-                        // Tick and Label styling here.
-                        labelStyle: new charts.TextStyleSpec(
-                          fontSize: 10, // size in Pts.
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
-                        // Change the line colors to match text color.
-                        lineStyle: new charts.LineStyleSpec(
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
-                      ),
-                    ),
-                    primaryMeasureAxis: new charts.NumericAxisSpec(
-                      renderSpec: new charts.GridlineRendererSpec(
-                        // Tick and Label styling here.
-                        labelStyle: new charts.TextStyleSpec(
-                          fontSize: 11, // size in Pts.
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Container(
+                                  color: AppColors.primary,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text(
+                                      "Sleep Details",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                                  height: 350,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 5.0),
+                                    child: charts.BarChart(
+                                      _seriesDataBar,
+                                      animate: false,
+                                      barGroupingType:
+                                          charts.BarGroupingType.grouped,
+                                      //behaviors: [new charts.SeriesLegend()],
+                                      animationDuration: Duration(seconds: 3),
+                                      domainAxis: new charts.OrdinalAxisSpec(
+                                        renderSpec:
+                                            new charts.SmallTickRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 10, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                      primaryMeasureAxis:
+                                          new charts.NumericAxisSpec(
+                                        renderSpec:
+                                            new charts.GridlineRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 11, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
 
-                        // Change the line colors to match text color.
-                        lineStyle: new charts.LineStyleSpec(
-                          color: charts.ColorUtil.fromDartColor(
-                              AppColors.secondary),
-                        ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  color: AppColors.primary,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text(
+                                      "Heart Rate",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                                  height: 350,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 5.0),
+                                    child: charts.BarChart(
+                                      _seriesDataBar,
+                                      vertical: false,
+                                      animate: false,
+                                      barGroupingType:
+                                      charts.BarGroupingType.grouped,
+                                      //behaviors: [new charts.SeriesLegend()],
+                                      animationDuration: Duration(seconds: 3),
+                                      domainAxis: new charts.OrdinalAxisSpec(
+                                        renderSpec:
+                                        new charts.SmallTickRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 10, // size in Pts.
+                                            color:
+                                            charts.ColorUtil.fromDartColor(
+                                                AppColors.secondary),
+                                          ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                            charts.ColorUtil.fromDartColor(
+                                                AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                      primaryMeasureAxis:
+                                      new charts.NumericAxisSpec(
+                                        renderSpec:
+                                        new charts.GridlineRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 11, // size in Pts.
+                                            color:
+                                            charts.ColorUtil.fromDartColor(
+                                                AppColors.secondary),
+                                          ),
+
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                            charts.ColorUtil.fromDartColor(
+                                                AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Container(
+                                  color: AppColors.primary,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text(
+                                      "Breath Rate",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                                  height: 350,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 5.0),
+                                    child: charts.BarChart(
+                                      _seriesDataBar,
+                                      animate: false,
+                                      barGroupingType:
+                                          charts.BarGroupingType.grouped,
+                                      //behaviors: [new charts.SeriesLegend()],
+                                      animationDuration: Duration(seconds: 3),
+                                      domainAxis: new charts.OrdinalAxisSpec(
+                                        renderSpec:
+                                            new charts.SmallTickRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 10, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                      primaryMeasureAxis:
+                                          new charts.NumericAxisSpec(
+                                        renderSpec:
+                                            new charts.GridlineRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 11, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Container(
+                                  color: AppColors.primary,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Text(
+                                      "Sleep Details",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                                  height: 350,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.0, vertical: 5.0),
+                                    child: charts.BarChart(
+                                      _seriesDataBar,
+                                      animate: false,
+                                      barGroupingType:
+                                          charts.BarGroupingType.grouped,
+                                      //behaviors: [new charts.SeriesLegend()],
+                                      animationDuration: Duration(seconds: 3),
+                                      domainAxis: new charts.OrdinalAxisSpec(
+                                        renderSpec:
+                                            new charts.SmallTickRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 10, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                      primaryMeasureAxis:
+                                          new charts.NumericAxisSpec(
+                                        renderSpec:
+                                            new charts.GridlineRendererSpec(
+                                          // Tick and Label styling here.
+                                          labelStyle: new charts.TextStyleSpec(
+                                            fontSize: 11, // size in Pts.
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+
+                                          // Change the line colors to match text color.
+                                          lineStyle: new charts.LineStyleSpec(
+                                            color:
+                                                charts.ColorUtil.fromDartColor(
+                                                    AppColors.secondary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            widget.readValues[0] != null
+                                ? "Sleep Well"
+                                : "Sleep Well",
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: AppColors.primary),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                    /* WakeupList(_sleepDuration, _averageSleep, _sleepGoToBed,
+                    _averageGoToBed, _sleepWakeup, _averageWakeup),*/
+                  ],
                 ),
               ),
             ],
@@ -656,7 +978,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     // List<int> temp = <int>[];
     // temp = data;
     // if (temp == null) return 0;
-    if (data.isEmpty == 0)
+    if (data.isEmpty)
       return [
         0,
         0,
