@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:intl/intl.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:math';
 
 import '../../../config/appColors.dart';
@@ -40,6 +41,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   List<charts.Series<DataHistory, int>> _seriesDataLine = [];
   List<DataHistory> _listExep = [];
   Random random = new Random();
+  final List<HeartRateModel> chartData = [];
 
   @override
   void initState() {
@@ -56,6 +58,10 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
       });
     });
     this.getUserData();
+    for(int i = 1; i< 30 ; i++)
+    {
+      chartData.add( HeartRateModel(DateTime.now().subtract(Duration(minutes: i)), random.nextInt(80,)+40 ),);
+    }
   }
 
   getUserData() {
@@ -223,8 +229,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+
+
+
     print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
     print(widget.readValues);
     print("+++++++++++++++++++widget.readValues+++++line 125+++++++++++");
@@ -458,7 +468,19 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 3.0, vertical: 5.0),
-                                    child: charts.BarChart(
+                                    child: SfCartesianChart(
+                                        primaryXAxis: DateTimeAxis(),
+                                        // Chart title
+                                        // Enable legend
+                                        // Enable tooltip
+                                        tooltipBehavior: TooltipBehavior(enable: true),
+                                        series: <ChartSeries>[
+                                        // Renders line chart
+                                        LineSeries<HeartRateModel, DateTime>(
+                                        dataSource: chartData,
+                                        xValueMapper: (HeartRateModel sales, _) => sales.time,
+                                        yValueMapper: (HeartRateModel sales, _) => sales.rate
+                                    ),]), /*charts.BarChart(
                                       _seriesDataBar,
                                       animate: false,
                                       barGroupingType:
@@ -503,7 +525,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    ),*/
                                   ),
                                 ),
                                 SizedBox(
@@ -1101,4 +1123,9 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
     crcValue(value);
     return value;
   }
+}
+class HeartRateModel {
+  HeartRateModel(this.time, this.rate);
+  final DateTime time;
+  final int rate;
 }
