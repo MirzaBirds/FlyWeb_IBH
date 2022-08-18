@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:doctor_dreams/widgets/animated_chart/chart/animated_line_chart.dart';
+import 'package:doctor_dreams/widgets/animated_chart/chart/line_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:intl/intl.dart';
@@ -42,10 +44,33 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
   List<DataHistory> _listExep = [];
   Random random = new Random();
   final List<HeartRateModel> chartData = [];
+  late Map<DateTime, double> lineChart;
+  late LineChart chart;
+
+
+  Map<DateTime, double> createLine2() {
+    Map<DateTime, double> data = {};
+    var date = DateTime.now().subtract(Duration(minutes: DateTime.now().minute));
+    Random random = new Random();
+
+    for(int i = 1; i< 50 ; i++)
+    {
+      data[date.subtract(Duration(minutes:  i))] =  double.parse((random.nextInt(40) + 40).toString() );
+    }
+
+    return data;
+  }
 
   @override
   void initState() {
     super.initState();
+    lineChart = createLine2();
+    chart = LineChart.fromDateTimeMaps(
+        [lineChart], [Colors.blue], ['bpm',],
+        tapTextFontWeight: FontWeight.w400);
+
+    print("Called===================");
+
     timer = Timer.periodic(new Duration(seconds: 1), (timer) {
       print("Timer ");
       FlutterBlue.instance.connectedDevices.then((value) {
@@ -465,10 +490,12 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                                 Container(
                                   margin: EdgeInsets.only(top: 10, bottom: 20),
                                   height: 350,
+                                  width: MediaQuery.of(context).size.width,
+
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 3.0, vertical: 5.0),
-                                    child: SfCartesianChart(
+                                    child: ChartData(),  /*SfCartesianChart(
                                         primaryXAxis: DateTimeAxis(),
                                         // Chart title
                                         // Enable legend
@@ -480,7 +507,7 @@ class _ReportDeviceScreenState extends State<ReportDeviceScreen> {
                                         dataSource: chartData,
                                         xValueMapper: (HeartRateModel sales, _) => sales.time,
                                         yValueMapper: (HeartRateModel sales, _) => sales.rate
-                                    ),]), /*charts.BarChart(
+                                    ),]),*/ /*charts.BarChart(
                                       _seriesDataBar,
                                       animate: false,
                                       barGroupingType:
@@ -1128,4 +1155,38 @@ class HeartRateModel {
   HeartRateModel(this.time, this.rate);
   final DateTime time;
   final int rate;
+}
+class ChartData extends StatelessWidget {
+   ChartData({Key? key}) : super(key: key);
+  late Map<DateTime, double> lineChart;
+  late LineChart chart;
+
+
+  Map<DateTime, double> createLine2() {
+    Map<DateTime, double> data = {};
+    var date = DateTime.now().subtract(Duration(minutes: DateTime.now().minute));
+    Random random = new Random();
+
+    for(int i = 1; i< 50 ; i++)
+    {
+      data[date.subtract(Duration(minutes:  i))] =  double.parse((random.nextInt(40) + 40).toString() );
+    }
+
+    return data;
+  }
+  @override
+  Widget build(BuildContext context) {
+    lineChart = createLine2();
+    chart = LineChart.fromDateTimeMaps(
+        [lineChart], [Colors.blue], ['',],
+        tapTextFontWeight: FontWeight.w400);
+
+    return  AnimatedLineChart(
+      chart,
+      key: UniqueKey(),
+      gridColor: Colors.black54,
+      textStyle: TextStyle(fontSize: 10, color: Colors.black54),
+      toolTipColor: Colors.white,
+    );
+  }
 }
