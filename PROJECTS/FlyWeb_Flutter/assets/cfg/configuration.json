@@ -1,0 +1,8 @@
+{
+  "api_base_url": "https://ibh.fixuapp.com/",
+  "firstColor": "#7b50dc",
+  "secondColor": "#597ae2",
+  "appIdOneSignal": "993def8f-a2c6-4be1-b893-016a54f0c48f",
+  "defaultLanguage": "it",
+  "deeplink": "com.fixuapp.ibhapp"
+}
