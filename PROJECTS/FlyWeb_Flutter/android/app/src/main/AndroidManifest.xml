@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fixuapp.ibhapp">
+    package="com.fixuapp.lineebusapp">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -50,7 +50,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data   android:scheme="https"
-                    android:host="irpiniabikehouse.com" />
+                    android:host="lineebus.it" />
                 <data android:scheme="http" />
             </intent-filter>
 

@@ -1,8 +1,8 @@
 {
-  "api_base_url": "https://ibh.fixuapp.com/",
-  "firstColor": "#7b50dc",
-  "secondColor": "#597ae2",
-  "appIdOneSignal": "993def8f-a2c6-4be1-b893-016a54f0c48f",
+  "api_base_url": "http://lineebus.fixuapp.com/",
+  "firstColor": "#ffffff",
+  "secondColor": "#f1f1f1",
+  "appIdOneSignal": "0fe086d8-b6a4-42aa-8774-ac8acc879016",
   "defaultLanguage": "it",
-  "deeplink": "com.fixuapp.ibhapp"
+  "deeplink": "com.fixuapp.lineebusapp"
 }

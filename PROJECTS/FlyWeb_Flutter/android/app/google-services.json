@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "754803683696",
-    "project_id": "ibh-app-e9e9e",
-    "storage_bucket": "ibh-app-e9e9e.appspot.com"
+    "project_number": "254475174802",
+    "project_id": "lineebus-e0f8e",
+    "storage_bucket": "lineebus-e0f8e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754803683696:android:55d90c58e7b0d8cd629fb5",
+        "mobilesdk_app_id": "1:254475174802:android:763226be4bb80dca4cf74b",
         "android_client_info": {
-          "package_name": "com.fixuapp.ibhapp"
+          "package_name": "com.fixuapp.lineebusapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "754803683696-8npk66hpjrjs9q3pdnso5soo984qjvvc.apps.googleusercontent.com",
+          "client_id": "254475174802-gub3ksn3oq8u8ll7u8038mgv94ns9irv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDu1Sn9xtqnLFxu1QL99iGgvUZgKZqio1k"
+          "current_key": "AIzaSyDrKwqaDwNcS_vPJwqvG-M7OuueilR7Ikw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "754803683696-8npk66hpjrjs9q3pdnso5soo984qjvvc.apps.googleusercontent.com",
+              "client_id": "254475174802-gub3ksn3oq8u8ll7u8038mgv94ns9irv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
